@@ -9,3 +9,6 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer)
 
 export type AppRootStateT = ReturnType<typeof rootReducer>
+
+// @ts-ignore
+window.store = store;
