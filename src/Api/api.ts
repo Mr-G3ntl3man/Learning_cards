@@ -6,8 +6,11 @@ const instance = axios.create({
 })
 
 
-const testApi = {
+export const testApi = {
    test() {
       return instance.get('')
+   },
+   recoverPassForgot(email: string){
+      return instance.post('/auth/forgot', {email})
    }
 }
