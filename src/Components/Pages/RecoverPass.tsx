@@ -13,7 +13,6 @@ const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
    setDate(e.currentTarget.value)
 }
 
-
    return (
       <div>
          <form>
