@@ -1,14 +1,14 @@
 import React from 'react';
 import {Outlet, Route, Routes} from "react-router-dom";
-import {Login} from "../Components/Pages/Login";
-import {NotFound} from "../Components/Pages/NotFound";
-import {NewPass} from "../Components/Pages/NewPass";
-import {Profile} from "../Components/Pages/Profile";
-import {RecoverPass} from "../Components/Pages/RecoverPass";
-import {Registration} from "../Components/Pages/Registration";
-import {TestPage} from "../Components/Pages/TestPage";
-import {Navbar} from "../Components/Navbar";
-import styles from "../Styles/App.module.scss";
+import {Login} from "../components/pages/Login";
+import {NotFound} from "../components/pages/NotFound";
+import {NewPass} from "../components/pages/NewPass";
+import {Profile} from "../components/pages/Profile";
+import {RecoverPass} from "../components/pages/RecoverPass";
+import {Registration} from "../components/pages/Registration";
+import {TestPage} from "../components/pages/TestPage";
+import {Navbar} from "../components/Navbar";
+import styles from "../styles/App.module.scss";
 
 export enum PATH {
    REGISTRATION = '/registration',
@@ -17,6 +17,7 @@ export enum PATH {
    RECOVER_PASS = '/recover_password',
    NEW_PASS = '/new_password',
    TEST = '/test_page',
+   PACKS_LIST = '/packs_list',
 }
 
 const LayoutMain = () => (
