@@ -76,7 +76,7 @@ export const Login = () => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                <div className={styles.inputGroup}>
-                  <div>
+                  <div className={styles.inputWrap}>
                      {!!errors.email && <div className={styles.errorMes}>{errors.email.message}</div>}
                      <Input
                         type={'text'}
@@ -85,7 +85,7 @@ export const Login = () => {
                   </div>
 
 
-                  <div>
+                  <div className={styles.inputWrap}>
                      {!!errors.password && <div className={styles.errorMes}>{errors.password.message}</div>}
                      <Input
                         type={'password'}

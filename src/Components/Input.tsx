@@ -21,7 +21,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
    spanClassName?: string
    label?: string
    variant?: 'standard' | 'outlined'
-   margin?: 'none' | 'normal' | 'dense'
+   margin?: 'none' | 'normal' | 'dense' | 'minimal'
    hookForm?: any
 }
 
@@ -49,9 +49,10 @@ export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
          variant === 'outlined' ? s.outlinedLabel : s.standardLabel
 
       const marginStyle: CSSProperties = {
-         margin: margin === undefined ? '10px 0'
+         margin: margin === undefined ? '20px 0'
             : margin === 'none' ? '0' :
-               margin === 'normal' ? '10px 0' : '20px 0'
+               margin === 'minimal' ? '10px ' :
+                  margin === 'normal' ? '20px 0' : '30px 0'
       }
 
 
