@@ -4,7 +4,7 @@ export const testReducer = (state: InitialStateT = initialState, action: Actions
    switch (action.type) {
 
       default:
-         return {...state}
+         return state
    }
 }
 

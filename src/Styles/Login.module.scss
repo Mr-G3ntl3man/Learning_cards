@@ -1,0 +1,133 @@
+
+.content {
+  margin: 30px;
+  padding: 30px;
+  background-color: white;
+  width: 413px;
+  border-radius: 10px;
+  text-align: center;
+
+  h1 {
+    font-size: 26px;
+    color: #2D2E46;
+    margin-bottom: 40px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  span {
+    display: inline-block;
+    margin-bottom: 40px;
+    color: #2D2E46;
+    font-weight: 600;
+    font-size: 22px;
+
+    &:nth-child(4) {
+      display: block;
+      color: #2D2E46;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 24px;
+      opacity: 0.5;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.linkForgot {
+  position: relative;
+  align-self: flex-end;
+  font-size: 16px;
+  line-height: 17px;
+  color: #2D2E46;
+  margin-bottom: 90px;
+
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    bottom: -5px;
+    background-color: #2D2E46;
+    height: 2px;
+    transform: scale(0);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover:before {
+    transform: scale(1);
+  }
+
+  @media (max-width: 750px) {
+    margin-bottom: 40px;
+  }
+}
+
+.inputGroup {
+  margin-bottom: 50px;
+
+  div {
+    position: relative;
+  }
+}
+
+.linkSing {
+  position: relative;
+  display: inline-block;
+  color: #21268F;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    bottom: -5px;
+    background-color: #21268F;
+    height: 2px;
+    transform: scale(0);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover:before {
+    transform: scale(1);
+  }
+}
+
+.btn {
+  align-self: center;
+  width: 266px;
+  margin-bottom: 30px;
+
+  @media (max-width: 400px) {
+    width: 200px;
+  }
+}
+
+.errorFeedback {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.errorMes {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  width: 100%;
+  color: #fa4325;
+}
+
