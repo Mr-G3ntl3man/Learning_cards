@@ -3,10 +3,10 @@ import {Input} from "../Input";
 import {Button} from "../Button";
 import {useDispatch, useSelector} from 'react-redux';
 import {regNewUser, setErrorRegistration} from "../../redux/signUpReducer";
-import {PATH} from "../../Router/Routes";
+import {PATH} from "../../router/Routes";
 import {Navigate} from "react-router-dom";
 import {AppRootStateT} from "../../redux/store";
-import styles from "../../Styles/Registration.module.scss";
+import styles from "../../styles/Registration.module.scss";
 
 export const Registration = () => {
 

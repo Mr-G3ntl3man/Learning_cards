@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {authApi} from '../../Api/api';
+import {authApi} from '../../api/api';
 
 export const RecoverPass = () => {
 

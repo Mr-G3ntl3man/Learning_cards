@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import styles from '../../Styles/Login.module.scss'
+import styles from '../../styles/Login.module.scss'
 import {Button} from "../Button";
 import {Input} from "../Input";
 import {Link, useNavigate} from "react-router-dom";
-import {PATH} from "../../Router/Routes";
+import {PATH} from "../../router/Routes";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {authApi} from "../../Api/api";
+import {authApi} from "../../api/api";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 
