@@ -72,7 +72,11 @@
 
 .inputWrap {
   position: relative;
-  margin-bottom: 40px;
+
+  &:first-child {
+
+    margin-bottom: 40px;
+  }
 }
 
 .linkSing {
