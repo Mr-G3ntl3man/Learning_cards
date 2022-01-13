@@ -1,11 +1,11 @@
-import React, { ChangeEvent } from 'react';
-import { testApi } from '../../Api/api';
+import React, {ChangeEvent} from 'react';
+import {authApi} from '../../Api/api';
 
 export const RecoverPass = () => {
 
-const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
-   testApi.recoverPassForgot(e.currentTarget.value)
-}
+   const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+      authApi.recoverPassForgot(e.currentTarget.value)
+   }
 
    return (
       <div>

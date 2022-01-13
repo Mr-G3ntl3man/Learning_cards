@@ -5,7 +5,7 @@ import {Input} from "../Input";
 import {Link, useNavigate} from "react-router-dom";
 import {PATH} from "../../Router/Routes";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {nekoApi} from "../../Api/api";
+import {authApi} from "../../Api/api";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 
@@ -42,7 +42,7 @@ export const Login = () => {
 
    const onSubmit: SubmitHandler<FormDataT> = async (data) => {
       try {
-         await nekoApi.login(data)
+         await authApi.login(data)
 
          setFeedback(true)
          setColorFeedback('green')
