@@ -10,14 +10,17 @@ export const TestPage = () => {
    const [value, setValue] = useState(options[0])
 
    return (
-      <div>
+      <div style={{backgroundColor: 'white'}}>
          <h2>Test page </h2>
 
 
          <div className={styles.wrapper}>
-            <Button>
-               Button
-            </Button>
+            <div style={{width: '200px', margin: '0 20px'}}>
+               <Button>
+                  Button
+               </Button>
+            </div>
+
 
             <Input/>
 
