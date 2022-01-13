@@ -28,7 +28,7 @@ export const Registration = () => {
         }
     }, [dispatch, email, password1, password])
 
-    if (isOldUser || registrateEmail === email) {
+    if (isOldUser) {
         return <Navigate to={PATH.LOGIN}/>
     }
 
