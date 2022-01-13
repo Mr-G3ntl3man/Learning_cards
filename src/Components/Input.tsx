@@ -1,5 +1,13 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from 'react'
+import React, {
+   ChangeEvent,
+   CSSProperties,
+   DetailedHTMLProps,
+   forwardRef,
+   InputHTMLAttributes,
+   KeyboardEvent
+} from 'react'
 import s from '../Styles/Input.module.scss'
+
 
 // тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
@@ -12,55 +20,71 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
    error?: string
    spanClassName?: string
    label?: string
+   variant?: 'standard' | 'outlined'
+   margin?: 'none' | 'normal' | 'dense'
+   hookForm?: any
 }
 
-export const Input: React.FC<SuperInputTextPropsType> = (
-   {
-      type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
-      onChange, onChangeText,
-      onKeyPress, onEnter,
-      error,
-      className, spanClassName,
-      label,
-      ...restProps// все остальные пропсы попадут в объект restProps
-   }
-) => {
-   const labelTextDefault = label ? label : 'Enter text'
-   const finalSpanClassName = s.error
-   let finalInputClassName = s.defaultInput
+export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
+   (props, ref) => {
+
+      const {
+         type,
+         onChange, onChangeText,
+         onKeyPress, onEnter,
+         error,
+         className, spanClassName,
+         label,
+         variant,
+         margin,
+         ...restProps
+      } = props
 
 
-   const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-      onChange // если есть пропс onChange
-      && onChange(e) // то передать ему е (поскольку onChange не обязателен)
+      const labelTextDefault = label ? label : 'Enter text'
+      const finalInputClassName = variant === undefined ? s.standard :
+         variant === 'outlined' ? s.outlined : s.standard
 
-      onChangeText && onChangeText(e.currentTarget.value);
+      const finalLabelClassName = variant === undefined ? s.standardLabel :
+         variant === 'outlined' ? s.outlinedLabel : s.standardLabel
 
-   }
+      const marginStyle: CSSProperties = {
+         margin: margin === undefined ? '10px 0'
+            : margin === 'none' ? '0' :
+               margin === 'normal' ? '10px 0' : '20px 0'
+      }
 
-   const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
-      onKeyPress && onKeyPress(e);
 
-      onEnter // если есть пропс onEnter
-      && e.key === 'Enter' // и если нажата кнопка Enter
-      && onEnter() // то вызвать его
+      const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+         onChange // если есть пропс onChange
+         && onChange(e) // то передать ему е (поскольку onChange не обязателен)
 
-   }
+         onChangeText && onChangeText(e.currentTarget.value);
 
-   return (
-      <div className={`${s.inputWrap} ${className}`}>
-         <input
-            placeholder=' '
-            type={'text'}
-            onChange={onChangeCallback}
-            onKeyPress={onKeyPressCallback}
-            className={finalInputClassName}
+      }
 
-            {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
-         />
-         <label className={s.labelText}>{labelTextDefault}</label>
-         <span className={finalSpanClassName}>{error}</span>
-      </div>
-   )
-}
+      const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
+         onKeyPress && onKeyPress(e);
+
+         onEnter // если есть пропс onEnter
+         && e.key === 'Enter' // и если нажата кнопка Enter
+         && onEnter() // то вызвать его
+
+      }
+
+      return (
+         <div style={marginStyle} className={`${s.inputWrap} ${className}`}>
+            <input
+               placeholder=' '
+               onChange={onChangeCallback}
+               onKeyPress={onKeyPressCallback}
+               className={finalInputClassName}
+               type={type}
+               ref={ref}
+               {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
+            />
+            <label className={finalLabelClassName}>{labelTextDefault}</label>
+         </div>
+      )
+   })
 
