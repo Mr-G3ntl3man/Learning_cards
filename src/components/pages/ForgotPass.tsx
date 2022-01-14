@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {authApi} from '../../api/api';
 import styles from "../../styles/Form.module.scss";
 import {Input} from "../Input";
@@ -12,15 +12,16 @@ export const ForgotPass = () => {
 
    const onChangeText = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
 
+   const onSubmit = (e: FormEvent<HTMLFormElement>) => e.preventDefault()
 
-   const submit = () => {
+   const onClick = () => {
+      console.log('ds')
       authApi.forgotPassword(email)
          .then(res => {
             console.log(res)
 
             setSuccessfulSending(true)
 
-            // setTimeout(() => navigate(PATH.SET_NEW_PASS), 2000)
          })
          .catch(e => {
             const error = e.response
@@ -29,21 +30,20 @@ export const ForgotPass = () => {
 
             console.log(error)
          })
-
    }
 
    return (
-      successfulSending
-         ? <div className={styles.content}>
-            Check Email
-            <div>We’ve sent an Email with instructions to {email}</div>
-         </div>
-         : <div className={styles.content}>
-            <form>
+      <div className={styles.content}>
+         {successfulSending
+            ? <div>
+               Check Email
+               <div>We’ve sent an Email with instructions to {email}</div>
+            </div>
+            : <form onSubmit={onSubmit}>
                <Input label={'Email'} type="text" onChange={onChangeText}/>
-               <Button onClick={submit}>send</Button>
-            </form>
-         </div>
+               <Button onClick={onClick}>send</Button>
+            </form>}
+      </div>
    );
 };
 
