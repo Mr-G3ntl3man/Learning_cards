@@ -20,8 +20,8 @@ export const TestPage = () => {
             <li><Link to={PATH.LOGIN}>Login</Link></li>
             <li><Link to={PATH.REGISTRATION}>Registration</Link></li>
             <li><Link to={PATH.PROFILE}>Profile</Link></li>
-            <li><Link to={PATH.RECOVER_PASS}>Recover password</Link></li>
-            <li><Link to={PATH.NEW_PASS}>Enter new password</Link></li>
+            <li><Link to={PATH.FORGOT_PASS}>Recover password</Link></li>
+            <li><Link to={PATH.SET_NEW_PASS}>Enter new password</Link></li>
             <li><Link to={PATH.TEST}>Test page</Link></li>
          </ul>
 
