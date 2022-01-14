@@ -2,9 +2,9 @@ import React from 'react';
 import {Outlet, Route, Routes} from "react-router-dom";
 import {Login} from "../components/pages/Login";
 import {NotFound} from "../components/pages/NotFound";
-import {NewPass} from "../components/pages/NewPass";
+import {SetNewPass} from "../components/pages/SetNewPass";
 import {Profile} from "../components/pages/Profile";
-import {RecoverPass} from "../components/pages/RecoverPass";
+import {ForgotPass} from "../components/pages/ForgotPass";
 import {Registration} from "../components/pages/Registration";
 import {TestPage} from "../components/pages/TestPage";
 import {Navbar} from "../components/Navbar";
@@ -14,10 +14,10 @@ export enum PATH {
    REGISTRATION = '/registration',
    LOGIN = '/',
    PROFILE = '/profile',
-   RECOVER_PASS = '/recover_password',
-   NEW_PASS = '/new_password',
-   TEST = '/test_page',
-   PACKS_LIST = '/packs_list',
+   FORGOT_PASS = '/forgot-password',
+   SET_NEW_PASS = '/set-new-password/:token',
+   TEST = '/test-page',
+   PACKS_LIST = '/packs-list',
 }
 
 const LayoutMain = () => (
@@ -43,8 +43,8 @@ export const Router = () => (
       <Route element={<Layout/>}>
          <Route path={PATH.LOGIN} element={<Login/>}/>
          <Route path={PATH.REGISTRATION} element={<Registration/>}/>
-         <Route path={PATH.RECOVER_PASS} element={<RecoverPass/>}/>
-         <Route path={PATH.NEW_PASS} element={<NewPass/>}/>
+         <Route path={PATH.FORGOT_PASS} element={<ForgotPass/>}/>
+         <Route path={PATH.SET_NEW_PASS} element={<SetNewPass/>}/>
       </Route>
 
       <Route element={<LayoutMain/>}>
