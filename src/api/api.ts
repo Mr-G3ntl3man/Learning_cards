@@ -10,16 +10,27 @@ const instance = axios.create({
 //     withCredentials: true
 // })
 
+
 export const authApi = {
-   signUp(email: string, password: string) {
-      return instance.post<newUserApiType>('/auth/register', {email, password})
-   },
-   recoverPassForgot(email: string) {
-      return instance.post('/auth/forgot', {email})
-   },
    login(data: { email: string, password: string }) {
       return instance.post('auth/login', data)
-   }
+   },
+   signUp(email: string, password: string) {
+      return instance.post<newUserApiType>('auth/register', {email, password})
+   },
+   setNewPassword(data: { password: string, resetPasswordToken: string }) {
+      return instance.post('auth/set-new-password', data)
+   },
+   forgotPassword(email: string) {
+      return instance.post('auth/forgot', {
+         email,
+         message: `
+         <div style="background-color: lime; padding: 15px">
+            Password recovery link:
+             <a href='http://localhost:3000/#/set-new-password/$token$'>Link</a>
+         </div> `
+      })
+   },
 }
 
 export type newUserApiType = {
