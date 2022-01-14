@@ -6,7 +6,7 @@ import {regNewUser, setErrorRegistration} from "../../redux/signUpReducer";
 import {PATH} from "../../router/Routes";
 import {Navigate} from "react-router-dom";
 import {AppRootStateT} from "../../redux/store";
-import styles from "../../styles/Registration.module.scss";
+import styles from "../../styles/Form.module.scss";
 
 export const Registration = () => {
 

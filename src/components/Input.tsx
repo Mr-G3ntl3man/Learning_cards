@@ -22,7 +22,6 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
    label?: string
    variant?: 'standard' | 'outlined'
    margin?: 'none' | 'normal' | 'dense' | 'minimal'
-   hookForm?: any
 }
 
 export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(

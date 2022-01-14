@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from '../../styles/Login.module.scss'
+import styles from '../../styles/Form.module.scss'
 import {Button} from "../Button";
 import {Input} from "../Input";
 import {Link, useNavigate} from "react-router-dom";
@@ -76,12 +76,15 @@ export const Login = () => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                <div className={styles.inputGroup}>
+
+
                   <div className={styles.inputWrap}>
                      {!!errors.email && <div className={styles.errorMes}>{errors.email.message}</div>}
                      <Input
                         type={'text'}
                         label={'Email'}
-                        {...register("email", {required: true})}/>
+                        {...register("email", {required: true})}
+                     />
                   </div>
 
 
@@ -95,7 +98,7 @@ export const Login = () => {
                   </div>
                </div>
 
-               <Link className={styles.linkForgot} to={PATH.RECOVER_PASS}>
+               <Link className={styles.linkForgot} to={PATH.FORGOT_PASS}>
                   Forgot Password
                </Link>
 
