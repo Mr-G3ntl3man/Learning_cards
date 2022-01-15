@@ -1,8 +1,8 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
-import {authApi} from '../../api/api';
+import {authApi} from '../../../dal/authApi';
 import styles from "../../styles/Form.module.scss";
-import {Input} from "../Input";
-import {Button} from "../Button";
+import {Input} from "../common/Input";
+import {Button} from "../common/Button";
 
 export const ForgotPass = () => {
 

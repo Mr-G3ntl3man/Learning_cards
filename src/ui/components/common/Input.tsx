@@ -6,7 +6,7 @@ import React, {
    InputHTMLAttributes,
    KeyboardEvent
 } from 'react'
-import s from '../styles/Input.module.scss'
+import s from '../../styles/Input.module.scss'
 
 
 // тип пропсов обычного инпута

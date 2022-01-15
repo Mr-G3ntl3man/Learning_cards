@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Button} from "../Button";
-import {Input} from '../Input';
+import {Button} from "../common/Button";
+import {Input} from '../common/Input';
 import styles from '../../styles/Test.module.scss'
-import {Checkbox} from "../Checkbox";
-import {Radio} from "../Radio";
+import {Checkbox} from "../common/Checkbox";
+import {Radio} from "../common/Radio";
 import {Link} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 

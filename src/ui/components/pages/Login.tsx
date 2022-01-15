@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import styles from '../../styles/Form.module.scss'
-import {Button} from "../Button";
-import {Input} from "../Input";
+import {Button} from "../common/Button";
+import {Input} from "../common/Input";
 import {Link, useNavigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {authApi} from "../../api/api";
+import {authApi} from "../../../dal/authApi";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 

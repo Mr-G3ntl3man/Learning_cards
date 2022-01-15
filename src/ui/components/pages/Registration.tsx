@@ -1,11 +1,11 @@
 import React, {useCallback, useState} from 'react';
-import {Input} from "../Input";
-import {Button} from "../Button";
+import {Input} from "../common/Input";
+import {Button} from "../common/Button";
 import {useDispatch, useSelector} from 'react-redux';
-import {regNewUser, setErrorRegistration} from "../../redux/signUpReducer";
+import {regNewUser, setErrorRegistration} from "../../../bll/signUpReducer";
 import {PATH} from "../../router/Routes";
 import {Navigate} from "react-router-dom";
-import {AppRootStateT} from "../../redux/store";
+import {AppRootStateT} from "../../../bll/store";
 import styles from "../../styles/Form.module.scss";
 
 export const Registration = () => {

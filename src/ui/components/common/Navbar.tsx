@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import {PATH} from "../router/Routes";
-import styles from '../styles/Navbar.module.scss'
+import {PATH} from "../../router/Routes";
+import styles from '../../styles/Navbar.module.scss'
 import {ReactSVG} from "react-svg";
-import packs from '../images/packs.svg'
-import profile from '../images/profile.svg'
+import packs from '../../images/packs.svg'
+import profile from '../../images/profile.svg'
 
 export const Navbar = () => {
    const activeLink = ({isActive}: { isActive: boolean }) => (isActive ? `${styles.activeLink} ${styles.link}` : styles.link)

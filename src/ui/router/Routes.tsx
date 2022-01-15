@@ -7,7 +7,7 @@ import {Profile} from "../components/pages/Profile";
 import {ForgotPass} from "../components/pages/ForgotPass";
 import {Registration} from "../components/pages/Registration";
 import {TestPage} from "../components/pages/TestPage";
-import {Navbar} from "../components/Navbar";
+import {Navbar} from "../components/common/Navbar";
 import styles from "../styles/App.module.scss";
 
 export enum PATH {

@@ -1,5 +1,5 @@
 import {Dispatch} from "redux"
-import {authApi} from "../api/api";
+import {authApi} from "../dal/authApi";
 
 const initialSignUpState = {
    email: '',

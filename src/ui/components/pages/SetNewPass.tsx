@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
 import styles from '../../styles/Form.module.scss'
-import {Input} from "../Input";
-import {Button} from "../Button";
-import {authApi} from "../../api/api";
+import {Input} from "../common/Input";
+import {Button} from "../common/Button";
+import {authApi} from "../../../dal/authApi";
 import {useNavigate, useParams} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 

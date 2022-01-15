@@ -2,14 +2,9 @@ import axios from "axios";
 
 const instance = axios.create({
    baseURL: "https://neko-back.herokuapp.com/2.0/",
+   // baseURL: "http://localhost:7542/2.0/",
    withCredentials: true
 })
-
-// const instance = axios.create({
-//     baseURL: "http://localhost:7542/2.0/",
-//     withCredentials: true
-// })
-
 
 export const authApi = {
    login(data: { email: string, password: string }) {
@@ -27,7 +22,7 @@ export const authApi = {
          message: `
          <div style="background-color: lime; padding: 15px">
             Password recovery link:
-             <a href='http://localhost:3000/#/set-new-password/$token$'>Link</a>
+             <a href='https://mr-g3ntl3man.github.io/Friday/#/set-new-password/$token$'>Link</a>
          </div> `
       })
    },
@@ -37,3 +32,5 @@ export type newUserApiType = {
    addedUser: {}
    error: string
 }
+
+		
