@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from '../../styles/Form.module.scss'
 import {Button} from "../common/Button";
 import {Input} from "../common/Input";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {authApi} from "../../../dal/authApi";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
+import {useAppSelector} from "../../../bll/store";
+import {loginUserData} from "../../../bll/auth-reducer";
+import {useDispatch} from "react-redux";
+import {Spinner} from "../common/Spinner";
 
 type FormDataT = {
    email: string
@@ -15,11 +18,10 @@ type FormDataT = {
 }
 
 export const Login = () => {
-   const [feedback, setFeedback] = useState<boolean>(false)
-   const [colorFeedback, setColorFeedback] = useState<'green' | ' #fd5232'>()
-   const [feedbackMessage, setFeedbackMessage] = useState<string>('')
+   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+   const loading = useAppSelector<boolean>(state => state.app.loading)
 
-   const navigate = useNavigate()
+   const dispatch = useDispatch()
 
    const schema = yup.object().shape({
       email: yup
@@ -40,43 +42,21 @@ export const Login = () => {
       }
    })
 
-   const onSubmit: SubmitHandler<FormDataT> = async (data) => {
-      try {
-         await authApi.login(data)
+   const onSubmit: SubmitHandler<FormDataT> = async (data) => dispatch(loginUserData(data))
 
-         setFeedback(true)
-         setColorFeedback('green')
-         setFeedbackMessage('Login Success!')
-
-         setTimeout(() => {
-            setFeedback(false)
-            reset()
-            navigate(PATH.PROFILE)
-         }, 500)
-      } catch (e: any) {
-         setFeedback(true)
-         setColorFeedback(' #fd5232')
-         setFeedbackMessage(e.response ? e.response.data.error : `${e.message} more information in the console`)
-
-         setTimeout(() => setFeedback(false), 3000)
-      }
-   }
+   if (isAuth) return <Navigate to={PATH.PROFILE}/>
 
    return (
       <>
-         {feedback &&
-         <div style={{backgroundColor: colorFeedback}} className={styles.errorFeedback}>
-            <span>{feedbackMessage}</span>
-         </div>}
-
-         <div className={styles.content}>
+         <div className={loading ? `${styles.content} ${styles.loading}` : styles.content}>
             <h1>It-incubator</h1>
 
             <span>Sign In</span>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-               <div className={styles.inputGroup}>
+               {loading && <Spinner/>}
 
+               <div className={styles.inputGroup}>
 
                   <div className={styles.inputWrap}>
                      {!!errors.email && <div className={styles.errorMes}>{errors.email.message}</div>}
@@ -86,7 +66,6 @@ export const Login = () => {
                         {...register("email", {required: true})}
                      />
                   </div>
-
 
                   <div className={styles.inputWrap}>
                      {!!errors.password && <div className={styles.errorMes}>{errors.password.message}</div>}
