@@ -9,6 +9,7 @@ import {Registration} from "../components/pages/Registration";
 import {TestPage} from "../components/pages/TestPage";
 import {Navbar} from "../components/common/Navbar";
 import styles from "../styles/App.module.scss";
+import {PacksList} from "../components/pages/PaksList";
 
 export enum PATH {
    REGISTRATION = '/registration',
@@ -49,6 +50,7 @@ export const Router = () => (
 
       <Route element={<LayoutMain/>}>
          <Route path={PATH.PROFILE} element={<Profile/>}/>
+         <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
          <Route path={PATH.TEST} element={<TestPage/>}/>
          <Route path={'*'} element={<NotFound/>}/>
       </Route>
