@@ -6,6 +6,9 @@
   width: 413px;
   border-radius: 10px;
   text-align: center;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 
   h1 {
     font-size: 26px;
@@ -114,8 +117,9 @@
 }
 
 .errorFeedback {
-  position: absolute;
-  top: 50px;
+  position: fixed;
+  z-index: 100;
+  top: 70px;
   right: 50px;
   font-size: 20px;
   padding: 10px 20px;
@@ -123,6 +127,28 @@
   color: white;
   font-weight: 500;
   letter-spacing: 2px;
+  transform: scale(0);
+  transition: transform 0.2s ease-in;
+  background-color: #7464cc;
+}
+
+.errorFeedbackActive {
+  transform: scale(1);
+}
+
+@keyframes show {
+  0% {
+    top: 70px;
+    opacity: 1;
+  }
+  0% {
+    top: 50px;
+
+  }
+  100% {
+    top: 70px;
+    opacity: 0;
+  }
 }
 
 .errorMes {
@@ -136,3 +162,7 @@
   color: #fa4325;
 }
 
+.loading {
+  pointer-events: none;
+  opacity: 0.5;
+}
