@@ -7,8 +7,11 @@ const instance = axios.create({
 })
 
 export const authApi = {
+   me() {
+      return instance.post('auth/me')
+   },
    login(data: { email: string, password: string }) {
-      return instance.post('auth/login', data)
+      return instance.post<ResponseUserDataT>('auth/login', data)
    },
    signUp(email: string, password: string) {
       return instance.post<newUserApiType>('auth/register', {email, password})
@@ -26,6 +29,26 @@ export const authApi = {
          </div> `
       })
    },
+}
+
+export type ResponseUserDataT = {
+   created: string
+   email: string
+   isAdmin: boolean
+   name: string
+   publicCardPacksCount: number
+   rememberMe: boolean
+   token: string
+   tokenDeathTime: number
+   updated: string
+   verified: boolean
+   __v: number
+   _id: string
+}
+
+export type LoginDataT = {
+   email: string,
+   password: string
 }
 
 export type newUserApiType = {
