@@ -1,11 +1,10 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {testReducer} from "./testReducer";
 import thunk from 'redux-thunk'
-import {signUpReducer} from "./signUpReducer";
+
 
 const rootReducer = combineReducers({
    test: testReducer,
-   signUp: signUpReducer,
 })
 export const store = createStore(rootReducer, applyMiddleware(thunk))
 

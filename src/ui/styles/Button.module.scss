@@ -15,14 +15,19 @@
   color: #2D2E46;
   font-weight: 500;
   overflow: hidden;
-
+  &:disabled {
+    border: none;
+    &:hover {
+      color: #2D2E46;
+      transition: none;
+      border: none;
+    }
+  }
   &:hover {
     color: white;
     border: 2px solid transparent;
   }
 }
-
-
 .defaultBtn:before {
   content: '';
   position: absolute;
@@ -33,6 +38,14 @@
   opacity: 0;
   background-color: #21268F;
   transition: left 0.3s ease-in-out, right 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.defaultBtn:disabled:before {
+  left: -1px;
+  right: -1px;
+  opacity: 1;
+  z-index: -1;
+  background-color: lightgray;
 }
 
 .defaultBtn:hover:before {
