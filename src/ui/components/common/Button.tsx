@@ -8,12 +8,14 @@ type SuperButtonPropsType = DefaultButtonPropsType & {
    red?: boolean
    onClick?: () => void
    style?: React.CSSProperties
+   width?: string
 }
 
 export const Button: React.FC<SuperButtonPropsType> = (
    {
       red, className, style,
       onClick,
+      width,
       ...restProps// все остальные пропсы попадут в объект restProps, там же будет children
    }
 ) => {
@@ -23,7 +25,7 @@ export const Button: React.FC<SuperButtonPropsType> = (
    }
    return (
       <button
-         style={{...style}}
+         style={{width: width, ...style}}
          onClick={onClickHandler}
          className={finalClassName}
          {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)

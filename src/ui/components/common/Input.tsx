@@ -22,6 +22,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
    label?: string
    variant?: 'standard' | 'outlined'
    margin?: 'none' | 'normal' | 'dense' | 'minimal'
+   width?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
@@ -36,6 +37,7 @@ export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
          label,
          variant,
          margin,
+         width,
          ...restProps
       } = props
 
@@ -73,7 +75,7 @@ export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
       }
 
       return (
-         <div style={marginStyle} className={`${s.inputWrap} ${className}`}>
+         <div style={{width, ...marginStyle}} className={`${s.inputWrap} ${className}`}>
             <input
                placeholder=' '
                onChange={onChangeCallback}
