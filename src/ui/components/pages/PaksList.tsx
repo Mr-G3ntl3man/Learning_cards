@@ -17,7 +17,7 @@ import {useAppSelector} from "../../../bll/store";
 import {Pagination} from "../common/Pagination";
 import {Spinner} from "../common/Spinner";
 import {debounce} from "../../../utils/debounce";
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 import {fetchMe} from "../../../bll/auth-reducer";
 
@@ -62,6 +62,7 @@ export const PacksList = () => {
    const packsList = packs.map((el, index) => (
       <PacksItem
          key={el._id}
+         packId={el._id}
          bgColor={index % 2 === 0 ? '#fff' : '#F8F7FD'}
          name={el.name}
          cards={el.cardsCount}
@@ -141,7 +142,7 @@ export const PacksList = () => {
 const PacksItem: React.FC<PacksItemT> = React.memo((
    {
       created, cards, update,
-      isOwner, name, bgColor,
+      isOwner, name, bgColor, packId
    }) => (
    <ul style={{backgroundColor: bgColor}}>
       <li>{name}</li>
@@ -156,7 +157,7 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
                   <button>Edit</button>
                   <button>Learn</button>
                </>
-               : <button>Learn</button>
+               : <Link to={`/packs-list/${packId}`}>Learn</Link>
          }
       </li>
    </ul>
@@ -169,5 +170,6 @@ type PacksItemT = {
    created: string
    bgColor: string
    isOwner: boolean
+   packId: string
 }
 
