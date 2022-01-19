@@ -31,6 +31,9 @@ export const authApi = {
          </div> `
       })
    },
+   getPack(){
+      return instance.get('cards/pack')
+   }
 }
 
 export type newUserApiType = {
