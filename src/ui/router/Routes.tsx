@@ -10,6 +10,7 @@ import {TestPage} from "../components/pages/TestPage";
 import {Navbar} from "../components/common/Navbar";
 import styles from "../styles/App.module.scss";
 import {PacksList} from "../components/pages/PaksList";
+import {CardsList} from "../components/pages/CardsList";
 
 export enum PATH {
    REGISTRATION = '/registration',
@@ -19,6 +20,7 @@ export enum PATH {
    SET_NEW_PASS = '/set-new-password/:token',
    TEST = '/test-page',
    PACKS_LIST = '/packs-list',
+   CARD_LIST = '/packs-list/:pack',
 }
 
 const LayoutMain = () => (
@@ -51,6 +53,7 @@ export const Router = () => (
       <Route element={<LayoutMain/>}>
          <Route path={PATH.PROFILE} element={<Profile/>}/>
          <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
+         <Route path={PATH.CARD_LIST} element={<CardsList/>}/>
          <Route path={PATH.TEST} element={<TestPage/>}/>
          <Route path={'*'} element={<NotFound/>}/>
       </Route>
