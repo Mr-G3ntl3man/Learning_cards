@@ -1,0 +1,15 @@
+.wrapper {
+  margin: 25px 0;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  background: #FEFEFF;
+  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+}
+
+.loading {
+  pointer-events: none;
+  opacity: 0.5;
+}
