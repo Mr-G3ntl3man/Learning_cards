@@ -1,6 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk, {ThunkAction} from 'redux-thunk'
-import {signUpReducer} from "./signUpReducer";
 import {PacksActionsT, packsReducer} from "./packs-reducer";
 import {AuthActionsT, authReducer} from "./auth-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
@@ -9,7 +8,6 @@ import {CardsActionsT, cardsReducer} from "./cards-reducer";
 
 const rootReducer = combineReducers({
    app: appReducer,
-   signUp: signUpReducer,
    auth: authReducer,
    packs: packsReducer,
    cards: cardsReducer

@@ -13,8 +13,8 @@ export const authApi = {
    login(data: { email: string, password: string }) {
       return instance.post<ResponseUserDataT>('auth/login', data)
    },
-   signUp(email: string, password: string) {
-      return instance.post<newUserApiType>('auth/register', {email, password})
+   signUp(data: { email: string, password: string }) {
+      return instance.post<newUserApiType>('auth/register', data)
    },
    setNewPassword(data: { password: string, resetPasswordToken: string }) {
       return instance.post('auth/set-new-password', data)
