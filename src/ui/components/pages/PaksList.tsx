@@ -8,10 +8,11 @@ import {CardPacksT, RequestPacksT} from "../../../dal/pakcApi";
 import {useDispatch} from "react-redux";
 import {
    fetchPacks,
+   setPackPage,
+   setPackPageCount,
    setPacksName,
-   setPage,
-   setPageCount,
-   setSelectedMinMaxRange, setUserID,
+   setSelectedMinMaxRange,
+   setUserID,
 } from "../../../bll/packs-reducer";
 import {useAppSelector} from "../../../bll/store";
 import {Pagination} from "../common/Pagination";
@@ -19,7 +20,7 @@ import {Spinner} from "../common/Spinner";
 import {debounce} from "../../../utils/debounce";
 import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
-import {fetchMe} from "../../../bll/auth-reducer";
+import {authStatuses, fetchMe} from "../../../bll/auth-reducer";
 
 
 export const PacksList = () => {
@@ -40,13 +41,13 @@ export const PacksList = () => {
    const minRangeRes = useAppSelector<number>(state => state.packs.uiOptions.minRangeRes)
    const packs = useAppSelector<CardPacksT[]>(state => state.packs.packs)
    const loading = useAppSelector<boolean>(state => state.app.loading)
-   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
 
    const onChangeInputSearch = debounce((e: ChangeEvent<HTMLInputElement>) => dispatch(setPacksName(e.target.value)))
    const onChangeInputRange = useCallback(debounce((min: number, max: number) => dispatch(setSelectedMinMaxRange(min, max))), [dispatch])
-   const onPageChange = useCallback((page: number) => dispatch(setPage(page)), [dispatch])
-   const onSelectChange = useCallback((pageCount: number) => dispatch(setPageCount(pageCount)), [dispatch])
+   const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
+   const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
 
    const onClickMyPacks = () => dispatch(setUserID(myId as string))
    const onClickAllPacks = () => dispatch(setUserID(''))
@@ -71,7 +72,7 @@ export const PacksList = () => {
          isOwner={el.user_id === myId}/>)
    )
 
-   if (!isAuth) return <Navigate to={PATH.LOGIN}/>
+   if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
    return (
       <>
@@ -157,7 +158,7 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
                   <button>Edit</button>
                   <button>Learn</button>
                </>
-               : <Link to={`/packs-list/${packId}`}>Learn</Link>
+               : <Link to={`/packs-list/${name}/${packId}`}>Learn</Link>
          }
       </li>
    </ul>
