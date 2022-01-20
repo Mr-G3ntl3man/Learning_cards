@@ -164,9 +164,10 @@
   display: flex;
   justify-content: flex-end;
 
-  button {
+  button, a {
+    display: inline-block;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     height: 24px;
     border-radius: 2px;
     outline: none;
@@ -190,6 +191,11 @@
   .ActionBtnD {
     background: #F1453D !important;
     color: #FFFFFF;
+
+    &:hover {
+      background: #21268F !important;
+      color: #D7D8EF;
+    }
   }
 }
 
@@ -303,6 +309,6 @@
 
 .noPacks {
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
   margin: 20px 0;
 }
