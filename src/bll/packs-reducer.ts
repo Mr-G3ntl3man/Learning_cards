@@ -1,6 +1,8 @@
 import {CardPacksT, packApi, RequestPacksT} from "../dal/pakcApi";
 import {ThunkActionT} from "./store";
 import {setLoading} from "./app-reducer";
+import {fetchMe} from "./auth-reducer";
+import {errorHandler} from "../utils/errorHandler";
 
 const initialState: InitialStateT = {
    requestPacks: {
@@ -33,16 +35,7 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
          return {...state, packs: action.data}
 
       case "packs/SET_MIN_MAX_RANGE":
-         return {
-            ...state,
-            requestPacks: {
-               ...state.requestPacks,
-               max: action.payload.maxRangeRes,
-               min: action.payload.minRangeRes
-            },
-            uiOptions: {...state.uiOptions, ...action.payload}
-         }
-
+         return {...state, requestPacks: {...state.requestPacks,}, uiOptions: {...state.uiOptions, ...action.payload}}
 
       case "packs/SET_TOTAL_PACKS_COUNT":
          return {
@@ -59,15 +52,14 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
    }
 }
 
-export const setPage = (page: number) => ({type: 'packs/SET_PAGE', payload: {page}} as const)
-export const setPageCount = (pageCount: number) => ({type: 'packs/SET_PAGE_COUNT', payload: {pageCount}} as const)
+export const setPackPage = (page: number) => ({type: 'packs/SET_PAGE', payload: {page}} as const)
+export const setPackPageCount = (pageCount: number) => ({type: 'packs/SET_PAGE_COUNT', payload: {pageCount}} as const)
 export const setPacksName = (packName: string) => ({type: 'packs/SET_PACK_NAME', payload: {packName}} as const)
 export const setPacksData = (data: CardPacksT[]) => ({type: 'packs/SET_PACKS_DATA', data} as const)
 export const setTotalPacksCount = (cardPacksTotalCount: number) => ({
    type: 'packs/SET_TOTAL_PACKS_COUNT',
    payload: {cardPacksTotalCount}
 } as const)
-
 
 export const setSelectedMinMaxRange = (min: number, max: number) => ({
    type: 'packs/SET_SELECTED_MIN_MAX_RANGE',
@@ -88,28 +80,24 @@ export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    try {
       dispatch(setLoading(true))
 
-      if (getState().auth.userData) {
+      const res = await packApi.getPack(getState().packs.requestPacks)
 
-         const res = await packApi.getPack(getState().packs.requestPacks)
-
-         dispatch(setPacksData(res.cardPacks))
-         dispatch(setMinMaxRange(res.minCardsCount, res.maxCardsCount))
-         dispatch(setTotalPacksCount(res.cardPacksTotalCount))
-
-      }
+      dispatch(setPacksData(res.cardPacks))
+      dispatch(setMinMaxRange(res.minCardsCount, res.maxCardsCount))
+      dispatch(setTotalPacksCount(res.cardPacksTotalCount))
 
       dispatch(setLoading(false))
-   } catch (e) {
-      console.log(e)
-      dispatch(setLoading(false))
+   } catch (e: any) {
+      if (e.response.status === 401) dispatch(fetchMe())
+
+      errorHandler(e, dispatch)
    }
-
 }
 
 export type PacksActionsT = ReturnType<typeof setPacksName>
    | ReturnType<typeof setSelectedMinMaxRange>
-   | ReturnType<typeof setPage>
-   | ReturnType<typeof setPageCount>
+   | ReturnType<typeof setPackPage>
+   | ReturnType<typeof setPackPageCount>
    | ReturnType<typeof setPacksData>
    | ReturnType<typeof setTotalPacksCount>
    | ReturnType<typeof setMinMaxRange>
