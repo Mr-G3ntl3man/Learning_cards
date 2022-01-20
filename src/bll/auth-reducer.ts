@@ -76,6 +76,18 @@ export const loginUserData = (data: LoginDataT): ThunkActionT => async (dispatch
       errorHandler(e, dispatch)
    }
 }
+export const logOutUser = (): ThunkActionT => async (dispatch) => {
+   try {
+      dispatch(setLoading(true))
+      await authApi.logOut()
+      dispatch(setAuthStatus(authStatuses.IDLE))
+      dispatch(setLoading(false))
+   } catch (e: any) {
+      const message = e.response ? e.response.data.error : `${e.message} more information in the console`
+      console.log(message)
+      //dispatch(setFeedback(message, true, true))
+   }
+}
 
 export type InitialStateT = {
    authStatus: authStatuses
