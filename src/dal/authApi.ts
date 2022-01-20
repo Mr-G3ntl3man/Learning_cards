@@ -10,7 +10,7 @@ export const authApi = {
    me() {
       return instance.post('auth/me')
    },
-   login(data: { email: string, password: string }) {
+   login(data: LoginDataT) {
       return instance.post<ResponseUserDataT>('auth/login', data)
    },
    signUp(data: { email: string, password: string }) {
@@ -49,6 +49,7 @@ export type ResponseUserDataT = {
 export type LoginDataT = {
    email: string,
    password: string
+   rememberMe: boolean
 }
 
 export type newUserApiType = {

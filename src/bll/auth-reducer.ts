@@ -6,6 +6,7 @@ import {errorHandler} from "../utils/errorHandler";
 export enum authStatuses {
    IDLE = 'IDLE',
    LOGIN = 'LOGIN',
+   PASS_CHANGED = 'PASS_CHANGED',
    LOADING = 'LOADING',
    SUCCEEDED = 'SUCCEEDED',
 }
@@ -56,6 +57,7 @@ export const fetchMe = (): ThunkActionT => async (dispatch, getState) => {
          dispatch(setAuthStatus(authStatuses.SUCCEEDED))
       }
    } catch (e: any) {
+      dispatch(setAuthStatus(authStatuses.LOGIN))
       errorHandler(e, dispatch)
    }
 }
@@ -73,6 +75,30 @@ export const loginUserData = (data: LoginDataT): ThunkActionT => async (dispatch
       dispatch(setFeedback('Login successful!', true))
       setTimeout(() => dispatch(setFeedback('Login successful!', false)), 2000)
    } catch (e: any) {
+      errorHandler(e, dispatch)
+   }
+}
+
+
+export const forgotPassSendInst = (email: string): ThunkActionT => async (dispatch) => {
+   try {
+      const res = await authApi.forgotPassword(email)
+
+      dispatch(setFeedback(res.data.info, true))
+      setTimeout(() => dispatch(setFeedback(res.data.info, false)), 2000)
+   } catch (e) {
+      errorHandler(e, dispatch)
+   }
+}
+
+export const setNewPassword = (password: string, resetPasswordToken: string): ThunkActionT => async (dispatch) => {
+   try {
+      const res = await authApi.setNewPassword({password, resetPasswordToken})
+
+      dispatch(setAuthStatus(authStatuses.PASS_CHANGED))
+      dispatch(setFeedback(res.data.info, true))
+      setTimeout(() => dispatch(setFeedback(res.data.info, false)), 2000)
+   } catch (e) {
       errorHandler(e, dispatch)
    }
 }

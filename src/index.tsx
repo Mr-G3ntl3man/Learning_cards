@@ -8,13 +8,11 @@ import {Provider} from "react-redux";
 import {store} from "./bll/store";
 
 ReactDOM.render(
-   <React.StrictMode>
-      <Provider store={store}>
-         <HashRouter>
-            <App/>
-         </HashRouter>
-      </Provider>
-   </React.StrictMode>,
+   <Provider store={store}>
+      <HashRouter>
+         <App/>
+      </HashRouter>
+   </Provider>,
    document.getElementById('root')
 )
 ;

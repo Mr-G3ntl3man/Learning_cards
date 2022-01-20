@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import styles from '../../styles/PacksList.module.scss'
-import {DoubleRangeInput} from "../common/DoubleRangeInput";
 import {Input} from "../common/Input";
 import {Button} from "../common/Button";
 import {Select} from "../common/Select";
@@ -21,7 +20,8 @@ import {debounce} from "../../../utils/debounce";
 import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 import {authStatuses, fetchMe} from "../../../bll/auth-reducer";
-
+import 'rc-slider/assets/index.css';
+import {InputRange} from "../common/InputRange";
 
 export const PacksList = () => {
    const dispatch = useDispatch()
@@ -45,7 +45,7 @@ export const PacksList = () => {
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
 
    const onChangeInputSearch = debounce((e: ChangeEvent<HTMLInputElement>) => dispatch(setPacksName(e.target.value)))
-   const onChangeInputRange = useCallback(debounce((min: number, max: number) => dispatch(setSelectedMinMaxRange(min, max))), [dispatch])
+   const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
    const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
 
@@ -54,6 +54,11 @@ export const PacksList = () => {
 
    useEffect(() => {
       dispatch(fetchMe())
+
+      return () => {
+         dispatch(setSelectedMinMaxRange(0, 0))
+         dispatch(setPackPage(0))
+      }
    }, [])
 
    useEffect(() => {
@@ -89,10 +94,7 @@ export const PacksList = () => {
 
                <span>Number of cards</span>
 
-               <DoubleRangeInput
-                  max={maxRangeRes}
-                  min={minRangeRes}
-                  onChange={onChangeInputRange}/>
+               <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>
             </div>
 
             <div className={styles.rightColumn}>
@@ -100,6 +102,7 @@ export const PacksList = () => {
 
                <div className={styles.interaction}>
                   <Input
+                     value={packName}
                      onChange={onChangeInputSearch}
                      className={styles.inputSearch}
                      variant={'outlined'}
