@@ -15,6 +15,7 @@ import {Spinner} from "../common/Spinner";
 type FormDataT = {
    email: string
    password: string
+   rememberMe: boolean
 }
 
 export const Login = () => {
@@ -38,7 +39,8 @@ export const Login = () => {
       resolver: yupResolver(schema),
       defaultValues: {
          email: '',
-         password: ''
+         password: '',
+         rememberMe: true
       }
    })
 
@@ -75,6 +77,15 @@ export const Login = () => {
                         autoComplete={'on'}
                         {...register("password", {required: true})}/>
                   </div>
+               </div>
+
+               <div className={styles.checkbox}>
+                  <label>
+                     <input type="checkbox"
+                            {...register("rememberMe", {required: false})}
+                     />
+                     Remember me ?
+                  </label>
                </div>
 
                <Link className={styles.linkForgot} to={PATH.FORGOT_PASS}>

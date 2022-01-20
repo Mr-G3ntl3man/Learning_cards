@@ -1,43 +1,64 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import styles from '../../styles/Form.module.scss'
 import {Input} from "../common/Input";
 import {Button} from "../common/Button";
-import {authApi} from "../../../dal/authApi";
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import * as yup from "yup";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {authStatuses, setNewPassword} from "../../../bll/auth-reducer";
+import {useAppSelector} from "../../../bll/store";
 import {PATH} from "../../router/Routes";
 
 export const SetNewPass = () => {
-   const [password, setPassword] = useState<string>('')
-
-   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
+   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
 
    const {token} = useParams()
 
-   const navigate = useNavigate()
+   const dispatch = useDispatch()
 
+   const schema = yup.object().shape({
+      password: yup
+         .string()
+         .required('Password is a required field!'),
+   })
 
-   const submit = () => {
-      authApi.setNewPassword({password, resetPasswordToken: token as string})
-         .then(res => {
-            console.log(res)
+   const {register, handleSubmit, formState: {errors}} = useForm<FormDataT>({
+      mode: "onChange",
+      resolver: yupResolver(schema),
+      defaultValues: {
+         password: '',
+      }
+   })
 
-            navigate(PATH.LOGIN)
-         })
-         .catch(e => {
-            const error = e.response
-               ? e.response.data.error
-               : (e.message + ', more details in the console');
+   const onSubmit: SubmitHandler<FormDataT> = async (data) => dispatch(setNewPassword(data.password, token as string))
 
-            console.log(error)
-         })
-   }
+   if (authStatus === authStatuses.PASS_CHANGED) return <Navigate to={PATH.LOGIN}/>
 
    return (
-      <div className={styles.content}>
-         Create new password
-         <Input label={'Password'} type="password" onChange={onChangeHandler}/>
-         <Button onClick={submit}>Create new password</Button>
-      </div>
-   );
-};
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.contentNewPass}>
+         <h2>It-incubator</h2>
+         <span> Create new password</span>
 
+         <div className={styles.inputWrap}>
+            {!!errors.password && <div className={styles.errorMes}>{errors.password.message}</div>}
+
+            <Input
+               type={'password'}
+               label={'Password'}
+               {...register("password", {required: true})}/>
+         </div>
+
+         <p>
+            Create new password and we will send you further instructions to email
+         </p>
+
+         <Button type={'submit'}>Create new password</Button>
+      </form>
+   )
+}
+
+type FormDataT = {
+   password: string
+}
