@@ -5,12 +5,14 @@ import {PacksActionsT, packsReducer} from "./packs-reducer";
 import {AuthActionsT, authReducer} from "./auth-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import {AppActionsT, appReducer} from "./app-reducer";
+import {CardsActionsT, cardsReducer} from "./cards-reducer";
 
 const rootReducer = combineReducers({
    app: appReducer,
    signUp: signUpReducer,
    auth: authReducer,
    packs: packsReducer,
+   cards: cardsReducer
 })
 export const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -20,7 +22,7 @@ export type ThunkActionT = ThunkAction<void, AppRootStateT, unknown, RootActionT
 
 export const useAppSelector: TypedUseSelectorHook<AppRootStateT> = useSelector
 
-type RootActionT = AppActionsT | PacksActionsT | AuthActionsT
+type RootActionT = AppActionsT | PacksActionsT | AuthActionsT | CardsActionsT
 
 // @ts-ignore
 window.store = store;
