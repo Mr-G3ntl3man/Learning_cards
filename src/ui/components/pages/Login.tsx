@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from '../../styles/Form.module.scss'
 import {Button} from "../common/Button";
 import {Input} from "../common/Input";
@@ -8,7 +8,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAppSelector} from "../../../bll/store";
-import {loginUserData} from "../../../bll/auth-reducer";
+import {authStatuses, firstFetchMe, loginUserData} from "../../../bll/auth-reducer";
 import {useDispatch} from "react-redux";
 import {Spinner} from "../common/Spinner";
 
@@ -18,7 +18,7 @@ type FormDataT = {
 }
 
 export const Login = () => {
-   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
    const loading = useAppSelector<boolean>(state => state.app.loading)
 
    const dispatch = useDispatch()
@@ -33,7 +33,7 @@ export const Login = () => {
          .required('Password is a required field!'),
    })
 
-   const {register, handleSubmit, reset, formState: {errors}} = useForm<FormDataT>({
+   const {register, handleSubmit, formState: {errors}} = useForm<FormDataT>({
       mode: "onChange",
       resolver: yupResolver(schema),
       defaultValues: {
@@ -44,7 +44,7 @@ export const Login = () => {
 
    const onSubmit: SubmitHandler<FormDataT> = async (data) => dispatch(loginUserData(data))
 
-   if (isAuth) return <Navigate to={PATH.PROFILE}/>
+   if (authStatus === authStatuses.SUCCEEDED) return <Navigate to={PATH.PROFILE}/>
 
    return (
       <>
