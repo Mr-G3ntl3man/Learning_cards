@@ -14,13 +14,6 @@ export const DoubleRangeInput = React.memo(({min, max, onChange}: DoubleRangeT) 
    const maxValRef = useRef(max);
    const range = useRef<HTMLInputElement>(null);
 
-
-   useEffect(() => {
-      setMinVal(min)
-      setMaxVal(max)
-   }, [min, max]);
-
-
    const getPercent = useCallback(
       (value) => Math.round(((value - min) / (max - min)) * 100),
       [min, max]
