@@ -1,15 +1,24 @@
 import {ThunkActionT} from "./store";
 import {authApi, LoginDataT, ResponseUserDataT} from "../dal/authApi";
 import {setFeedback, setLoading} from "./app-reducer";
+import {errorHandler} from "../utils/errorHandler";
+
+export enum authStatuses {
+   IDLE = 'IDLE',
+   LOGIN = 'LOGIN',
+   LOADING = 'LOADING',
+   SUCCEEDED = 'SUCCEEDED',
+}
 
 const initialState: InitialStateT = {
-   isAuth: false,
+   authStatus: authStatuses.IDLE,
    userData: null
 }
 
 export const authReducer = (state: InitialStateT = initialState, action: AuthActionsT): InitialStateT => {
    switch (action.type) {
-      case "auth/SET_IS_AUTH":
+      case "auth/SET_AUTH_STATUS":
+      case "auth/SET_USER_DATA":
          return {...state, ...action.payload}
 
       default:
@@ -17,24 +26,37 @@ export const authReducer = (state: InitialStateT = initialState, action: AuthAct
    }
 }
 
-const setIsAuth = (isAuth: boolean) => ({type: 'auth/SET_IS_AUTH', payload: {isAuth}} as const)
-const setUserData = (userData: ResponseUserDataT) => ({type: 'auth/SET_IS_AUTH', payload: {userData}} as const)
+const setUserData = (userData: ResponseUserDataT) => ({type: 'auth/SET_USER_DATA', payload: {userData}} as const)
+export const setAuthStatus = (authStatus: authStatuses) => ({
+   type: 'auth/SET_AUTH_STATUS',
+   payload: {authStatus}
+} as const)
 
+export const firstFetchMe = (): ThunkActionT => async (dispatch) => {
+   try {
+      dispatch(setAuthStatus(authStatuses.LOADING))
+
+      const response = await authApi.me()
+
+      dispatch(setUserData(response.data))
+      dispatch(setAuthStatus(authStatuses.SUCCEEDED))
+   } catch (e: any) {
+      dispatch(setAuthStatus(authStatuses.LOGIN))
+   }
+}
 
 export const fetchMe = (): ThunkActionT => async (dispatch, getState) => {
    try {
-      if (!getState().auth.userData) {
+      if (getState().auth.userData === null) {
+         dispatch(setAuthStatus(authStatuses.LOADING))
+
          const response = await authApi.me()
 
          dispatch(setUserData(response.data))
-         dispatch(setIsAuth(true))
+         dispatch(setAuthStatus(authStatuses.SUCCEEDED))
       }
    } catch (e: any) {
-      const message = e.response ? e.response.data.error : `${e.message} more information in the console`
-
-      dispatch(setIsAuth(false))
-      dispatch(setFeedback(message, true, true))
-      setTimeout(() => dispatch(setFeedback(message, false, false)), 3000)
+      errorHandler(e, dispatch)
    }
 }
 
@@ -45,25 +67,21 @@ export const loginUserData = (data: LoginDataT): ThunkActionT => async (dispatch
       const response = await authApi.login(data)
 
       dispatch(setUserData(response.data))
-      dispatch(setIsAuth(true))
+      dispatch(setAuthStatus(authStatuses.SUCCEEDED))
 
       dispatch(setLoading(false))
-      dispatch(setFeedback('Login successful!!!', true))
-      setTimeout(() => dispatch(setFeedback('Login successful!!!', false)), 3000)
+      dispatch(setFeedback('Login successful!', true))
+      setTimeout(() => dispatch(setFeedback('Login successful!', false)), 2000)
    } catch (e: any) {
-      const message = e.response ? e.response.data.error : `${e.message} more information in the console`
-
-      dispatch(setFeedback(message, true, true))
-      setTimeout(() => dispatch(setFeedback(message, false, false)), 2000)
-      dispatch(setLoading(false))
+      errorHandler(e, dispatch)
    }
 }
 
 export type InitialStateT = {
-   isAuth: boolean
+   authStatus: authStatuses
    userData: ResponseUserDataT | null
 }
 
-export type AuthActionsT = ReturnType<typeof setIsAuth>
+export type AuthActionsT = ReturnType<typeof setAuthStatus>
    | ReturnType<typeof setUserData>
 
