@@ -1,21 +1,61 @@
-import React, {useEffect} from 'react';
-import {Link, useParams} from "react-router-dom";
+import React, {ChangeEvent, useCallback, useEffect} from 'react';
+import {Link, Navigate, useParams} from "react-router-dom";
 import {Spinner} from "../common/Spinner";
 import {useAppSelector} from "../../../bll/store";
 import styles from "../../styles/CardList.module.scss";
 import {Input} from "../common/Input";
-import {cardsApi} from "../../../dal/cardsApi";
+import {useDispatch} from "react-redux";
+import {fetchCardsForPacks, setCardPackPage, setCardPageCount, setCardQuestion} from "../../../bll/cards-reducer";
+import {CardsT,} from "../../../dal/cardsApi";
+import {Rating} from "react-simple-star-rating";
+import {PATH} from "../../router/Routes";
+import {Pagination} from "../common/Pagination";
+import {Select} from "../common/Select";
+import {debounce} from "../../../utils/debounce";
+import {authStatuses, fetchMe} from "../../../bll/auth-reducer";
 
 export const CardsList = () => {
-   const {pack} = useParams()
+   const dispatch = useDispatch()
+   const {cardsPack_id, packName} = useParams()
+
    const loading = useAppSelector<boolean>(state => state.app.loading)
-   
+   const cards = useAppSelector<CardsT[]>(state => state.cards.cards)
+   const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
+   const pageCount = useAppSelector<number>(state => state.cards.requestCards.pageCount)
+   const maxPage = useAppSelector<number>(state => state.cards.uiOptions.maxPage)
+   const cardQuestion = useAppSelector<string>(state => state.cards.requestCards.cardQuestion)
+   const page = useAppSelector<number>(state => state.cards.requestCards.page)
+   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
+
+   const onPageChange = useCallback((page: number) => dispatch(setCardPackPage(page)), [dispatch])
+   const onSelectChange = useCallback((pageCount: number) => dispatch(setCardPageCount(pageCount)), [dispatch])
+   const onChangeInputSearch = debounce((e: ChangeEvent<HTMLInputElement>) => dispatch(setCardQuestion(e.target.value)))
+   const onStarClick = (rate: number) => {
+   }
+
+   const cardsList = cards.map((el, index) => (
+      <Cards
+         key={el._id}
+         isOwner={myId === el.user_id}
+         bgColor={index % 2 === 0 ? '#fff' : '#F8F7FD'}
+         answer={el.answer}
+         update={el.updated.split(':')[0].slice(0, -3)}
+         grade={el.grade}
+         _id={el._id}
+         question={el.question}
+         onStarClick={onStarClick}
+      />
+   ))
+
    useEffect(() => {
-      if (pack) cardsApi.getCardsForPack({cardsPack_id: pack})
-         .then(res => {
-            console.log(res)
-         })
+      dispatch(fetchMe())
    }, [])
+
+   useEffect(() => {
+      dispatch(fetchCardsForPacks(cardsPack_id as string))
+   }, [cardQuestion, maxPage, pageCount, page])
+
+   if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
    return (
       <>
@@ -23,11 +63,11 @@ export const CardsList = () => {
 
          <div className={loading ? `${styles.wrapper} ${styles.loading}` : styles.wrapper}>
             <div className={styles.linkBack}>
-               <span>svg</span>
-               Pack Name
+               <Link className={styles.linkCard} to={PATH.PACKS_LIST}>Packs</Link>
+               / {packName}
             </div>
 
-            <Input variant={'outlined'} label={'Search...'}/>
+            <Input onChange={onChangeInputSearch} variant={'outlined'} label={'Search...'}/>
 
             <div className={styles.column}>
                <ul className={styles.cardsHeader}>
@@ -38,27 +78,45 @@ export const CardsList = () => {
                   <li>Actions</li>
                </ul>
 
-               <div className={styles.packsItem}>
-                  {<div className={styles.noCards}>This pack is empty.</div>}
+               <div className={styles.cardsItem}>
+                  {!cards.length && <div className={styles.noCards}>This pack is empty.</div>}
+                  {cardsList}
                </div>
             </div>
+
+            <div className={styles.cardFooter}>
+               <Pagination onPageChange={onPageChange} pageCount={maxPage}/>
+               <div className={styles.showCard}>
+                  Show
+                  <Select onChange={onSelectChange} defaultValue={pageCount} items={[5, 10, 20]}/>
+                  Cards per Page
+               </div>
+            </div>
+
          </div>
       </>
-   );
-};
-
+   )
+}
 
 const Cards: React.FC<PacksItemT> = React.memo((
    {
-      created, cards, update,
-      isOwner, name, bgColor, packId
+      answer, grade, update,
+      isOwner, question, bgColor, _id, onStarClick
    }) => (
    <ul style={{backgroundColor: bgColor}}>
-      <li>{name}</li>
-      <li>{cards}</li>
+      <li>{question}</li>
+      <li>{answer}</li>
       <li>{update}</li>
-      <li>{created}</li>
-      <li className={styles.packsActionBtn}>
+      <li>
+         <Rating
+            emptyColor={'#D7D8EF'}
+            transition
+            fillColor={'#21268F'}
+            size={20}
+            onClick={onStarClick}
+            ratingValue={grade * 20}/>
+      </li>
+      <li className={styles.cardsActionBtn}>
          {
             isOwner
                ? <>
@@ -66,19 +124,20 @@ const Cards: React.FC<PacksItemT> = React.memo((
                   <button>Edit</button>
                   <button>Learn</button>
                </>
-               : <Link to={`/packs-list/${packId}`}>Learn</Link>
+               : <Link className={styles.cardsLink} to={'#'}>Learn</Link>
          }
       </li>
    </ul>
 ))
 
 type PacksItemT = {
-   name: string
-   cards: number
+   question: string
+   answer: string
    update: string
-   created: string
+   grade: number
    bgColor: string
    isOwner: boolean
-   packId: string
+   _id: string
+   onStarClick: (rate: number) => void
 }
 
