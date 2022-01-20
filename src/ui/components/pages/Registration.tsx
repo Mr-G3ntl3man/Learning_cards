@@ -18,7 +18,7 @@ type FormValues = {
 
 };
 
-export default function Registration() {
+export const Registration=()=>{
     const [feedbackMessage, setFeedbackMessage] = useState<string>('')
 
     const navigate = useNavigate()
@@ -53,12 +53,11 @@ export default function Registration() {
                 reset()
                 navigate(PATH.LOGIN)
             }, 500)
-
-        } catch (err: any) {
-            const error = err.response
-                ? err.response.data.error
-                : (err.message + ', more details in the console');
-            console.log('Error: ', {...err})
+        } catch (e: any) {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console');
+            console.log('Error: ', {...e})
             setFeedbackMessage(error)
             setTimeout(() => {
                 setFeedbackMessage("")
@@ -68,10 +67,7 @@ export default function Registration() {
 
     return (
         <div className={styles.content}>
-            {feedbackMessage &&
-                <div style={{backgroundColor: "red"}} className={styles.errorFeedback}>
-                    <span>{feedbackMessage}</span>
-                </div>}
+
             <Link className={styles.linkForgot} to={PATH.FORGOT_PASS}>
                 Forgot Password
             </Link>
@@ -79,6 +75,8 @@ export default function Registration() {
             <h1>It-incubator</h1>
 
             <span>Registration page</span>
+
+            <div style={{color: "red"}}>{feedbackMessage}</div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputWrap}>
