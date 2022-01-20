@@ -20,7 +20,7 @@ export enum PATH {
    SET_NEW_PASS = '/set-new-password/:token',
    TEST = '/test-page',
    PACKS_LIST = '/packs-list',
-   CARD_LIST = '/packs-list/:pack',
+   CARD_LIST = '/packs-list/:packName/:cardsPack_id',
 }
 
 const LayoutMain = () => (
