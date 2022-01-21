@@ -79,11 +79,9 @@ export const setMinMaxRange = (minRangeRes: number, maxRangeRes: number,) => ({
 
 export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    try {
-      dispatch(setLoading(true))
-
-      if (getState().auth.userData === null) dispatch(fetchMe())
-
       if (getState().auth.userData !== null) {
+         dispatch(setLoading(true))
+
          const res = await packApi.getPack(getState().packs.requestPacks)
 
          dispatch(setPacksData(res.cardPacks))

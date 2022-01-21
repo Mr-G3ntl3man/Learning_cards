@@ -55,12 +55,14 @@ export const PacksList = () => {
 
    useEffect(() => {
       if (!loading) dispatch(fetchPacks())
-      
+   }, [packName, page, pageCount, min, max, user_id, userData])
+
+
+   useEffect(() => {
       return () => {
          dispatch(setSelectedMinMaxRange(0, 0))
-         dispatch(setPackPage(0))
       }
-   }, [packName, page, pageCount, min, max, user_id, userData])
+   }, [])
 
    const packsList = packs.map((el, index) => (
       <PacksItem
@@ -90,7 +92,8 @@ export const PacksList = () => {
 
                <span>Number of cards</span>
 
-               <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>
+               {!user_id && <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>}
+               {user_id && <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>}
             </div>
 
             <div className={styles.rightColumn}>
@@ -98,7 +101,6 @@ export const PacksList = () => {
 
                <div className={styles.interaction}>
                   <Input
-                     value={packName}
                      onChange={onChangeInputSearch}
                      className={styles.inputSearch}
                      variant={'outlined'}
@@ -125,7 +127,8 @@ export const PacksList = () => {
                </div>
 
                <div className={styles.packsFooter}>
-                  <Pagination onPageChange={onPageChange} pageCount={maxPage}/>
+                  <Pagination initialPage={page} onPageChange={onPageChange} pageCount={maxPage}/>
+                  
                   <div className={styles.showCard}>
                      Show
                      <Select onChange={onSelectChange} defaultValue={pageCount} items={[10, 20, 30]}/>
@@ -145,7 +148,7 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
       isOwner, name, bgColor, packId
    }) => (
    <ul style={{backgroundColor: bgColor}}>
-      <li>{name}</li>
+      <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}`}>{name}</Link></li>
       <li>{cards}</li>
       <li>{update}</li>
       <li>{created}</li>
@@ -157,7 +160,7 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
                   <button>Edit</button>
                   <button>Learn</button>
                </>
-               : <Link to={`/packs-list/${name}/${packId}`}>Learn</Link>
+               : <button>Learn</button>
          }
       </li>
    </ul>

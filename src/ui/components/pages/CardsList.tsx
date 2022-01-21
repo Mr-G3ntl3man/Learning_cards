@@ -85,7 +85,8 @@ export const CardsList = () => {
             </div>
 
             <div className={styles.cardFooter}>
-               <Pagination onPageChange={onPageChange} pageCount={maxPage}/>
+               <Pagination initialPage={page} onPageChange={onPageChange} pageCount={maxPage}/>
+               
                <div className={styles.showCard}>
                   Show
                   <Select onChange={onSelectChange} defaultValue={pageCount} items={[5, 10, 20]}/>
