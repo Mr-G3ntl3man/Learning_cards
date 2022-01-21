@@ -1,14 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import {useForm, SubmitHandler} from "react-hook-form";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {PATH} from '../../router/Routes';
 import styles from '../../styles/Form.module.scss'
-import {authApi} from "../../../dal/authApi";
+
 import {Input} from "../common/Input";
 import {Button} from "../common/Button";
+import {registrationNewUser} from '../../../bll/auth-reducer';
+import {useDispatch} from "react-redux";
+import {useAppSelector} from "../../../bll/store";
 
 
 type FormValues = {
@@ -18,10 +21,10 @@ type FormValues = {
 
 };
 
-export const Registration=()=>{
-    const [feedbackMessage, setFeedbackMessage] = useState<string>('')
+export const Registration = () => {
+    const feedbackMessage = useAppSelector<string>(state => state.auth.error)
 
-    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const schema = yup.object().shape({
         email: yup
@@ -36,33 +39,18 @@ export const Registration=()=>{
             .required('Password is a required field!')
             .oneOf([yup.ref("password"), null], 'Passwords must match')
     })
-    const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm<FormValues>({
+    const {register, handleSubmit, formState: {errors, isValid}} = useForm<FormValues>({
             mode: "onChange",
             resolver: yupResolver(schema),
             defaultValues: {
                 email: '',
                 password: '',
-                repeatPassword: '',
             }
         }
     );
+
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        try {
-            await authApi.signUp(data)
-            setTimeout(() => {
-                reset()
-                navigate(PATH.LOGIN)
-            }, 500)
-        } catch (e: any) {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            console.log('Error: ', {...e})
-            setFeedbackMessage(error)
-            setTimeout(() => {
-                setFeedbackMessage("")
-            }, 3000)
-        }
+        dispatch(registrationNewUser(data))
     }
 
     return (
@@ -100,7 +88,7 @@ export const Registration=()=>{
 
                 <div className={styles.btn}>
                     <Button disabled={!isValid} type={'submit'}>
-                        sign up
+                        Sign up
                     </Button>
                 </div>
             </form>
