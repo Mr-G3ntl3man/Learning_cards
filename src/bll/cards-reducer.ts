@@ -62,14 +62,17 @@ export const fetchCardsForPacks = (cardsPack_id: string): ThunkActionT => async 
    try {
       dispatch(setLoading(true))
 
-      const cards = await cardsApi.getCardsForPack({...getState().cards.requestCards, cardsPack_id})
-      dispatch(setCards(cards.cards))
-      dispatch(setTotalCardsCount(cards.cardsTotalCount))
+      if (getState().auth.userData === null) dispatch(fetchMe())
 
-      dispatch(setLoading(false))
+      if (getState().auth.userData !== null) {
+         const cards = await cardsApi.getCardsForPack({...getState().cards.requestCards, cardsPack_id})
+         dispatch(setCards(cards.cards))
+
+         dispatch(setTotalCardsCount(cards.cardsTotalCount))
+         dispatch(setLoading(false))
+      }
+
    } catch (e: any) {
-      if (e.response.status === 401) dispatch(fetchMe())
-
       errorHandler(e, dispatch)
    }
 }

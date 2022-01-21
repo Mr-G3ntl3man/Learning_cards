@@ -22,17 +22,17 @@ const initialState: InitialStateT = {
 
 export const packsReducer = (state: InitialStateT = initialState, action: PacksActionsT): InitialStateT => {
    switch (action.type) {
-      case 'packs/SET_PACK_NAME':
       case "packs/SET_PAGE":
+      case 'packs/SET_PACK_NAME':
       case "packs/SET_PAGE_COUNT":
       case "packs/SET_SELECTED_MIN_MAX_RANGE":
          return {...state, requestPacks: {...state.requestPacks, ...action.payload}}
 
-      case "packs/SET_USER_ID":
-         return {...state, requestPacks: {...state.requestPacks, ...action.payload,}}
-
       case "packs/SET_PACKS_DATA":
          return {...state, packs: action.data}
+
+      case "packs/SET_USER_ID":
+         return {...state, requestPacks: {...state.requestPacks, ...action.payload,}}
 
       case "packs/SET_MIN_MAX_RANGE":
          return {...state, requestPacks: {...state.requestPacks,}, uiOptions: {...state.uiOptions, ...action.payload}}
@@ -52,6 +52,9 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
    }
 }
 
+export const setSortPacks = (sortPacks: string) => ({type: 'packs/SET_PACK_NAME', payload: {sortPacks}} as const)
+
+export const setUserID = (user_id: string) => ({type: 'packs/SET_USER_ID', payload: {user_id}} as const)
 export const setPackPage = (page: number) => ({type: 'packs/SET_PAGE', payload: {page}} as const)
 export const setPackPageCount = (pageCount: number) => ({type: 'packs/SET_PAGE_COUNT', payload: {pageCount}} as const)
 export const setPacksName = (packName: string) => ({type: 'packs/SET_PACK_NAME', payload: {packName}} as const)
@@ -73,26 +76,27 @@ export const setMinMaxRange = (minRangeRes: number, maxRangeRes: number,) => ({
    }
 } as const)
 
-export const setSortPacks = (sortPacks: string) => ({type: 'packs/SET_PACK_NAME', payload: {sortPacks}} as const)
-export const setUserID = (user_id: string) => ({type: 'packs/SET_USER_ID', payload: {user_id}} as const)
 
 export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    try {
       dispatch(setLoading(true))
 
-      const res = await packApi.getPack(getState().packs.requestPacks)
+      if (getState().auth.userData === null) dispatch(fetchMe())
 
-      dispatch(setPacksData(res.cardPacks))
-      dispatch(setMinMaxRange(res.minCardsCount, res.maxCardsCount))
-      dispatch(setTotalPacksCount(res.cardPacksTotalCount))
+      if (getState().auth.userData !== null) {
+         const res = await packApi.getPack(getState().packs.requestPacks)
 
-      dispatch(setLoading(false))
+         dispatch(setPacksData(res.cardPacks))
+         dispatch(setMinMaxRange(res.minCardsCount, res.maxCardsCount))
+         dispatch(setTotalPacksCount(res.cardPacksTotalCount))
+
+         dispatch(setLoading(false))
+      }
    } catch (e: any) {
-      if (e.response.status === 401) dispatch(fetchMe())
-
       errorHandler(e, dispatch)
    }
 }
+
 
 export type PacksActionsT = ReturnType<typeof setPacksName>
    | ReturnType<typeof setSelectedMinMaxRange>

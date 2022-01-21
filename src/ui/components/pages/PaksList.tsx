@@ -19,15 +19,15 @@ import {Spinner} from "../common/Spinner";
 import {debounce} from "../../../utils/debounce";
 import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
-import {authStatuses, fetchMe} from "../../../bll/auth-reducer";
+import {authStatuses} from "../../../bll/auth-reducer";
 import 'rc-slider/assets/index.css';
 import {InputRange} from "../common/InputRange";
+import {ResponseUserDataT} from "../../../dal/authApi";
 
 export const PacksList = () => {
    const dispatch = useDispatch()
 
    const {
-      sortPacks,
       page,
       min,
       max,
@@ -36,6 +36,7 @@ export const PacksList = () => {
       packName
    } = useAppSelector<RequestPacksT>(state => state.packs.requestPacks)
 
+   const userData = useAppSelector<ResponseUserDataT | null>(state => state.auth.userData)
    const maxPage = useAppSelector<number>(state => state.packs.uiOptions.maxPage)
    const maxRangeRes = useAppSelector<number>(state => state.packs.uiOptions.maxRangeRes)
    const minRangeRes = useAppSelector<number>(state => state.packs.uiOptions.minRangeRes)
@@ -53,17 +54,13 @@ export const PacksList = () => {
    const onClickAllPacks = () => dispatch(setUserID(''))
 
    useEffect(() => {
-      dispatch(fetchMe())
-
+      if (!loading) dispatch(fetchPacks())
+      
       return () => {
          dispatch(setSelectedMinMaxRange(0, 0))
          dispatch(setPackPage(0))
       }
-   }, [])
-
-   useEffect(() => {
-      dispatch(fetchPacks())
-   }, [packName, page, pageCount, min, max, sortPacks, user_id])
+   }, [packName, page, pageCount, min, max, user_id, userData])
 
    const packsList = packs.map((el, index) => (
       <PacksItem
@@ -74,8 +71,7 @@ export const PacksList = () => {
          cards={el.cardsCount}
          update={el.updated.split(':')[0].slice(0, -3)}
          created={el.user_name}
-         isOwner={el.user_id === myId}/>)
-   )
+         isOwner={el.user_id === myId}/>))
 
    if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 

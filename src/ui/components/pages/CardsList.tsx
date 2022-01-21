@@ -12,12 +12,14 @@ import {PATH} from "../../router/Routes";
 import {Pagination} from "../common/Pagination";
 import {Select} from "../common/Select";
 import {debounce} from "../../../utils/debounce";
-import {authStatuses, fetchMe} from "../../../bll/auth-reducer";
+import {authStatuses} from "../../../bll/auth-reducer";
+import {ResponseUserDataT} from "../../../dal/authApi";
 
 export const CardsList = () => {
    const dispatch = useDispatch()
    const {cardsPack_id, packName} = useParams()
 
+   const userData = useAppSelector<ResponseUserDataT | null>(state => state.auth.userData)
    const loading = useAppSelector<boolean>(state => state.app.loading)
    const cards = useAppSelector<CardsT[]>(state => state.cards.cards)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
@@ -47,13 +49,11 @@ export const CardsList = () => {
       />
    ))
 
-   useEffect(() => {
-      dispatch(fetchMe())
-   }, [])
 
    useEffect(() => {
-      dispatch(fetchCardsForPacks(cardsPack_id as string))
-   }, [cardQuestion, maxPage, pageCount, page])
+      if (!loading) dispatch(fetchCardsForPacks(cardsPack_id as string))
+
+   }, [cardQuestion, maxPage, pageCount, page, userData])
 
    if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
@@ -92,7 +92,6 @@ export const CardsList = () => {
                   Cards per Page
                </div>
             </div>
-
          </div>
       </>
    )

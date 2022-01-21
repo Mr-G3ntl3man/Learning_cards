@@ -55,6 +55,7 @@ export const fetchMe = (): ThunkActionT => async (dispatch, getState) => {
 
          dispatch(setUserData(response.data))
          dispatch(setAuthStatus(authStatuses.SUCCEEDED))
+         dispatch(setLoading(false))
       }
    } catch (e: any) {
       dispatch(setAuthStatus(authStatuses.LOGIN))
