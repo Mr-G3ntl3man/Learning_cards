@@ -13,13 +13,15 @@ export enum authStatuses {
 
 const initialState: InitialStateT = {
    authStatus: authStatuses.IDLE,
-   userData: null
+   userData: null,
+   error: '',
 }
 
 export const authReducer = (state: InitialStateT = initialState, action: AuthActionsT): InitialStateT => {
    switch (action.type) {
       case "auth/SET_AUTH_STATUS":
       case "auth/SET_USER_DATA":
+      case "auth/SET_ERROR_REGISTRATION":
          return {...state, ...action.payload}
 
       default:
@@ -32,6 +34,8 @@ export const setAuthStatus = (authStatus: authStatuses) => ({
    type: 'auth/SET_AUTH_STATUS',
    payload: {authStatus}
 } as const)
+export const setErrorRegistration = (error: string) => ({type: 'auth/SET_ERROR_REGISTRATION', payload: {error}} as const)
+
 
 
 export const firstFetchMe = (): ThunkActionT => async (dispatch) => {
@@ -56,7 +60,6 @@ export const fetchMe = (): ThunkActionT => async (dispatch, getState) => {
 
          dispatch(setUserData(response.data))
          dispatch(setAuthStatus(authStatuses.SUCCEEDED))
-         dispatch(setLoading(false))
       }
    } catch (e: any) {
       dispatch(setAuthStatus(authStatuses.LOGIN))
@@ -92,6 +95,7 @@ export const logOutUser = (): ThunkActionT => async (dispatch) => {
    }
 }
 
+
 export const forgotPassSendInst = (email: string): ThunkActionT => async (dispatch) => {
    try {
       const res = await authApi.forgotPassword(email)
@@ -115,12 +119,24 @@ export const setNewPassword = (password: string, resetPasswordToken: string): Th
    }
 }
 
+export const registrationNewUser = (data:{email: string, password: string}): ThunkActionT => async (dispatch) => {
+   try {
+      await authApi.signUp(data)
+      dispatch(setAuthStatus(authStatuses.LOGIN))
+   } catch (e: any) {
+      errorHandler(e, dispatch)
+   }
+}
 
 export type InitialStateT = {
    authStatus: authStatuses
    userData: ResponseUserDataT | null
+   error: string
 }
 
 export type AuthActionsT = ReturnType<typeof setAuthStatus>
-   | ReturnType<typeof setUserData>
+    | ReturnType<typeof setUserData>
+    | ReturnType<typeof setErrorRegistration>
+
+
 
