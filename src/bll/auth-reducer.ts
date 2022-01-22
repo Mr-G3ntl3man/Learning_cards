@@ -33,6 +33,7 @@ export const setAuthStatus = (authStatus: authStatuses) => ({
    payload: {authStatus}
 } as const)
 
+
 export const firstFetchMe = (): ThunkActionT => async (dispatch) => {
    try {
       dispatch(setAuthStatus(authStatuses.LOADING))
@@ -91,7 +92,6 @@ export const logOutUser = (): ThunkActionT => async (dispatch) => {
    }
 }
 
-
 export const forgotPassSendInst = (email: string): ThunkActionT => async (dispatch) => {
    try {
       const res = await authApi.forgotPassword(email)
@@ -114,6 +114,7 @@ export const setNewPassword = (password: string, resetPasswordToken: string): Th
       errorHandler(e, dispatch)
    }
 }
+
 
 export type InitialStateT = {
    authStatus: authStatuses

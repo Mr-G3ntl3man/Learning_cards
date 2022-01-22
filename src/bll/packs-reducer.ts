@@ -1,7 +1,6 @@
 import {CardPacksT, packApi, RequestPacksT} from "../dal/pakcApi";
 import {ThunkActionT} from "./store";
 import {setLoading} from "./app-reducer";
-import {fetchMe} from "./auth-reducer";
 import {errorHandler} from "../utils/errorHandler";
 
 const initialState: InitialStateT = {
@@ -19,6 +18,7 @@ const initialState: InitialStateT = {
    },
    packs: [],
 }
+
 
 export const packsReducer = (state: InitialStateT = initialState, action: PacksActionsT): InitialStateT => {
    switch (action.type) {
@@ -51,6 +51,7 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
          return state
    }
 }
+
 
 export const setSortPacks = (sortPacks: string) => ({type: 'packs/SET_PACK_NAME', payload: {sortPacks}} as const)
 
