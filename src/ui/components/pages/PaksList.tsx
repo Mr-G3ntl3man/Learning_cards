@@ -3,15 +3,17 @@ import styles from '../../styles/PacksList.module.scss'
 import {Input} from "../common/Input";
 import {Button} from "../common/Button";
 import {Select} from "../common/Select";
-import {CardPacksT, RequestPacksT} from "../../../dal/pakcApi";
+import {AddCardPackT, CardPacksT, RequestPacksT} from "../../../dal/pakcApi";
 import {useDispatch} from "react-redux";
 import {
+   addNewCardsPack, deleteCardPack,
    fetchPacks,
    setPackPage,
    setPackPageCount,
    setPacksName,
    setSelectedMinMaxRange,
    setUserID,
+   updatePack,
 } from "../../../bll/packs-reducer";
 import {useAppSelector} from "../../../bll/store";
 import {Pagination} from "../common/Pagination";
@@ -19,7 +21,7 @@ import {Spinner} from "../common/Spinner";
 import {debounce} from "../../../utils/debounce";
 import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
-import {authStatuses} from "../../../bll/auth-reducer";
+import {authStatuses, logOutUser} from "../../../bll/auth-reducer";
 import 'rc-slider/assets/index.css';
 import {InputRange} from "../common/InputRange";
 import {ResponseUserDataT} from "../../../dal/authApi";
@@ -36,6 +38,7 @@ export const PacksList = () => {
       packName
    } = useAppSelector<RequestPacksT>(state => state.packs.requestPacks)
 
+
    const userData = useAppSelector<ResponseUserDataT | null>(state => state.auth.userData)
    const maxPage = useAppSelector<number>(state => state.packs.uiOptions.maxPage)
    const maxRangeRes = useAppSelector<number>(state => state.packs.uiOptions.maxRangeRes)
@@ -49,6 +52,13 @@ export const PacksList = () => {
    const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
    const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
+
+
+   //const addPackHandler = useCallback((newCardPack:AddCardPackT) => {dispatch(addNewCardsPack(newCardPack))}, [dispatch])
+   const addPackHandler = () => dispatch(addNewCardsPack())
+   const deletePackHandler = (id:string) => dispatch(deleteCardPack(id))
+   const updatePackHandler = (id:string, name:string) => dispatch(updatePack(id,name))
+
 
    const onClickMyPacks = () => dispatch(setUserID(myId as string))
    const onClickAllPacks = () => dispatch(setUserID(''))
@@ -73,7 +83,9 @@ export const PacksList = () => {
          cards={el.cardsCount}
          update={el.updated.split(':')[0].slice(0, -3)}
          created={el.user_name}
-         isOwner={el.user_id === myId}/>))
+         isOwner={el.user_id === myId}
+         deletePack={deletePackHandler}
+         updatePack={updatePackHandler}/>))
 
    if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
@@ -106,7 +118,8 @@ export const PacksList = () => {
                      variant={'outlined'}
                      label={'Search...'}/>
 
-                  <Button width={'180px'}>
+                  <Button width={'180px'}
+                          onClick={addPackHandler}>
                      Add new pack
                   </Button>
                </div>
@@ -145,7 +158,7 @@ export const PacksList = () => {
 const PacksItem: React.FC<PacksItemT> = React.memo((
    {
       created, cards, update,
-      isOwner, name, bgColor, packId
+      isOwner, name, bgColor, packId, deletePack, updatePack
    }) => (
    <ul style={{backgroundColor: bgColor}}>
       <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}`}>{name}</Link></li>
@@ -156,8 +169,8 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
          {
             isOwner
                ? <>
-                  <button className={styles.ActionBtnD}>Delete</button>
-                  <button>Edit</button>
+                  <button className={styles.ActionBtnD} onClick={()=>deletePack(packId)}>Delete</button>
+                  <button onClick={()=>updatePack(packId,name)}>Edit</button>
                   <button>Learn</button>
                </>
                : <button>Learn</button>
@@ -174,5 +187,7 @@ type PacksItemT = {
    bgColor: string
    isOwner: boolean
    packId: string
+   deletePack:(id:string)=>void
+   updatePack:(id:string, name:string)=>void
 }
 

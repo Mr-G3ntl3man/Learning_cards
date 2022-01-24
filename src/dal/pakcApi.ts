@@ -11,8 +11,25 @@ export const packApi = {
    getPack(data?: RequestPacksT) {
       return instance.get<GetPackResT>('cards/pack', {params: data})
          .then(res => res.data)
-   }
+   },
+   addPack (name?: string,
+            path?: string,
+            grade?: number,
+            shots?: number,
+            rating?: number,
+            deckCover?: string,
+            type?: string,){
+      return instance.post<PackResponseType>('/cards/pack', {cardsPack: {name:"Y-XO_XO"}})
+          .then(res => res.data)
 
+
+   },
+   deletePack (id:string){
+      return instance.delete(`/cards/pack?id=${id}`)
+   },
+   updatePack (id:string){
+      return instance.put(`/cards/pack`, {cardsPack: {_id:id, name:"new name"}})
+   }
 }
 
 type GetPackResT = {
@@ -53,3 +70,23 @@ export type RequestPacksT = {
    pageCount: number
    user_id?: string
 }
+
+ export type AddCardPackT={
+      name?: string
+      path?: string
+      grade?: number
+      shots?: number
+      rating?: number
+      deckCover?: string
+      private?: boolean
+      type?: string
+}
+
+export type PackResponseType = {
+   newCardsPack: CardPacksT
+   token: string
+   tokenDeathTime: number
+}
+
+
+
