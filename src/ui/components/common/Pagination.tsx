@@ -9,15 +9,14 @@ type PaginationT = {
 }
 
 export const Pagination: React.FC<PaginationT> = ({pageCount, onPageChange, initialPage}) => {
-
    const handlePageClick = (event: { selected: number }) => {
-      onPageChange(event.selected)
+      onPageChange(event.selected + 1)
    }
 
    return (
       <>
          <ReactPaginate
-            initialPage={initialPage}
+            initialPage={initialPage - 1}
             className={styles.pagination}
             breakLabel="..."
             nextLabel=""

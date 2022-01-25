@@ -62,7 +62,7 @@
 
 ///////////////////////////////////////////////////////////////
 .rightColumn {
-  padding: 33px 40px;
+  padding: 30px;
   background-color: white;
   border-radius: 0 8px 8px 0;
   flex: 1 1 80%;
@@ -109,12 +109,12 @@
     }
 
     &:last-child {
-      flex: 1 1 25%;
+      flex: 1 1 28%;
       text-align: left;
     }
 
     &:first-child {
-      flex: 1 1 28%;
+      flex: 1 1 25%;
       text-align: left;
     }
   }
@@ -149,11 +149,11 @@
       }
 
       &:last-child {
-        width: 25%;
+        width: 28%;
       }
 
       &:first-child {
-        width: 28%;
+        width: 25%;
         text-align: left;
       }
     }
@@ -164,7 +164,7 @@
   display: flex;
   justify-content: flex-end;
 
-  button, a {
+  .btn {
     display: inline-block;
     font-weight: 600;
     font-size: 14px;
@@ -183,20 +183,16 @@
       color: #D7D8EF;
     }
 
+    &:nth-child(3) {
+      margin: 0 4px;
+    }
+
     &:nth-child(2) {
-      margin: 0 6px;
+      margin: 0 4px;
     }
+
   }
 
-  .ActionBtnD {
-    background: #F1453D !important;
-    color: #FFFFFF;
-
-    &:hover {
-      background: #21268F !important;
-      color: #D7D8EF;
-    }
-  }
 }
 
 .pagination {
@@ -335,5 +331,59 @@
 
   &:hover:before {
     transform: scale(1);
+  }
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+
+  .arrowSort {
+    transition: transform 0.2s ease-in;
+    margin-left: 3px;
+  }
+
+  &:hover .arrowSort {
+    transform: rotate(180deg) translateY(-3px);
+  }
+
+
+  &:hover .sortList {
+    pointer-events: all;
+    opacity: 1;
+    top: 18px;
+  }
+
+  .sortList {
+    position: absolute;
+    top: 30px;
+    background-color: white;
+    width: 150px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out, top 0.2s ease-in-out;
+    border: 1px solid #635D80;
+    z-index: 10;
+
+
+    .sortItem {
+      display: block;
+      padding: 5px 2px;
+      transition: background 0.2s ease-in;
+      cursor: pointer;
+
+      &.active {
+        background-color: #635D80;
+        color: white;
+      }
+
+      &:hover {
+        background-color: #635D80;
+        color: white;
+      }
+    }
+
   }
 }
