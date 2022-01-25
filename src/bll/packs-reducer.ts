@@ -1,8 +1,8 @@
-import {CardPacksT, packApi, RequestPacksT} from "../dal/pakcApi";
-import {ThunkActionT} from "./store";
-import {setLoading} from "./app-reducer";
-import {fetchMe} from "./auth-reducer";
+import {CardPacksT, packApi, RequestGetPacksT} from "../dal/pakcApi";
+import {RootActionT, ThunkActionT} from "./store";
+import {setFeedback, setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
+import {Dispatch} from "redux";
 
 const initialState: InitialStateT = {
    requestPacks: {
@@ -10,6 +10,7 @@ const initialState: InitialStateT = {
       max: 0,
       page: 1,
       pageCount: 10,
+      sortPacks: '0updated'
    },
    uiOptions: {
       maxRangeRes: 0,
@@ -95,6 +96,33 @@ export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    }
 }
 
+export const crudPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string) => {
+   try {
+      dispatch(setLoading(true))
+
+      await apiMethod()
+
+      dispatch(fetchPacks())
+
+      dispatch(setFeedback(message, true))
+      setTimeout(() => dispatch(setFeedback(message, false)), 2000)
+   } catch (e) {
+      errorHandler(e, dispatch)
+   }
+}
+
+export const deletePack = (id: string, packName: string): ThunkActionT => (dispatch) => {
+   crudPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`)
+}
+
+export const addPack = (name: string): ThunkActionT => (dispatch) => {
+   crudPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`)
+}
+
+export const editPack = (id: string, name: string): ThunkActionT => (dispatch) => {
+   crudPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`)
+}
+
 
 export type PacksActionsT = ReturnType<typeof setPacksName>
    | ReturnType<typeof setSelectedMinMaxRange>
@@ -106,7 +134,7 @@ export type PacksActionsT = ReturnType<typeof setPacksName>
    | ReturnType<typeof setUserID>
 
 export type InitialStateT = {
-   requestPacks: RequestPacksT
+   requestPacks: RequestGetPacksT
    packs: CardPacksT[]
    uiOptions: uiOptionsT
 }
