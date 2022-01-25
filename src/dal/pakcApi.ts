@@ -8,10 +8,19 @@ const instance = axios.create({
 
 
 export const packApi = {
-   getPack(data?: RequestPacksT) {
+   getPack(data: RequestGetPacksT) {
       return instance.get<GetPackResT>('cards/pack', {params: data})
          .then(res => res.data)
-   }
+   },
+   addPack(data: RequestAddPacksT) {
+      return instance.post('cards/pack', {cardsPack: data})
+   },
+   deletePack(id: string) {
+      return instance.delete(`cards/pack/?id=${id}`)
+   },
+   editPack(_id: string, name: string) {
+      return instance.put(`cards/pack`, {cardsPack: {_id, name}})
+   },
 
 }
 
@@ -44,7 +53,7 @@ export type CardPacksT = {
    _id: string
 }
 
-export type RequestPacksT = {
+export type RequestGetPacksT = {
    packName?: string
    min: number
    max: number
@@ -52,4 +61,15 @@ export type RequestPacksT = {
    page: number
    pageCount: number
    user_id?: string
+}
+
+type RequestAddPacksT = {
+   name: string
+   path?: string
+   grade?: number
+   shots?: number
+   rating?: number
+   deckCover?: string
+   private?: boolean
+   type?: string
 }
