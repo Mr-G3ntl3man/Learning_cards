@@ -38,6 +38,7 @@ export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
          variant,
          margin,
          width,
+         value,
          ...restProps
       } = props
 
@@ -77,6 +78,7 @@ export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
       return (
          <div style={{width, ...marginStyle}} className={`${s.inputWrap} ${className}`}>
             <input
+               defaultValue={value}
                placeholder=' '
                onChange={onChangeCallback}
                onKeyPress={onKeyPressCallback}
