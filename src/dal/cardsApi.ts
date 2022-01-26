@@ -15,7 +15,12 @@ export const cardsApi = {
    changeCard(data: RequestPostCardsT) {
       return instance.post('cards/card', {params: data})
          .then(res => res.data)
-   }
+   },
+   changeCardRating(data: { grade: number, card_id: string }) {
+      return instance.put('cards/grade', data)
+         .then(res => res.data)
+   },
+
 }
 
 export type RequestPostCardsT = {
