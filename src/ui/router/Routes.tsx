@@ -8,19 +8,22 @@ import {ForgotPass} from "../components/pages/ForgotPass";
 import {Registration} from "../components/pages/Registration";
 import {TestPage} from "../components/pages/TestPage";
 import {Navbar} from "../components/common/Navbar";
-import styles from "../styles/App.module.scss";
 import {PacksList} from "../components/pages/PaksList";
 import {CardsList} from "../components/pages/CardsList";
+import {LearnCards} from "../components/pages/LearnCards";
+import styles from "../styles/App.module.scss";
 
 export enum PATH {
-   REGISTRATION = '/registration',
    LOGIN = '/',
+   TEST = '/test-page',
    PROFILE = '/profile',
+   LEARN = '/learn-cards',
+   PACKS_LIST = '/packs-list',
+   REGISTRATION = '/registration',
    FORGOT_PASS = '/forgot-password',
    SET_NEW_PASS = '/set-new-password/:token',
-   TEST = '/test-page',
-   PACKS_LIST = '/packs-list',
    CARD_LIST = '/packs-list/:packName/:cardsPack_id',
+   LEARN_CARDS = '/learn-cards/:packName/:cardsCount/:cardsPack_id',
 }
 
 const LayoutMain = () => (
@@ -54,6 +57,7 @@ export const Router = () => (
          <Route path={PATH.PROFILE} element={<Profile/>}/>
          <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
          <Route path={PATH.CARD_LIST} element={<CardsList/>}/>
+         <Route path={PATH.LEARN_CARDS} element={<LearnCards/>}/>
          <Route path={PATH.TEST} element={<TestPage/>}/>
          <Route path={'*'} element={<NotFound/>}/>
       </Route>
