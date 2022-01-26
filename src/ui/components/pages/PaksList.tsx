@@ -50,7 +50,7 @@ export const PacksList = () => {
    const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
 
-   const onChangeInputSearch = debounce((e: ChangeEvent<HTMLInputElement>) => dispatch(setPacksName(e.target.value)))
+   const onChangeInputSearch = debounce((value: string) => dispatch(setPacksName(value)))
    const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
    const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
@@ -72,6 +72,7 @@ export const PacksList = () => {
 
    const packsList = packs.map((el, index) => (
       <PacksItem
+         cardsCount={el.cardsCount}
          key={el._id}
          packId={el._id}
          bgColor={index % 2 === 0 ? '#fff' : '#F8F7FD'}
@@ -107,7 +108,8 @@ export const PacksList = () => {
 
                <div className={styles.interaction}>
                   <Input
-                     onChange={onChangeInputSearch}
+                     value={packName}
+                     onChangeText={onChangeInputSearch}
                      className={styles.inputSearch}
                      variant={'outlined'}
                      label={'Search...'}/>
@@ -118,10 +120,26 @@ export const PacksList = () => {
                <div className={styles.packs}>
                   <ul className={styles.packsHeader}>
                      <li className={styles.sort}>
-                        Name
+                        Name <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
+
+                        <div className={styles.sortList}>
+                           <span onClick={onSortPackCLik} data-sort={'0name'}
+                                 className={sortPacks === '0name' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In descending order</span>
+                           <span onClick={onSortPackCLik}
+                                 data-sort={'1name'}
+                                 className={sortPacks === '1name' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In ascending order</span>
+                        </div>
                      </li>
                      <li className={styles.sort}>
-                        Cards
+                        Cards <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
+
+                        <div className={styles.sortList}>
+                           <span onClick={onSortPackCLik} data-sort={'0cardsCount'}
+                                 className={sortPacks === '0cardsCount' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In descending order</span>
+                           <span onClick={onSortPackCLik}
+                                 data-sort={'1cardsCount'}
+                                 className={sortPacks === '1cardsCount' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In ascending order</span>
+                        </div>
                      </li>
                      <li className={styles.sort}>
                         Last Updated <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
@@ -163,7 +181,7 @@ export const PacksList = () => {
 const PacksItem: React.FC<PacksItemT> = React.memo((
    {
       created, cards, update,
-      isOwner, name, bgColor, packId
+      isOwner, name, bgColor, packId, cardsCount
    }) => (
    <ul style={{backgroundColor: bgColor}}>
       <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}`}>{name}</Link></li>
@@ -178,7 +196,7 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
                   <ButtonEditPack id={packId} name={name}/>
                   <button className={styles.btn}>Learn</button>
                </>
-               : <button className={styles.btn}>Learn</button>
+               : <Link to={`/learn-cards/${name}/${cardsCount}/${packId}`} className={styles.btn}>Learn</Link>
          }
       </li>
    </ul>
@@ -192,5 +210,6 @@ type PacksItemT = {
    bgColor: string
    isOwner: boolean
    packId: string
+   cardsCount: number
 }
 
