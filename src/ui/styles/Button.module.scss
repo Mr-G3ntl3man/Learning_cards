@@ -1,20 +1,21 @@
 .defaultBtn {
-  border: 2px solid #21268F;
+  border: none;
   cursor: pointer;
   font-size: 17px;
   outline: none;
   position: relative;
   z-index: 1;
-  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, border 0.3s ease-in-out;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, opacity 0.3s ease-in-out;
   letter-spacing: 1px;
   width: 100%;
   min-width: 50px;
-  background: transparent;
+  background: #c8c9ec;
   border-radius: 30px;
   color: #2D2E46;
   font-weight: 500;
   overflow: hidden;
   height: 36px;
+  opacity: 1;
 
   &:disabled {
     border: none;
@@ -28,7 +29,6 @@
 
   &:hover {
     color: white;
-    border: 2px solid transparent;
   }
 }
 
@@ -103,4 +103,7 @@
   transition: left 0.3s ease-in-out, right 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
