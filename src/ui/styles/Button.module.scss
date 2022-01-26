@@ -61,18 +61,26 @@
 }
 
 .red {
-  height: 30px;
-  border: 2px solid #0097d9;
-  border-radius: 5px;
-  background-color: tomato;
+  border: 2px solid #F1453D;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 17px;
   outline: none;
   position: relative;
   z-index: 1;
-  transition: background-color 0.5s;
-  text-transform: uppercase;
-  padding: 0 20px;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, border 0.3s ease-in-out;
+  letter-spacing: 1px;
+  width: 100%;
+  min-width: 50px;
+  background: transparent;
+  border-radius: 30px;
+  color: #2D2E46;
+  font-weight: 500;
+  overflow: hidden;
+  height: 36px;
+
+  &:hover {
+    color: white;
+  }
 }
 
 .red:before {
@@ -83,7 +91,7 @@
   right: 50%;
   bottom: 0;
   opacity: 0;
-  background-color: green;
+  background: #F1453D;
   transition: left 0.3s ease-in-out, right 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 

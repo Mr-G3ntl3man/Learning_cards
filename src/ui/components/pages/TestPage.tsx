@@ -6,10 +6,15 @@ import {Checkbox} from "../common/Checkbox";
 import {Radio} from "../common/Radio";
 import {Link} from "react-router-dom";
 import {PATH} from "../../router/Routes";
+import {ModalTemplate} from "../common/ModalTemplate";
+import {ButtonAddPack} from "../modal/ButtonAddPack";
+import {ButtonDeletePack} from "../modal/ButtonDeletePack";
 
 export const TestPage = () => {
    const options = ['1', '2', '3']
    const [value, setValue] = useState(options[0])
+
+   const showModal = () => true
 
    return (
       <>
@@ -47,7 +52,10 @@ export const TestPage = () => {
 
             </div>
 
+
          </div>
+
+
       </>
 
    );

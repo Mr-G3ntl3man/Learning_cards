@@ -8,28 +8,20 @@ const instance = axios.create({
 
 
 export const packApi = {
-   getPack(data?: RequestPacksT) {
+   getPack(data: RequestGetPacksT) {
       return instance.get<GetPackResT>('cards/pack', {params: data})
          .then(res => res.data)
    },
-   addPack (name?: string,
-            path?: string,
-            grade?: number,
-            shots?: number,
-            rating?: number,
-            deckCover?: string,
-            type?: string,){
-      return instance.post<PackResponseType>('/cards/pack', {cardsPack: {name:"Y-XO_XO"}})
-          .then(res => res.data)
-
-
+   addPack(data: RequestAddPacksT) {
+      return instance.post('cards/pack', {cardsPack: data})
    },
-   deletePack (id:string){
-      return instance.delete(`/cards/pack?id=${id}`)
+   deletePack(id: string) {
+      return instance.delete(`cards/pack/?id=${id}`)
    },
-   updatePack (id:string){
-      return instance.put(`/cards/pack`, {cardsPack: {_id:id, name:"new name"}})
-   }
+   editPack(_id: string, name: string) {
+      return instance.put(`cards/pack`, {cardsPack: {_id, name}})
+   },
+
 }
 
 type GetPackResT = {
@@ -61,7 +53,7 @@ export type CardPacksT = {
    _id: string
 }
 
-export type RequestPacksT = {
+export type RequestGetPacksT = {
    packName?: string
    min: number
    max: number
@@ -71,22 +63,13 @@ export type RequestPacksT = {
    user_id?: string
 }
 
- export type AddCardPackT={
-      name?: string
-      path?: string
-      grade?: number
-      shots?: number
-      rating?: number
-      deckCover?: string
-      private?: boolean
-      type?: string
+type RequestAddPacksT = {
+   name: string
+   path?: string
+   grade?: number
+   shots?: number
+   rating?: number
+   deckCover?: string
+   private?: boolean
+   type?: string
 }
-
-export type PackResponseType = {
-   newCardsPack: CardPacksT
-   token: string
-   tokenDeathTime: number
-}
-
-
-

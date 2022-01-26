@@ -20,7 +20,7 @@ export type ThunkActionT = ThunkAction<void, AppRootStateT, unknown, RootActionT
 
 export const useAppSelector: TypedUseSelectorHook<AppRootStateT> = useSelector
 
-type RootActionT = AppActionsT | PacksActionsT | AuthActionsT | CardsActionsT
+export type RootActionT = AppActionsT | PacksActionsT | AuthActionsT | CardsActionsT
 
 // @ts-ignore
 window.store = store;

@@ -1,19 +1,16 @@
-import React, {ChangeEvent, useCallback, useEffect} from 'react';
+import React, {ChangeEvent, MouseEvent, useCallback, useEffect} from 'react';
 import styles from '../../styles/PacksList.module.scss'
 import {Input} from "../common/Input";
-import {Button} from "../common/Button";
 import {Select} from "../common/Select";
-import {AddCardPackT, CardPacksT, RequestPacksT} from "../../../dal/pakcApi";
+import {CardPacksT, RequestGetPacksT} from "../../../dal/pakcApi";
 import {useDispatch} from "react-redux";
 import {
-   addNewCardsPack, deleteCardPack,
    fetchPacks,
    setPackPage,
    setPackPageCount,
    setPacksName,
-   setSelectedMinMaxRange,
+   setSelectedMinMaxRange, setSortPacks,
    setUserID,
-   updatePack,
 } from "../../../bll/packs-reducer";
 import {useAppSelector} from "../../../bll/store";
 import {Pagination} from "../common/Pagination";
@@ -21,10 +18,15 @@ import {Spinner} from "../common/Spinner";
 import {debounce} from "../../../utils/debounce";
 import {Link, Navigate} from "react-router-dom";
 import {PATH} from "../../router/Routes";
-import {authStatuses, logOutUser} from "../../../bll/auth-reducer";
+import {authStatuses} from "../../../bll/auth-reducer";
 import 'rc-slider/assets/index.css';
 import {InputRange} from "../common/InputRange";
 import {ResponseUserDataT} from "../../../dal/authApi";
+import {ButtonDeletePack} from "../modal/ButtonDeletePack";
+import {ButtonAddPack} from "../modal/ButtonAddPack";
+import {ButtonEditPack} from "../modal/ButtonEditPack";
+import arrow from '../../images/icons/sort.svg'
+import {ReactSVG} from "react-svg";
 
 export const PacksList = () => {
    const dispatch = useDispatch()
@@ -35,9 +37,9 @@ export const PacksList = () => {
       max,
       user_id,
       pageCount,
-      packName
-   } = useAppSelector<RequestPacksT>(state => state.packs.requestPacks)
-
+      packName,
+      sortPacks
+   } = useAppSelector<RequestGetPacksT>(state => state.packs.requestPacks)
 
    const userData = useAppSelector<ResponseUserDataT | null>(state => state.auth.userData)
    const maxPage = useAppSelector<number>(state => state.packs.uiOptions.maxPage)
@@ -53,19 +55,13 @@ export const PacksList = () => {
    const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
 
-
-   //const addPackHandler = useCallback((newCardPack:AddCardPackT) => {dispatch(addNewCardsPack(newCardPack))}, [dispatch])
-   const addPackHandler = () => dispatch(addNewCardsPack())
-   const deletePackHandler = (id:string) => dispatch(deleteCardPack(id))
-   const updatePackHandler = (id:string, name:string) => dispatch(updatePack(id,name))
-
-
    const onClickMyPacks = () => dispatch(setUserID(myId as string))
    const onClickAllPacks = () => dispatch(setUserID(''))
+   const onSortPackCLik = (e: MouseEvent<HTMLSpanElement>) => e.target instanceof HTMLSpanElement && dispatch(setSortPacks(e.target.dataset.sort as string))
 
    useEffect(() => {
       if (!loading) dispatch(fetchPacks())
-   }, [packName, page, pageCount, min, max, user_id, userData])
+   }, [packName, page, pageCount, min, max, user_id, userData, sortPacks])
 
 
    useEffect(() => {
@@ -83,9 +79,7 @@ export const PacksList = () => {
          cards={el.cardsCount}
          update={el.updated.split(':')[0].slice(0, -3)}
          created={el.user_name}
-         isOwner={el.user_id === myId}
-         deletePack={deletePackHandler}
-         updatePack={updatePackHandler}/>))
+         isOwner={el.user_id === myId}/>))
 
    if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
@@ -118,17 +112,28 @@ export const PacksList = () => {
                      variant={'outlined'}
                      label={'Search...'}/>
 
-                  <Button width={'180px'}
-                          onClick={addPackHandler}>
-                     Add new pack
-                  </Button>
+                  <ButtonAddPack/>
                </div>
 
                <div className={styles.packs}>
                   <ul className={styles.packsHeader}>
-                     <li>Name</li>
-                     <li>Cards</li>
-                     <li>Last Updated</li>
+                     <li className={styles.sort}>
+                        Name
+                     </li>
+                     <li className={styles.sort}>
+                        Cards
+                     </li>
+                     <li className={styles.sort}>
+                        Last Updated <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
+
+                        <div className={styles.sortList}>
+                           <span onClick={onSortPackCLik} data-sort={'0updated'}
+                                 className={sortPacks === '0updated' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In descending order</span>
+                           <span onClick={onSortPackCLik}
+                                 data-sort={'1updated'}
+                                 className={sortPacks === '1updated' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In ascending order</span>
+                        </div>
+                     </li>
                      <li>Created by</li>
                      <li>Actions</li>
                   </ul>
@@ -141,7 +146,7 @@ export const PacksList = () => {
 
                <div className={styles.packsFooter}>
                   <Pagination initialPage={page} onPageChange={onPageChange} pageCount={maxPage}/>
-                  
+
                   <div className={styles.showCard}>
                      Show
                      <Select onChange={onSelectChange} defaultValue={pageCount} items={[10, 20, 30]}/>
@@ -158,7 +163,7 @@ export const PacksList = () => {
 const PacksItem: React.FC<PacksItemT> = React.memo((
    {
       created, cards, update,
-      isOwner, name, bgColor, packId, deletePack, updatePack
+      isOwner, name, bgColor, packId
    }) => (
    <ul style={{backgroundColor: bgColor}}>
       <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}`}>{name}</Link></li>
@@ -169,11 +174,11 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
          {
             isOwner
                ? <>
-                  <button className={styles.ActionBtnD} onClick={()=>deletePack(packId)}>Delete</button>
-                  <button onClick={()=>updatePack(packId,name)}>Edit</button>
-                  <button>Learn</button>
+                  <ButtonDeletePack id={packId} packName={name}/>
+                  <ButtonEditPack id={packId} name={name}/>
+                  <button className={styles.btn}>Learn</button>
                </>
-               : <button>Learn</button>
+               : <button className={styles.btn}>Learn</button>
          }
       </li>
    </ul>
@@ -187,7 +192,5 @@ type PacksItemT = {
    bgColor: string
    isOwner: boolean
    packId: string
-   deletePack:(id:string)=>void
-   updatePack:(id:string, name:string)=>void
 }
 

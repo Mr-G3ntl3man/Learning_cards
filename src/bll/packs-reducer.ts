@@ -1,7 +1,8 @@
-import {AddCardPackT, CardPacksT, packApi, RequestPacksT} from "../dal/pakcApi";
-import {ThunkActionT} from "./store";
-import {setLoading} from "./app-reducer";
+import {CardPacksT, packApi, RequestGetPacksT} from "../dal/pakcApi";
+import {RootActionT, ThunkActionT} from "./store";
+import {setFeedback, setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
+import {Dispatch} from "redux";
 
 const initialState: InitialStateT = {
    requestPacks: {
@@ -9,6 +10,7 @@ const initialState: InitialStateT = {
       max: 0,
       page: 1,
       pageCount: 10,
+      sortPacks: '0updated'
    },
    uiOptions: {
       maxRangeRes: 0,
@@ -18,7 +20,6 @@ const initialState: InitialStateT = {
    },
    packs: [],
 }
-
 
 export const packsReducer = (state: InitialStateT = initialState, action: PacksActionsT): InitialStateT => {
    switch (action.type) {
@@ -46,21 +47,7 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
                maxPage: Math.ceil(action.payload.cardPacksTotalCount / state.requestPacks.pageCount)
             }
          }
-      case "packs/ADD_CARD_PACK":
-         return {
-            ...state,
-            packs: [...state.packs, action.payload.pack]
-         }
-      case "packs/DELETE_CARD_PACK":
-         return {
-            ...state,
-            packs: state.packs.filter((f)=>f._id!==action.payload.id)
-         }
-      case "packs/UPDATE_CARD_PACK_NAME":
-         return {
-            ...state,
-            packs:state.packs.map(m=>m._id===action.payload.id?{...m,name:action.payload.name}:m)
-         }
+
       default:
          return state
    }
@@ -92,11 +79,6 @@ export const setMinMaxRange = (minRangeRes: number, maxRangeRes: number,) => ({
 } as const)
 
 
-export const addCardPack = (pack: CardPacksT) => ({type: 'packs/ADD_CARD_PACK', payload:{pack}} as const)
-export const deletePack = (id: string) => ({type: 'packs/DELETE_CARD_PACK', payload: {id}} as const)
-export const updatePackName = (id: string,name: string) => ({type: 'packs/UPDATE_CARD_PACK_NAME', payload: {id,name}} as const)
-
-
 export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    try {
       if (getState().auth.userData !== null) {
@@ -115,70 +97,47 @@ export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    }
 }
 
-export const _addNewCardsPack = (name: string):ThunkActionT => async (dispatch) => {
-   dispatch(setLoading(true))
+export const crudPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string) => {
    try {
-      let data = await packApi.addPack(name)
-      dispatch(addCardPack(data.newCardsPack))
+      dispatch(setLoading(true))
+
+      await apiMethod()
+
       dispatch(fetchPacks())
-      dispatch(setLoading(false))
+
+      dispatch(setFeedback(message, true))
+      setTimeout(() => dispatch(setFeedback(message, false)), 2000)
    } catch (e) {
       errorHandler(e, dispatch)
    }
 }
 
-export const addNewCardsPack = ():ThunkActionT => async (dispatch) => {
-   dispatch(setLoading(true))
-   try {
-      let data = await packApi.addPack()
-      dispatch(addCardPack(data.newCardsPack))
-      dispatch(fetchPacks())
-      dispatch(setLoading(false))
-   } catch (e) {
-      errorHandler(e, dispatch)
-   }
+export const deletePack = (id: string, packName: string): ThunkActionT => (dispatch) => {
+   crudPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`)
 }
 
-export const deleteCardPack = (id:string):ThunkActionT => async (dispatch) => {
-   dispatch(setLoading(true))
-   try {
-      await packApi.deletePack(id)
-      dispatch(deletePack(id))
-      dispatch(setLoading(false))
-   } catch (e) {
-      errorHandler(e, dispatch)
-   }
+export const addPack = (name: string): ThunkActionT => (dispatch) => {
+   crudPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`)
 }
 
-export const updatePack = (id:string,name:string):ThunkActionT => async (dispatch) => {
-   dispatch(setLoading(true))
-   try {
-      const res = await packApi.updatePack(id)
-      dispatch(updatePackName(res.data.id,name))
-      dispatch(fetchPacks())
-      dispatch(setLoading(false))
-   } catch (e) {
-      errorHandler(e, dispatch)
-   }
+export const editPack = (id: string, name: string): ThunkActionT => (dispatch) => {
+   crudPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`)
 }
+
 
 export type PacksActionsT = ReturnType<typeof setPacksName>
-    | ReturnType<typeof setSelectedMinMaxRange>
-    | ReturnType<typeof setPackPage>
-    | ReturnType<typeof setPackPageCount>
-    | ReturnType<typeof setPacksData>
-    | ReturnType<typeof setTotalPacksCount>
-    | ReturnType<typeof setMinMaxRange>
-    | ReturnType<typeof setUserID>
-    | ReturnType<typeof addCardPack>
-    | ReturnType<typeof deletePack>
-    | ReturnType<typeof updatePackName>
+   | ReturnType<typeof setSelectedMinMaxRange>
+   | ReturnType<typeof setPackPage>
+   | ReturnType<typeof setPackPageCount>
+   | ReturnType<typeof setPacksData>
+   | ReturnType<typeof setTotalPacksCount>
+   | ReturnType<typeof setMinMaxRange>
+   | ReturnType<typeof setUserID>
 
 export type InitialStateT = {
-   requestPacks: RequestPacksT
+   requestPacks: RequestGetPacksT
    packs: CardPacksT[]
    uiOptions: uiOptionsT
-
 }
 
 export type uiOptionsT = {
