@@ -30,6 +30,10 @@ export const Navbar = () => {
                <ReactSVG src={profile}/>
                Profile
             </NavLink></li>
+            <li><NavLink className={activeLink} to={PATH.LEARN}>
+               <ReactSVG src={profile}/>
+               Learn
+            </NavLink></li>
             <li className={styles.logout}>
                <Button onClick={LogOut}>LogOut</Button>
             </li>
