@@ -23,7 +23,7 @@ export enum PATH {
    REGISTRATION = '/registration',
    FORGOT_PASS = '/forgot-password',
    SET_NEW_PASS = '/set-new-password/:token',
-   CARD_LIST = '/packs-list/:packName/:cardsPack_id',
+   CARD_LIST = '/packs-list/:packName/:cardsPack_id/:user_id',
    LEARN_CARDS = '/learn-cards/:packName/:cardsCount/:cardsPack_id',
 }
 
