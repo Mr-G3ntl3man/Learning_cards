@@ -1,15 +1,17 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {CardsT} from "../../../dal/cardsApi";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAppSelector} from "../../../bll/store";
-import {changeCardRating, fetchCardsForPacks, setCurrentCard} from "../../../bll/cards-reducer";
+import {changeCardRating, fetchCardsForPacks, setCurrentCard, setCurrentPackInfo} from "../../../bll/cards-reducer";
 import {useDispatch} from "react-redux";
 import styles from '../../styles/Learn.module.scss'
 import {Button} from "../common/Button";
 import {Spinner} from "../common/Spinner";
+import {PATH} from "../../router/Routes";
 
 export const LearnCards = () => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    const {cardsPack_id, cardsCount, packName} = useParams()
 
    const [showAnswer, setShowAnswer] = useState<boolean>(false)
@@ -45,20 +47,23 @@ export const LearnCards = () => {
 
    const onRadioChange = (e: ChangeEvent<HTMLInputElement>) => setCurrentCardRating(Number(e.currentTarget.value))
 
+   const onShowAnswerClick = () => setShowAnswer(true)
+
+   const onCancelClick = () => navigate(PATH.PACKS_LIST)
+
    const onNextCardClick = async () => {
-      await dispatch(changeCardRating({card_id: currentCardId as string, grade: currentCardRating as number}))
+      await dispatch(changeCardRating({card_id: currentCardId, grade: currentCardRating as number}))
 
       dispatch(setCurrentCard(getCard(cards)))
       setShowAnswer(false)
       setCurrentCardRating(null)
    }
 
-   const onShowAnswerClick = () => {
-      setShowAnswer(true)
-   }
 
    useEffect(() => {
-      !loading && dispatch(fetchCardsForPacks(cardsPack_id as string, Number(cardsCount)))
+      !loading && dispatch(fetchCardsForPacks(cardsPack_id, Number(cardsCount)))
+
+      dispatch(setCurrentPackInfo({cardsPack_id, cardsCount, packName}))
    }, [])
 
    useEffect(() => {
@@ -123,7 +128,7 @@ export const LearnCards = () => {
                </>}
 
                <div className={styles.btnWrap}>
-                  <Button>Cancel</Button>
+                  <Button onClick={onCancelClick}>Cancel</Button>
                   {
                      showAnswer
                         ? <Button className={currentCardRating === null ? styles.disabled : ''}
