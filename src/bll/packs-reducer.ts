@@ -1,8 +1,9 @@
 import {CardPacksT, packApi, RequestGetPacksT} from "../dal/pakcApi";
 import {RootActionT, ThunkActionT} from "./store";
-import {setFeedback, setLoading} from "./app-reducer";
+import {setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
 import {Dispatch} from "redux";
+import {feedbackHandler} from "../utils/feedbackHandler";
 
 const initialState: InitialStateT = {
    requestPacks: {
@@ -54,7 +55,6 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
 }
 
 export const setSortPacks = (sortPacks: string) => ({type: 'packs/SET_PACK_NAME', payload: {sortPacks}} as const)
-
 export const setUserID = (user_id: string) => ({type: 'packs/SET_USER_ID', payload: {user_id}} as const)
 export const setPackPage = (page: number) => ({type: 'packs/SET_PAGE', payload: {page}} as const)
 export const setPackPageCount = (pageCount: number) => ({type: 'packs/SET_PAGE_COUNT', payload: {pageCount}} as const)
@@ -96,7 +96,7 @@ export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    }
 }
 
-export const crudPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string) => {
+export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string) => {
    try {
       dispatch(setLoading(true))
 
@@ -104,23 +104,22 @@ export const crudPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod:
 
       dispatch(fetchPacks())
 
-      dispatch(setFeedback(message, true))
-      setTimeout(() => dispatch(setFeedback(message, false)), 2000)
+      feedbackHandler(message, dispatch)
    } catch (e) {
       errorHandler(e, dispatch)
    }
 }
 
 export const deletePack = (id: string, packName: string): ThunkActionT => (dispatch) => {
-   crudPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`)
+   handlerPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`)
 }
 
 export const addPack = (name: string): ThunkActionT => (dispatch) => {
-   crudPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`)
+   handlerPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`)
 }
 
 export const editPack = (id: string, name: string): ThunkActionT => (dispatch) => {
-   crudPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`)
+   handlerPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`)
 }
 
 

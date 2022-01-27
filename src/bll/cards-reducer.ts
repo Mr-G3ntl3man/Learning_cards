@@ -16,9 +16,9 @@ const initialState: InitialStateT = {
       maxPage: 0,
       cardsTotalCount: 0
    },
+   currentPack: null,
    cards: [],
    currentCard: null,
-   currentCardRating: null
 }
 
 export const cardsReducer = (state: InitialStateT = initialState, action: CardsActionsT): InitialStateT => {
@@ -31,6 +31,9 @@ export const cardsReducer = (state: InitialStateT = initialState, action: CardsA
       case "cards/SET_CURRENT_CARD":
       case "cards/SET_CARDS":
          return {...state, ...action.payload}
+
+      case "cards/SET_CURRENT_PACK_INFO":
+         return {...state, currentPack: {...action.payload}}
 
       case "packs/SET_TOTAL_CARDS_COUNT":
          return {
@@ -64,9 +67,13 @@ export const setCardQuestion = (cardQuestion: string) => ({
    type: 'card/SET_CARDS_QUESTION',
    payload: {cardQuestion}
 } as const)
+export const setCurrentPackInfo = (currentPack: CurrentPackT) => ({
+   type: 'cards/SET_CURRENT_PACK_INFO',
+   payload: currentPack
+} as const)
 
 
-export const fetchCardsForPacks = (cardsPack_id: string, pageCount?: number): ThunkActionT => async (dispatch, getState) => {
+export const fetchCardsForPacks = (cardsPack_id: string | undefined, pageCount?: number): ThunkActionT => async (dispatch, getState) => {
    try {
       if (getState().auth.userData !== null) {
          const state = getState().cards.requestCards
@@ -89,7 +96,7 @@ export const fetchCardsForPacks = (cardsPack_id: string, pageCount?: number): Th
    }
 }
 
-export const changeCardRating = (data: { grade: number, card_id: string }): ThunkActionT => async (dispatch) => {
+export const changeCardRating = (data: { grade: number, card_id: string | undefined }): ThunkActionT => async (dispatch) => {
    try {
       dispatch(setLoading(true))
 
@@ -109,11 +116,17 @@ type uiOptionsT = {
    maxPage: number
 }
 
+export type CurrentPackT = {
+   cardsPack_id: string | undefined
+   cardsCount: string | undefined
+   packName: string | undefined
+}
+
 export type InitialStateT = {
    requestCards: RequestGetCardsT
    uiOptions: uiOptionsT
    currentCard: null | CardsT
-   currentCardRating: null | number
+   currentPack: null | CurrentPackT
    cards: CardsT[]
 }
 
@@ -124,4 +137,5 @@ export type CardsActionsT =
    | ReturnType<typeof setCardPageCount>
    | ReturnType<typeof setCardQuestion>
    | ReturnType<typeof setCurrentCard>
+   | ReturnType<typeof setCurrentPackInfo>
 

@@ -2,6 +2,7 @@ import {ThunkActionT} from "./store";
 import {authApi, LoginDataT, ResponseUserDataT} from "../dal/authApi";
 import {setFeedback, setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
+import {feedbackHandler} from "../utils/feedbackHandler";
 
 export enum authStatuses {
    IDLE = 'IDLE',
@@ -34,8 +35,10 @@ export const setAuthStatus = (authStatus: authStatuses) => ({
    type: 'auth/SET_AUTH_STATUS',
    payload: {authStatus}
 } as const)
-export const setErrorRegistration = (error: string) => ({type: 'auth/SET_ERROR_REGISTRATION', payload: {error}} as const)
-
+export const setErrorRegistration = (error: string) => ({
+   type: 'auth/SET_ERROR_REGISTRATION',
+   payload: {error}
+} as const)
 
 
 export const firstFetchMe = (): ThunkActionT => async (dispatch) => {
@@ -75,26 +78,27 @@ export const loginUserData = (data: LoginDataT): ThunkActionT => async (dispatch
 
       dispatch(setUserData(response.data))
       dispatch(setAuthStatus(authStatuses.SUCCEEDED))
-
       dispatch(setLoading(false))
-      dispatch(setFeedback('Login successful!', true))
-      setTimeout(() => dispatch(setFeedback('Login successful!', false)), 2000)
+
+      feedbackHandler('Login successful!', dispatch)
    } catch (e: any) {
       errorHandler(e, dispatch)
    }
 }
+
 export const logOutUser = (): ThunkActionT => async (dispatch) => {
    try {
+      dispatch(setLoading(true))
       dispatch(setAuthStatus(authStatuses.LOADING))
 
       await authApi.logOut()
 
       dispatch(setAuthStatus(authStatuses.LOGIN))
+      dispatch(setLoading(false))
    } catch (e: any) {
       errorHandler(e, dispatch)
    }
 }
-
 
 export const forgotPassSendInst = (email: string): ThunkActionT => async (dispatch) => {
    try {
@@ -112,14 +116,14 @@ export const setNewPassword = (password: string, resetPasswordToken: string): Th
       const res = await authApi.setNewPassword({password, resetPasswordToken})
 
       dispatch(setAuthStatus(authStatuses.PASS_CHANGED))
-      dispatch(setFeedback(res.data.info, true))
-      setTimeout(() => dispatch(setFeedback(res.data.info, false)), 2000)
+
+      feedbackHandler(res.data.info, dispatch)
    } catch (e) {
       errorHandler(e, dispatch)
    }
 }
 
-export const registrationNewUser = (data:{email: string, password: string}): ThunkActionT => async (dispatch) => {
+export const registrationNewUser = (data: { email: string, password: string }): ThunkActionT => async (dispatch) => {
    try {
       await authApi.signUp(data)
       dispatch(setAuthStatus(authStatuses.LOGIN))
@@ -128,6 +132,7 @@ export const registrationNewUser = (data:{email: string, password: string}): Thu
    }
 }
 
+
 export type InitialStateT = {
    authStatus: authStatuses
    userData: ResponseUserDataT | null
@@ -135,8 +140,8 @@ export type InitialStateT = {
 }
 
 export type AuthActionsT = ReturnType<typeof setAuthStatus>
-    | ReturnType<typeof setUserData>
-    | ReturnType<typeof setErrorRegistration>
+   | ReturnType<typeof setUserData>
+   | ReturnType<typeof setErrorRegistration>
 
 
 
