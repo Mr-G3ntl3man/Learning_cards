@@ -87,12 +87,12 @@ export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
          const res = await packApi.getPack(getState().packs.requestPacks)
 
          dispatch(setPacksData(res.cardPacks))
-         dispatch(setMinMaxRange(res.minCardsCount, res.maxCardsCount))
          dispatch(setTotalPacksCount(res.cardPacksTotalCount))
+         dispatch(setMinMaxRange(res.minCardsCount, res.maxCardsCount))
 
          dispatch(setLoading(false))
       }
-   } catch (e: any) {
+   } catch (e) {
       errorHandler(e, dispatch)
    }
 }
