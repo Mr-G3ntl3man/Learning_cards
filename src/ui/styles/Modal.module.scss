@@ -152,10 +152,7 @@
       background: #D7D8EF;
       border: none;
     }
-
-
   }
-
 }
 
 .delete {
@@ -165,11 +162,11 @@
   height: 24px;
   border-radius: 2px;
   outline: none;
+  width: 55px;
   cursor: pointer;
   border: none;
   background: #F1453D;
   color: white;
-  padding: 0 7px;
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
 
   &:hover {
@@ -199,14 +196,14 @@
   height: 24px;
   border-radius: 2px;
   outline: none;
+  width: 53px;
   cursor: pointer;
   border: none;
   background: #D7D8EF;
   color: #21268F;
-  padding: 0 7px;
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
   margin: 0 4px;
-  
+
   &:hover {
     background: #21268F;
     color: #D7D8EF;
