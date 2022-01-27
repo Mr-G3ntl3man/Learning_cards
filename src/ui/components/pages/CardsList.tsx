@@ -5,7 +5,13 @@ import {useAppSelector} from "../../../bll/store";
 import styles from "../../styles/CardList.module.scss";
 import {Input} from "../common/Input";
 import {useDispatch} from "react-redux";
-import {fetchCardsForPacks, setCardPackPage, setCardPageCount, setCardQuestion} from "../../../bll/cards-reducer";
+import {
+
+   fetchCardsForPacks,
+   setCardPackPage,
+   setCardPageCount,
+   setCardQuestion
+} from "../../../bll/cards-reducer";
 import {CardsT,} from "../../../dal/cardsApi";
 import {Rating} from "react-simple-star-rating";
 import {PATH} from "../../router/Routes";
@@ -14,6 +20,10 @@ import {Select} from "../common/Select";
 import {debounce} from "../../../utils/debounce";
 import {authStatuses} from "../../../bll/auth-reducer";
 import {ResponseUserDataT} from "../../../dal/authApi";
+import {ButtonAddCard} from "../../components/modal/ButtonAddCard";
+import {ButtonDeleteCard} from "../../components/modal/ButtonDeleteCard";
+import {ButtonEditCard} from "../../components/modal/ButtonEditCard";
+
 
 export const CardsList = () => {
    const dispatch = useDispatch()
@@ -29,11 +39,13 @@ export const CardsList = () => {
    const page = useAppSelector<number>(state => state.cards.requestCards.page)
    const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
 
+
    const onPageChange = useCallback((page: number) => dispatch(setCardPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setCardPageCount(pageCount)), [dispatch])
    const onChangeInputSearch = debounce((e: ChangeEvent<HTMLInputElement>) => dispatch(setCardQuestion(e.target.value)))
    const onStarClick = (rate: number) => {
    }
+
 
    const cardsList = cards.map((el, index) => (
       <Cards
@@ -45,6 +57,7 @@ export const CardsList = () => {
          grade={el.grade}
          _id={el._id}
          question={el.question}
+         cardsPack_id={el.cardsPack_id}
          onStarClick={onStarClick}
       />
    ))
@@ -67,7 +80,13 @@ export const CardsList = () => {
                / {packName}
             </div>
 
-            <Input onChange={onChangeInputSearch} variant={'outlined'} label={'Search...'}/>
+            <div className={styles.interaction}>
+               <Input onChange={onChangeInputSearch}
+                      variant={'outlined'}
+                      label={'Search...'}/>
+
+               <ButtonAddCard/>
+            </div>
 
             <div className={styles.column}>
                <ul className={styles.cardsHeader}>
@@ -100,8 +119,8 @@ export const CardsList = () => {
 
 const Cards: React.FC<PacksItemT> = React.memo((
    {
-      answer, grade, update,
-      isOwner, question, bgColor, _id, onStarClick
+      answer, grade, update,cardsPack_id,
+      isOwner, question, bgColor, _id, onStarClick,
    }) => (
    <ul style={{backgroundColor: bgColor}}>
       <li>{question}</li>
@@ -120,8 +139,8 @@ const Cards: React.FC<PacksItemT> = React.memo((
          {
             isOwner
                ? <>
-                  <button className={styles.ActionBtnD}>Delete</button>
-                  <button>Edit</button>
+                   <ButtonDeleteCard cardsPack_id={cardsPack_id} id={_id} question={question}/>
+                   <ButtonEditCard cardsPack_id={cardsPack_id} id={_id} question={question} answer={answer}/>
                   <button>Learn</button>
                </>
                : <Link className={styles.cardsLink} to={'#'}>Learn</Link>
@@ -139,5 +158,7 @@ type PacksItemT = {
    isOwner: boolean
    _id: string
    onStarClick: (rate: number) => void
+   cardsPack_id:string
+
 }
 

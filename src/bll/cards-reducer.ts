@@ -1,9 +1,11 @@
-import {CardsT, cardsApi, RequestGetCardsT} from "../dal/cardsApi";
-import {ThunkActionT} from "./store";
+import {CardsT, cardsApi, RequestGetCardsT, RequestAddCardsT, updateCardDataT} from "../dal/cardsApi";
+import {RootActionT, ThunkActionT} from "./store";
 import {CardPacksT} from "../dal/pakcApi";
-import {setLoading} from "./app-reducer";
+import {setFeedback, setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
 import {feedbackHandler} from "../utils/feedbackHandler";
+import {Dispatch} from "redux";
+
 
 const initialState: InitialStateT = {
    requestCards: {
@@ -79,6 +81,7 @@ export const fetchCardsForPacks = (cardsPack_id: string, pageCount?: number): Th
             pageCount: pageCount ? pageCount : state.pageCount
          })
          dispatch(setCards(cards.cards))
+
          dispatch(setTotalCardsCount(cards.cardsTotalCount))
 
          dispatch(setLoading(false))
@@ -103,6 +106,32 @@ export const changeCardRating = (data: { grade: number, card_id: string }): Thun
    }
 }
 
+export const crudCard = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string,cardsPack_id:string) => {
+   try {
+      dispatch(setLoading(true))
+
+      await apiMethod()
+
+      dispatch(fetchCardsForPacks(cardsPack_id))
+
+      dispatch(setFeedback(message, true))
+      setTimeout(() => dispatch(setFeedback(message, false)), 2000)
+   } catch (e) {
+      errorHandler(e, dispatch)
+   }
+}
+
+export const addCardForPack = (data: RequestAddCardsT): ThunkActionT => (dispatch) => {
+   crudCard(dispatch, () => cardsApi.addCard(data), `Pack  added!`,data.cardsPack_id as string)
+}
+
+export const deleteCard = (cardsPack_id:string, id: string, question: string): ThunkActionT => (dispatch) => {
+   crudCard(dispatch, () => cardsApi.deleteCard(id), `Pack '${question}' delete!`,cardsPack_id)
+}
+
+export const editCard = (cardsPack_id:string,updateCardData : updateCardDataT): ThunkActionT => (dispatch) => {
+   crudCard(dispatch, () => cardsApi.editCard(updateCardData), `Pack question changed to!`,cardsPack_id)
+}
 
 type uiOptionsT = {
    cardsTotalCount: number
@@ -124,4 +153,3 @@ export type CardsActionsT =
    | ReturnType<typeof setCardPageCount>
    | ReturnType<typeof setCardQuestion>
    | ReturnType<typeof setCurrentCard>
-
