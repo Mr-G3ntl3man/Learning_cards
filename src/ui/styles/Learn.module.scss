@@ -8,6 +8,25 @@
   transition: opacity 0.3s ease-in-out
 }
 
+.learnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 35px 0;
+  text-align: center;
+
+  .learnPreview {
+    background: #F9F9FE;
+    border-radius: 8px;
+    padding: 45px 35px;
+
+    p {
+      font-size: 20px;
+      margin: 0 0 40px 0;
+    }
+  }
+}
+
 .loading {
   pointer-events: none;
   opacity: 0.5;
@@ -72,7 +91,6 @@
     &:after {
       content: '';
       position: absolute;
-      z-index: 0;
       width: 16px;
       height: 16px;
       top: 50%;

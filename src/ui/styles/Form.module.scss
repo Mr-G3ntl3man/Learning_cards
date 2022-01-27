@@ -321,7 +321,6 @@
     appearance: none;
     height: 20px;
     width: 20px;
-    background-color: #d5d5d5;
     margin: 0 10px 0 0;
     border-radius: 2px;
     position: relative;
@@ -330,19 +329,19 @@
     &:after {
       content: '';
       position: absolute;
-      background: url("../images/icons/checked.png") 0 0/contain no-repeat;;
+      width: 20px;
+      height: 20px;
       top: 50%;
-      left: 50%;
-      width: 80%;
-      height: 80%;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 0.1s ease-in;
+      left: 0;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      transition: border 0.2s ease-in;
+      border: 2px solid #2D2E46;
     }
 
     &:checked {
       &:after {
-        opacity: 1;
+        border: 6px solid #21268F;
       }
     }
   }
