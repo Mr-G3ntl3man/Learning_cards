@@ -9,7 +9,7 @@ import {Registration} from "../components/pages/Registration";
 import {TestPage} from "../components/pages/TestPage";
 import {Navbar} from "../components/Navbar";
 import styles from "../styles/App.module.scss";
-import { Pack } from '../components/Pack';
+import { Pack } from '../components/pages/Pack';
 
 export enum PATH {
    REGISTRATION = '/registration',
