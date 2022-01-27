@@ -16,9 +16,7 @@ import {useAppSelector} from "../../../bll/store";
 import {Pagination} from "../common/Pagination";
 import {Spinner} from "../common/Spinner";
 import {debounce} from "../../../utils/debounce";
-import {Link, Navigate} from "react-router-dom";
-import {PATH} from "../../router/Routes";
-import {authStatuses} from "../../../bll/auth-reducer";
+import {Link} from "react-router-dom";
 import 'rc-slider/assets/index.css';
 import {InputRange} from "../common/InputRange";
 import {ResponseUserDataT} from "../../../dal/authApi";
@@ -71,6 +69,7 @@ export const PacksList = () => {
 
    const packsList = packs.map((el, index) => (
       <PacksItem
+         user_id={el.user_id}
          cardsCount={el.cardsCount}
          key={el._id}
          packId={el._id}
@@ -178,10 +177,10 @@ export const PacksList = () => {
 const PacksItem: React.FC<PacksItemT> = React.memo((
    {
       created, cards, update,
-      isOwner, name, bgColor, packId, cardsCount
+      isOwner, name, bgColor, packId, cardsCount, user_id
    }) => (
    <ul style={{backgroundColor: bgColor}}>
-      <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}`}>{name}</Link></li>
+      <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}/${user_id}`}>{name}</Link></li>
       <li>{cards}</li>
       <li>{update}</li>
       <li>{created}</li>
@@ -200,6 +199,7 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
 ))
 
 type PacksItemT = {
+   user_id: string
    name: string
    cards: number
    update: string
