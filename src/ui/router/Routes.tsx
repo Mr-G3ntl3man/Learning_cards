@@ -11,6 +11,7 @@ import {Navbar} from "../components/common/Navbar";
 import {PacksList} from "../components/pages/PaksList";
 import {CardsList} from "../components/pages/CardsList";
 import {LearnCards} from "../components/pages/LearnCards";
+import {Learn} from "../components/pages/Learn";
 import styles from "../styles/App.module.scss";
 
 export enum PATH {
@@ -58,6 +59,7 @@ export const Router = () => (
          <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
          <Route path={PATH.CARD_LIST} element={<CardsList/>}/>
          <Route path={PATH.LEARN_CARDS} element={<LearnCards/>}/>
+         <Route path={PATH.LEARN} element={<Learn/>}/>
          <Route path={PATH.TEST} element={<TestPage/>}/>
          <Route path={'*'} element={<NotFound/>}/>
       </Route>
