@@ -2,8 +2,8 @@ import {CardsT, cardsApi, RequestGetCardsT} from "../dal/cardsApi";
 import {ThunkActionT} from "./store";
 import {CardPacksT} from "../dal/pakcApi";
 import {setLoading} from "./app-reducer";
-import {fetchMe} from "./auth-reducer";
 import {errorHandler} from "../utils/errorHandler";
+import {feedbackHandler} from "../utils/feedbackHandler";
 
 const initialState: InitialStateT = {
    requestCards: {
@@ -17,6 +17,8 @@ const initialState: InitialStateT = {
       cardsTotalCount: 0
    },
    cards: [],
+   currentCard: null,
+   currentCardRating: null
 }
 
 export const cardsReducer = (state: InitialStateT = initialState, action: CardsActionsT): InitialStateT => {
@@ -26,6 +28,7 @@ export const cardsReducer = (state: InitialStateT = initialState, action: CardsA
       case "card/SET_CARDS_QUESTION":
          return {...state, requestCards: {...state.requestCards, ...action.payload}}
 
+      case "cards/SET_CURRENT_CARD":
       case "cards/SET_CARDS":
          return {...state, ...action.payload}
 
@@ -48,6 +51,10 @@ export const cardsReducer = (state: InitialStateT = initialState, action: CardsA
 export const setCardPackPage = (page: number) => ({type: 'cards/SET_PAGE', payload: {page}} as const)
 export const setCardPageCount = (pageCount: number) => ({type: 'cards/SET_PAGE_COUNT', payload: {pageCount}} as const)
 export const setCards = (cards: CardsT[]) => ({type: 'cards/SET_CARDS', payload: {cards}} as const)
+export const setCurrentCard = (currentCard: CardsT) => ({
+   type: 'cards/SET_CURRENT_CARD',
+   payload: {currentCard}
+} as const)
 export const setPack = (currentPack: CardPacksT) => ({type: 'cards/SET_PACK', payload: {currentPack}} as const)
 export const setTotalCardsCount = (cardsTotalCount: number) => ({
    type: 'packs/SET_TOTAL_CARDS_COUNT',
@@ -58,15 +65,22 @@ export const setCardQuestion = (cardQuestion: string) => ({
    payload: {cardQuestion}
 } as const)
 
-export const fetchCardsForPacks = (cardsPack_id: string): ThunkActionT => async (dispatch, getState) => {
+
+export const fetchCardsForPacks = (cardsPack_id: string, pageCount?: number): ThunkActionT => async (dispatch, getState) => {
    try {
-      dispatch(setLoading(true))
-
       if (getState().auth.userData !== null) {
-         const cards = await cardsApi.getCardsForPack({...getState().cards.requestCards, cardsPack_id})
-         dispatch(setCards(cards.cards))
+         const state = getState().cards.requestCards
 
+         dispatch(setLoading(true))
+
+         const cards = await cardsApi.getCardsForPack({
+            ...state,
+            cardsPack_id,
+            pageCount: pageCount ? pageCount : state.pageCount
+         })
+         dispatch(setCards(cards.cards))
          dispatch(setTotalCardsCount(cards.cardsTotalCount))
+
          dispatch(setLoading(false))
       }
 
@@ -75,15 +89,32 @@ export const fetchCardsForPacks = (cardsPack_id: string): ThunkActionT => async 
    }
 }
 
-export type InitialStateT = {
-   requestCards: RequestGetCardsT
-   cards: CardsT[]
-   uiOptions: uiOptionsT
+export const changeCardRating = (data: { grade: number, card_id: string }): ThunkActionT => async (dispatch) => {
+   try {
+      dispatch(setLoading(true))
+
+      await cardsApi.changeCardRating(data)
+
+      dispatch(setLoading(false))
+
+      feedbackHandler('Rating sent!', dispatch)
+   } catch (e) {
+      errorHandler(e, dispatch)
+   }
 }
+
 
 type uiOptionsT = {
    cardsTotalCount: number
    maxPage: number
+}
+
+export type InitialStateT = {
+   requestCards: RequestGetCardsT
+   uiOptions: uiOptionsT
+   currentCard: null | CardsT
+   currentCardRating: null | number
+   cards: CardsT[]
 }
 
 export type CardsActionsT =
@@ -92,4 +123,5 @@ export type CardsActionsT =
    | ReturnType<typeof setCardPackPage>
    | ReturnType<typeof setCardPageCount>
    | ReturnType<typeof setCardQuestion>
+   | ReturnType<typeof setCurrentCard>
 
