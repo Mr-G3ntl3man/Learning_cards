@@ -1,13 +1,15 @@
 import React from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import {Link, Navigate, NavLink} from 'react-router-dom';
 import {PATH} from "../../router/Routes";
 import styles from '../../styles/Navbar.module.scss'
 import {ReactSVG} from "react-svg";
-import packs from '../../images/packs.svg'
-import profile from '../../images/profile.svg'
+import packs from '../../images/icons/packs.svg'
+import profile from '../../images/icons/profile.svg'
+import learn from '../../images/icons/learn.svg'
 import {useDispatch} from "react-redux";
-import {logOutUser} from '../../../bll/auth-reducer';
+import {authStatuses, logOutUser} from '../../../bll/auth-reducer';
 import {Button} from "./Button";
+import {useAppSelector} from "../../../bll/store";
 
 
 export const Navbar = () => {
@@ -16,6 +18,10 @@ export const Navbar = () => {
    const dispatch = useDispatch()
 
    const LogOut = () => dispatch(logOutUser())
+
+   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
+
+   if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
    return (
       <nav className={styles.wrapper}>
@@ -31,7 +37,7 @@ export const Navbar = () => {
                Profile
             </NavLink></li>
             <li><NavLink className={activeLink} to={PATH.LEARN}>
-               <ReactSVG src={profile}/>
+               <ReactSVG src={learn}/>
                Learn
             </NavLink></li>
             <li className={styles.logout}>

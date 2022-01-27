@@ -1,4 +1,4 @@
-import React, {ChangeEvent, MouseEvent, useCallback, useEffect} from 'react';
+import React, {MouseEvent, useCallback, useEffect} from 'react';
 import styles from '../../styles/PacksList.module.scss'
 import {Input} from "../common/Input";
 import {Select} from "../common/Select";
@@ -47,7 +47,6 @@ export const PacksList = () => {
    const minRangeRes = useAppSelector<number>(state => state.packs.uiOptions.minRangeRes)
    const packs = useAppSelector<CardPacksT[]>(state => state.packs.packs)
    const loading = useAppSelector<boolean>(state => state.app.loading)
-   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
 
    const onChangeInputSearch = debounce((value: string) => dispatch(setPacksName(value)))
@@ -81,8 +80,6 @@ export const PacksList = () => {
          update={el.updated.split(':')[0].slice(0, -3)}
          created={el.user_name}
          isOwner={el.user_id === myId}/>))
-
-   if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
    return (
       <>

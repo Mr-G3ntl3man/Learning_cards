@@ -7,13 +7,6 @@ import {useAppSelector} from "../../../bll/store";
 
 export const Profile = () => {
    const dispatch = useDispatch()
-   const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
-
-   useEffect(() => {
-      dispatch(fetchMe())
-   }, [])
-
-   if (authStatus === authStatuses.LOGIN) return <Navigate to={PATH.LOGIN}/>
 
    return (
       <div>

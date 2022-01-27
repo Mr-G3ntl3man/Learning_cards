@@ -1,6 +1,6 @@
 import style from '../../styles/Spinner.module.scss'
 import {ReactSVG} from "react-svg";
-import spinner from '../../images/spinner.svg'
+import spinner from '../../images/icons/spinner.svg'
 import React from "react";
 
 
