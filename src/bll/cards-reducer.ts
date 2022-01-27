@@ -16,9 +16,9 @@ const initialState: InitialStateT = {
       maxPage: 0,
       cardsTotalCount: 0
    },
-   currentPack: null,
    cards: [],
    currentCard: null,
+   currentPack: null,
 }
 
 export const cardsReducer = (state: InitialStateT = initialState, action: CardsActionsT): InitialStateT => {
@@ -73,7 +73,7 @@ export const setCurrentPackInfo = (currentPack: CurrentPackT) => ({
 } as const)
 
 
-export const fetchCardsForPacks = (cardsPack_id: string | undefined, pageCount?: number): ThunkActionT => async (dispatch, getState) => {
+export const fetchCardsForPacks = (cardsPack_id: string, pageCount?: number): ThunkActionT => async (dispatch, getState) => {
    try {
       if (getState().auth.userData !== null) {
          const state = getState().cards.requestCards
@@ -96,7 +96,7 @@ export const fetchCardsForPacks = (cardsPack_id: string | undefined, pageCount?:
    }
 }
 
-export const changeCardRating = (data: { grade: number, card_id: string | undefined }): ThunkActionT => async (dispatch) => {
+export const changeCardRating = (data: { grade: number, card_id: string }): ThunkActionT => async (dispatch) => {
    try {
       dispatch(setLoading(true))
 
@@ -108,6 +108,33 @@ export const changeCardRating = (data: { grade: number, card_id: string | undefi
    } catch (e) {
       errorHandler(e, dispatch)
    }
+}
+
+export const crudCard = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string, cardsPack_id: string) => {
+   try {
+      dispatch(setLoading(true))
+
+      await apiMethod()
+
+      dispatch(fetchCardsForPacks(cardsPack_id))
+
+      dispatch(setFeedback(message, true))
+      setTimeout(() => dispatch(setFeedback(message, false)), 2000)
+   } catch (e) {
+      errorHandler(e, dispatch)
+   }
+}
+
+export const addCardForPack = (data: RequestAddCardsT): ThunkActionT => (dispatch) => {
+   crudCard(dispatch, () => cardsApi.addCard(data), `Pack  added!`, data.cardsPack_id as string)
+}
+
+export const deleteCard = (cardsPack_id: string, id: string, question: string): ThunkActionT => (dispatch) => {
+   crudCard(dispatch, () => cardsApi.deleteCard(id), `Pack '${question}' delete!`, cardsPack_id)
+}
+
+export const editCard = (cardsPack_id: string, updateCardData: updateCardDataT): ThunkActionT => (dispatch) => {
+   crudCard(dispatch, () => cardsApi.editCard(updateCardData), `Pack question changed to!`, cardsPack_id)
 }
 
 

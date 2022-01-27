@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const instance = axios.create({
    baseURL: "https://neko-back.herokuapp.com/2.0/",
    // baseURL: "http://localhost:7542/2.0/",
@@ -12,29 +13,29 @@ export const cardsApi = {
       return instance.get<GetCardsResT>('cards/card', {params: data})
          .then(res => res.data)
    },
-   changeCard(data: RequestPostCardsT) {
-      return instance.post('cards/card', {params: data})
-         .then(res => res.data)
+   addCard(data: RequestAddCardsT){
+      return instance.post('cards/card', {card: data})
+   },
+   deleteCard(_id:string) {
+      return instance.delete(`/cards/card?id=${_id}`)
+   },
+   editCard(updateCardData: updateCardDataT) {
+      return instance.put('cards/card', { card:
+            {
+           /* _id: updateCardData.id,
+            question: updateCardData.question,
+            answer: updateCardData.answer,*/
+            _id: updateCardData.id,
+            question: "Hello",
+            answer:"^^",
+         }
+      })
    },
    changeCardRating(data: { grade: number, card_id: string | undefined }) {
       return instance.put('cards/grade', data)
          .then(res => res.data)
    },
 
-}
-
-export type RequestPostCardsT = {
-   _id: string
-   question?: string
-   answer?: string
-   grade?: number
-   shots?: number
-   rating?: number
-   answerImg?: string
-   questionImg?: string
-   questionVideo?: string
-   answerVideo?: string
-   type?: string
 }
 
 export type RequestGetCardsT = {
@@ -76,3 +77,26 @@ export type CardsT = {
    __v: number
    _id: string
 }
+
+
+
+export type RequestAddCardsT = {
+   cardsPack_id: string|undefined
+   question?: string
+   answer?: string
+   grade?: number
+   shots?: number
+   rating?: number
+   answerImg?: string
+   questionImg?: string
+   questionVideo?: string
+   answerVideo?: string
+   type?: string
+}
+
+export type updateCardDataT = {
+   id: string,
+   question: string,
+   answer: string
+}
+
