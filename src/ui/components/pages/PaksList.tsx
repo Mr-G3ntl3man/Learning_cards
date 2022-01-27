@@ -39,27 +39,26 @@ export const PacksList = () => {
       sortPacks
    } = useAppSelector<RequestGetPacksT>(state => state.packs.requestPacks)
 
-   const userData = useAppSelector<ResponseUserDataT | null>(state => state.auth.userData)
-   const maxPage = useAppSelector<number>(state => state.packs.uiOptions.maxPage)
-   const maxRangeRes = useAppSelector<number>(state => state.packs.uiOptions.maxRangeRes)
-   const minRangeRes = useAppSelector<number>(state => state.packs.uiOptions.minRangeRes)
-   const packs = useAppSelector<CardPacksT[]>(state => state.packs.packs)
    const loading = useAppSelector<boolean>(state => state.app.loading)
+   const packs = useAppSelector<CardPacksT[]>(state => state.packs.packs)
+   const maxPage = useAppSelector<number>(state => state.packs.uiOptions.maxPage)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
+   const minRangeRes = useAppSelector<number>(state => state.packs.uiOptions.minRangeRes)
+   const maxRangeRes = useAppSelector<number>(state => state.packs.uiOptions.maxRangeRes)
+   const userData = useAppSelector<ResponseUserDataT | null>(state => state.auth.userData)
 
    const onChangeInputSearch = debounce((value: string) => dispatch(setPacksName(value)))
-   const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
    const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
+   const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
 
-   const onClickMyPacks = () => dispatch(setUserID(myId as string))
    const onClickAllPacks = () => dispatch(setUserID(''))
+   const onClickMyPacks = () => dispatch(setUserID(myId as string))
    const onSortPackCLik = (e: MouseEvent<HTMLSpanElement>) => e.target instanceof HTMLSpanElement && dispatch(setSortPacks(e.target.dataset.sort as string))
 
    useEffect(() => {
       if (!loading) dispatch(fetchPacks())
    }, [packName, page, pageCount, min, max, user_id, userData, sortPacks])
-
 
    useEffect(() => {
       return () => {
@@ -94,9 +93,8 @@ export const PacksList = () => {
                </div>
 
                <span>Number of cards</span>
-
-               {!user_id && <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>}
-               {user_id && <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>}
+               
+               <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>
             </div>
 
             <div className={styles.rightColumn}>
