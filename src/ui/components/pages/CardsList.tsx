@@ -32,8 +32,6 @@ export const CardsList = () => {
    const onPageChange = useCallback((page: number) => dispatch(setCardPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setCardPageCount(pageCount)), [dispatch])
    const onChangeInputSearch = debounce((e: ChangeEvent<HTMLInputElement>) => dispatch(setCardQuestion(e.target.value)))
-   const onStarClick = (rate: number) => {
-   }
 
    const cardsList = cards.map((el, index) => (
       <Cards
@@ -45,7 +43,6 @@ export const CardsList = () => {
          grade={el.grade}
          _id={el._id}
          question={el.question}
-         onStarClick={onStarClick}
       />
    ))
 
@@ -86,7 +83,7 @@ export const CardsList = () => {
 
             <div className={styles.cardFooter}>
                <Pagination initialPage={page} onPageChange={onPageChange} pageCount={maxPage}/>
-               
+
                <div className={styles.showCard}>
                   Show
                   <Select onChange={onSelectChange} defaultValue={pageCount} items={[5, 10, 20]}/>
@@ -101,7 +98,7 @@ export const CardsList = () => {
 const Cards: React.FC<PacksItemT> = React.memo((
    {
       answer, grade, update,
-      isOwner, question, bgColor, _id, onStarClick
+      isOwner, question, bgColor, _id
    }) => (
    <ul style={{backgroundColor: bgColor}}>
       <li>{question}</li>
@@ -109,11 +106,11 @@ const Cards: React.FC<PacksItemT> = React.memo((
       <li>{update}</li>
       <li>
          <Rating
+            readonly
             emptyColor={'#D7D8EF'}
             transition
             fillColor={'#21268F'}
             size={20}
-            onClick={onStarClick}
             ratingValue={grade * 20}/>
       </li>
       <li className={styles.cardsActionBtn}>
@@ -138,6 +135,5 @@ type PacksItemT = {
    bgColor: string
    isOwner: boolean
    _id: string
-   onStarClick: (rate: number) => void
 }
 
