@@ -16,7 +16,7 @@ export const cardsApi = {
       return instance.post('cards/card', {params: data})
          .then(res => res.data)
    },
-   changeCardRating(data: { grade: number, card_id: string }) {
+   changeCardRating(data: { grade: number, card_id: string | undefined }) {
       return instance.put('cards/grade', data)
          .then(res => res.data)
    },
@@ -40,7 +40,7 @@ export type RequestPostCardsT = {
 export type RequestGetCardsT = {
    cardAnswer?: string
    cardQuestion: string
-   cardsPack_id: string
+   cardsPack_id: string | undefined
    min?: number
    max?: number
    sortCards?: string
