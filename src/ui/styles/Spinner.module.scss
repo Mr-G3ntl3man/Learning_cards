@@ -3,6 +3,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  min-height: 100%;
+  z-index: 100;
 }
 
 
@@ -11,7 +13,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, 30%);
-  z-index: 10;
+  z-index: 100;
   width: 200px;
   height: 200px;
 }
@@ -24,9 +26,12 @@
 }
 
 .center {
-  height: 100vh;
-  left: 0;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
 
   .spinner {
     transform: translate(-50%, -50%);
