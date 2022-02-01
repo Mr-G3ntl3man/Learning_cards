@@ -1,5 +1,5 @@
 import {ThunkActionT} from "./store";
-import {authApi, LoginDataT, ResponseUserDataT} from "../dal/authApi";
+import {authApi, ChangeProfileT, LoginDataT, ResponseUserDataT} from "../dal/authApi";
 import {setFeedback, setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
 import {feedbackHandler} from "../utils/feedbackHandler";
@@ -127,6 +127,20 @@ export const registrationNewUser = (data: { email: string, password: string }): 
    try {
       await authApi.signUp(data)
       dispatch(setAuthStatus(authStatuses.LOGIN))
+   } catch (e: any) {
+      errorHandler(e, dispatch)
+   }
+}
+
+export const changeProfile = (data: ChangeProfileT): ThunkActionT => async (dispatch) => {
+   try {
+      dispatch(setLoading(true))
+
+      const res = await authApi.changeProfile(data)
+      dispatch(setUserData(res.data.updatedUser))
+
+      feedbackHandler(`Personal information saved successfully!`, dispatch)
+      dispatch(setLoading(false))
    } catch (e: any) {
       errorHandler(e, dispatch)
    }
