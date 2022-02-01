@@ -10,6 +10,9 @@ export const authApi = {
    me() {
       return instance.post('auth/me')
    },
+   changeProfile(data: ChangeProfileT) {
+      return instance.put<ResChangeProfileT>('auth/me', data)
+   },
    login(data: LoginDataT) {
       return instance.post<ResponseUserDataT>('auth/login', data)
    },
@@ -47,6 +50,7 @@ export type ResponseUserDataT = {
    verified: boolean
    __v: number
    _id: string
+   avatar?: string
 }
 
 export type LoginDataT = {
@@ -60,4 +64,14 @@ export type newUserApiType = {
    error: string
 }
 
-		
+export type ChangeProfileT = {
+   name?: string
+   avatar?: string | ArrayBuffer | null
+   email?: string
+}
+
+type ResChangeProfileT = {
+   updatedUser: ResponseUserDataT
+   token: string
+   tokenDeathTime: string
+}
