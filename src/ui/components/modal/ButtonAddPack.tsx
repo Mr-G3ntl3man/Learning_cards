@@ -11,7 +11,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {addPack} from "../../../bll/packs-reducer";
 import {useDispatch} from "react-redux";
 
-export const ButtonAddPack = () => {
+export const ButtonAddPack: React.FC<{ user_id?: string }> = ({user_id}) => {
    const [open, setOpen] = useState<boolean>(false)
 
    const openModal = () => setOpen(true)
@@ -34,7 +34,7 @@ export const ButtonAddPack = () => {
    })
 
    const onSubmit: SubmitHandler<FormDataT> = (data) => {
-      dispatch(addPack(data.name))
+      dispatch(addPack(data.name, user_id))
       reset()
       closeModal()
    }

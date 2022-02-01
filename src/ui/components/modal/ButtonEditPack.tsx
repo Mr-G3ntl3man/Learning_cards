@@ -11,7 +11,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {editPack} from "../../../bll/packs-reducer";
 import {useDispatch} from "react-redux";
 
-export const ButtonEditPack: React.FC<{ id: string, name: string }> = ({name, id}) => {
+export const ButtonEditPack: React.FC<{ id: string, name: string, user_id?: string }> = ({name, id, user_id}) => {
    const [open, setOpen] = useState<boolean>(false)
 
    const openModal = () => setOpen(true)
@@ -29,12 +29,12 @@ export const ButtonEditPack: React.FC<{ id: string, name: string }> = ({name, id
       mode: "onChange",
       resolver: yupResolver(schema),
       defaultValues: {
-         name: '',
+         name,
       }
    })
 
    const onSubmit: SubmitHandler<FormDataT> = (data) => {
-      dispatch(editPack(id, data.name))
+      dispatch(editPack(id, data.name, user_id))
       reset()
       closeModal()
    }

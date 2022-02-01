@@ -7,7 +7,11 @@ import {ReactSVG} from "react-svg";
 import {useDispatch} from "react-redux";
 import {deletePack} from "../../../bll/packs-reducer";
 
-export const ButtonDeletePack: React.FC<{ id: string, packName: string }> = ({id, packName}) => {
+export const ButtonDeletePack: React.FC<{ id: string, packName: string, user_id?: string }> = ({
+                                                                                                  id,
+                                                                                                  packName,
+                                                                                                  user_id
+                                                                                               }) => {
    const [open, setOpen] = useState<boolean>(false)
 
    const openModal = () => setOpen(true)
@@ -16,7 +20,7 @@ export const ButtonDeletePack: React.FC<{ id: string, packName: string }> = ({id
    const dispatch = useDispatch()
 
    const onDeletePackClick = () => {
-      dispatch(deletePack(id, packName))
+      dispatch(deletePack(id, packName, user_id))
       closeModal()
    }
 
