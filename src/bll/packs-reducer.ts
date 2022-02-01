@@ -56,7 +56,7 @@ export const packsReducer = (state: InitialStateT = initialState, action: PacksA
 
 
 export const setSortPacks = (sortPacks: string) => ({type: 'packs/SET_PACK_NAME', payload: {sortPacks}} as const)
-export const setUserID = (user_id: string) => ({type: 'packs/SET_USER_ID', payload: {user_id}} as const)
+export const setUserID = (user_id: string | undefined) => ({type: 'packs/SET_USER_ID', payload: {user_id}} as const)
 export const setPackPage = (page: number) => ({type: 'packs/SET_PAGE', payload: {page}} as const)
 export const setPackPageCount = (pageCount: number) => ({type: 'packs/SET_PAGE_COUNT', payload: {pageCount}} as const)
 export const setPacksName = (packName: string) => ({type: 'packs/SET_PACK_NAME', payload: {packName}} as const)
@@ -79,12 +79,14 @@ export const setMinMaxRange = (minRangeRes: number, maxRangeRes: number,) => ({
 } as const)
 
 
-export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
+export const fetchPacks = (user_id?: string): ThunkActionT => async (dispatch, getState) => {
    try {
       if (getState().auth.userData !== null) {
+         const state = getState().packs.requestPacks
+
          dispatch(setLoading(true))
 
-         const res = await packApi.getPack(getState().packs.requestPacks)
+         const res = await packApi.getPack({...state, user_id: user_id ? user_id : state.user_id})
 
          dispatch(setPacksData(res.cardPacks))
          dispatch(setTotalPacksCount(res.cardPacksTotalCount))
@@ -97,13 +99,13 @@ export const fetchPacks = (): ThunkActionT => async (dispatch, getState) => {
    }
 }
 
-export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string) => {
+export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string, user_id?: string) => {
    try {
       dispatch(setLoading(true))
 
       await apiMethod()
 
-      dispatch(fetchPacks())
+      dispatch(fetchPacks(user_id !== undefined ? user_id : ''))
 
       feedbackHandler(message, dispatch)
    } catch (e) {
@@ -111,16 +113,16 @@ export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMeth
    }
 }
 
-export const deletePack = (id: string, packName: string): ThunkActionT => (dispatch) => {
-   handlerPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`)
+export const deletePack = (id: string, packName: string, user_id?: string): ThunkActionT => (dispatch) => {
+   handlerPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`, user_id)
 }
 
-export const addPack = (name: string): ThunkActionT => (dispatch) => {
-   handlerPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`)
+export const addPack = (name: string, user_id?: string): ThunkActionT => (dispatch) => {
+   handlerPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`, user_id)
 }
 
-export const editPack = (id: string, name: string): ThunkActionT => (dispatch) => {
-   handlerPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`)
+export const editPack = (id: string, name: string, user_id?: string): ThunkActionT => (dispatch) => {
+   handlerPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`, user_id)
 }
 
 
