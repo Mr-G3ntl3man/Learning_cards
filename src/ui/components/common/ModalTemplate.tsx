@@ -15,17 +15,17 @@ export const ModalTemplate: React.FC<ModalTemplateT> = (props) => {
 
    const closeModal = () => onClose(false)
    const stopPropagation = (e: MouseEvent<HTMLDivElement>) => e.stopPropagation()
-   
+
    const modalAnimate = animatePreset === undefined ? styles.slideInTop :
       animatePreset === 'scaleCenter' ? styles.scaleCenter : styles.slideInTop;
 
-   const contentClassName = isOpen ? `${styles.content} ${modalAnimate} ${styles.active}` : `${styles.content} ${modalAnimate}`
+   const contentClassName = isOpen ? `${styles.content} ${loading ? styles.loading : ''} ${modalAnimate} ${styles.active}` : `${styles.content} ${loading ? styles.loading : ''} ${modalAnimate}`
    const modalClassName = isOpen ? `${styles.wrapperDefault}  ${styles.active}` : styles.wrapperDefault
 
    return (
       <div
          onClick={closeModal}
-         className={`${modalClassName} ${loading ? styles.loading : ''}`}>
+         className={modalClassName}>
          <div
             onClick={stopPropagation}
             className={contentClassName}>
