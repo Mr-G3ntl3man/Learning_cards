@@ -13,6 +13,8 @@ import {CardsList} from "../components/pages/CardsList";
 import {LearnCards} from "../components/pages/LearnCards";
 import {Learn} from "../components/pages/Learn";
 import styles from "../styles/App.module.scss";
+import {EditProfile} from "../components/pages/EditProfile";
+import {UserProfile} from "../components/pages/UserProfile";
 
 export enum PATH {
    LOGIN = '/',
@@ -21,8 +23,10 @@ export enum PATH {
    LEARN = '/learn-cards',
    PACKS_LIST = '/packs-list',
    REGISTRATION = '/registration',
+   EDIT_PROFILE = '/profile/edit',
    FORGOT_PASS = '/forgot-password',
    SET_NEW_PASS = '/set-new-password/:token',
+   USER_PROFILE = '/profile/:user_name/:user_id',
    CARD_LIST = '/packs-list/:packName/:cardsPack_id/:user_id',
    LEARN_CARDS = '/learn-cards/:packName/:cardsCount/:cardsPack_id',
 }
@@ -49,18 +53,20 @@ export const Router = () => (
 
       <Route element={<Layout/>}>
          <Route path={PATH.LOGIN} element={<Login/>}/>
-         <Route path={PATH.REGISTRATION} element={<Registration/>}/>
          <Route path={PATH.FORGOT_PASS} element={<ForgotPass/>}/>
          <Route path={PATH.SET_NEW_PASS} element={<SetNewPass/>}/>
+         <Route path={PATH.REGISTRATION} element={<Registration/>}/>
       </Route>
 
       <Route element={<LayoutMain/>}>
-         <Route path={PATH.PROFILE} element={<Profile/>}/>
-         <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
-         <Route path={PATH.CARD_LIST} element={<CardsList/>}/>
-         <Route path={PATH.LEARN_CARDS} element={<LearnCards/>}/>
          <Route path={PATH.LEARN} element={<Learn/>}/>
          <Route path={PATH.TEST} element={<TestPage/>}/>
+         <Route path={PATH.PROFILE} element={<Profile/>}/>
+         <Route path={PATH.CARD_LIST} element={<CardsList/>}/>
+         <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
+         <Route path={PATH.LEARN_CARDS} element={<LearnCards/>}/>
+         <Route path={PATH.EDIT_PROFILE} element={<EditProfile/>}/>
+         <Route path={PATH.USER_PROFILE} element={<UserProfile/>}/>
          <Route path={'*'} element={<NotFound/>}/>
       </Route>
 
