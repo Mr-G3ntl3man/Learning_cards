@@ -15,7 +15,7 @@ const App = () => {
       dispatch(firstFetchMe())
    }, [])
 
-   if (authStatus === authStatuses.LOADING) return <Spinner center/>
+   if (authStatus === authStatuses.LOADING) return <Spinner/>
 
    return (
       <main>
