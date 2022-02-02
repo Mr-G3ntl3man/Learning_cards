@@ -63,6 +63,10 @@ type GetCardsResT = {
 }
 
 export type CardsT = {
+   answerImg?: string
+   questionImg?: string
+   questionVideo?: string
+   answerVideo?: string
    answer: string
    cardsPack_id: string
    comments: string
@@ -87,8 +91,8 @@ export type RequestAddCardsT = {
    grade?: number
    shots?: number
    rating?: number
-   answerImg?: string
-   questionImg?: string
+   answerImg?: string | ArrayBuffer | null | undefined
+   questionImg?: string | ArrayBuffer | null | undefined
    questionVideo?: string
    answerVideo?: string
    type?: string
