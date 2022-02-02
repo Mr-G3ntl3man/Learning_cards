@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import {ModalTemplate} from "../common/ModalTemplate";
 import {Button} from "../common/Button";
 import {Input} from "../common/Input";
 import styles from "../../styles/Modal.module.scss";
-import close from "../../images/icons/x.svg";
 import {ReactSVG} from "react-svg";
 import * as yup from "yup";
 import {SubmitHandler, useForm} from "react-hook-form";
@@ -11,23 +10,35 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useDispatch} from "react-redux";
 import {addCardForPack} from "../../../bll/cards-reducer";
 import {useParams} from "react-router-dom";
-
-
+import {setBase64Img} from "../../../utils/setBase64Img";
+import plus from '../../images/icons/plus.svg'
 
 export const ButtonAddCard = () => {
+   const dispatch = useDispatch()
+   const {cardsPack_id} = useParams()
+
    const [open, setOpen] = useState<boolean>(false)
-    const {cardsPack_id} = useParams()
+   const [answerImg, setAnswerImg] = useState<string | ArrayBuffer | null>()
+   const [questionImg, setQuestionImg] = useState<string | ArrayBuffer | null>()
+
+   const inputRefQ = useRef<HTMLInputElement>(null)
+   const inputRefA = useRef<HTMLInputElement>(null)
+
+   const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>) => setBase64Img(e, setAnswerImg, dispatch)
+   const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => setBase64Img(e, setQuestionImg, dispatch)
+
+   const redirectClickAnswer = () => inputRefA.current?.click()
+   const redirectClickQuestion = () => inputRefQ.current?.click()
+
    const openModal = () => setOpen(true)
    const closeModal = () => setOpen(false)
-
-   const dispatch = useDispatch()
 
    const schema = yup.object().shape({
       question: yup
          .string()
          .required('Card name is a required field!'),
       answer: yup
-          .string(),
+         .string(),
    })
 
    const {register, reset, handleSubmit, formState: {errors}} = useForm<FormDataT>({
@@ -35,15 +46,23 @@ export const ButtonAddCard = () => {
       resolver: yupResolver(schema),
       defaultValues: {
          question: '',
-         answer:'',
+         answer: '',
       }
    })
 
-   const onSubmit: SubmitHandler<FormDataT> = (data) => {
-      dispatch(addCardForPack({...data, cardsPack_id}))
+   const cleanModal = () => {
+      setAnswerImg(null)
+      setQuestionImg(null)
       reset()
       closeModal()
    }
+
+   const onSubmit: SubmitHandler<FormDataT> = (data) => dispatch(addCardForPack({
+      ...data,
+      questionImg,
+      answerImg,
+      cardsPack_id
+   }, cleanModal))
 
    return (
       <>
@@ -53,10 +72,9 @@ export const ButtonAddCard = () => {
 
          <ModalTemplate animatePreset={'scaleCenter'} isOpen={open} onClose={setOpen}>
 
-           <form onSubmit={handleSubmit(onSubmit)} className={styles.modalAddPack}>
-              <div className={styles.addPackHeader}>
-                  <span>Add new card</span>
-                  <span onClick={closeModal} className={styles.close}><ReactSVG src={close}/></span>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.modalAddCard}>
+               <div className={styles.addCardHeader}>
+                  <span>Card Info</span>
                </div>
 
 
@@ -64,17 +82,41 @@ export const ButtonAddCard = () => {
                   {!!errors.question && <div className={styles.errorMes}>{errors.question.message}</div>}
 
                   <Input
-                      label={'Add question'}
-                      {...register("question", {required: true})}/>
+                     label={'Question'}
+                     {...register("question", {required: true})}/>
+
+                  <div onClick={redirectClickQuestion} className={styles.attachFile}>
+                     <input
+                        ref={inputRefQ}
+                        type="file" accept=".jpg, .jpeg, .png"
+                        onChange={onChangeQuestion}/>
+                     <ReactSVG src={plus}/> Attach file
+                  </div>
+
+                  <div className={styles.questionImg}> {questionImg &&
+                  <img src={questionImg as string} alt="answerImg"/>}</div>
                </div>
+
                <div className={styles.inputWrap}>
                   {!!errors.answer && <div className={styles.errorMes}>{errors.answer.message}</div>}
 
                   <Input
-                      label={'Add answer'}
-                      {...register("answer", )}/>
+                     label={'Answer'}
+                     {...register("answer",)}/>
+
+                  <div onClick={redirectClickAnswer} className={styles.attachFile}>
+                     <input
+                        ref={inputRefA}
+                        type="file" accept=".jpg, .jpeg, .png"
+                        onChange={onChangeAnswer}/>
+                     <ReactSVG src={plus}/> Attach file
+                  </div>
+
+                  <div className={styles.answerImg}> {answerImg &&
+                  <img src={answerImg as string} alt="answerImg"/>}</div>
                </div>
-               <div className={styles.addPackBtn}>
+
+               <div style={{marginTop: '80px'}} className={styles.addCardBtn}>
                   <Button onClick={closeModal}>Cancel</Button>
                   <Button type={'submit'} onClick={openModal}>Save</Button>
                </div>
@@ -86,5 +128,5 @@ export const ButtonAddCard = () => {
 
 type FormDataT = {
    question: string,
-   answer:string
+   answer: string
 }
