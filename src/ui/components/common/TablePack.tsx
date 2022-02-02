@@ -61,28 +61,29 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
          created={el.user_name}
          isOwner={el.user_id === myId}/>))
 
+
+   const interactionPanel = isOwner
+      ? <>
+         <Input
+            value={packName}
+            onChangeText={onChangeInputSearch}
+            className={styles.inputSearch}
+            variant={'outlined'}
+            label={'Search...'}/>
+
+         <ButtonAddPack user_id={id}/>
+      </>
+      : <Input
+         value={packName}
+         onChangeText={onChangeInputSearch}
+         className={styles.inputSearch}
+         variant={'outlined'}
+         label={'Search...'}/>
+
    return (
       <>
          <div className={styles.interaction}>
-            {
-               isOwner
-                  ? <>
-                     <Input
-                        value={packName}
-                        onChangeText={onChangeInputSearch}
-                        className={styles.inputSearch}
-                        variant={'outlined'}
-                        label={'Search...'}/>
-
-                     <ButtonAddPack user_id={id}/>
-                  </>
-                  : <Input
-                     value={packName}
-                     onChangeText={onChangeInputSearch}
-                     className={styles.inputSearch}
-                     variant={'outlined'}
-                     label={'Search...'}/>
-            }
+            {interactionPanel}
          </div>
 
          <div className={styles.packs}>
@@ -149,30 +150,36 @@ const PacksItem: React.FC<PacksItemT> = React.memo((
    {
       created, cards, update,
       isOwner, name, bgColor, packId, user_id
-   }) => (
-   <ul style={{backgroundColor: bgColor}}>
-      <li><Link className={styles.packsName} to={`/packs-list/${name}/${packId}/${user_id}`}>{name}</Link></li>
-      <li>{cards}</li>
-      <li>{update}</li>
-      <li>
-         {isOwner
-            ? <Link to={PATH.PROFILE} className={styles.packsCreated}>{created}</Link>
-            : <Link to={`/profile/${created}/${user_id}`} className={styles.packsCreated}>{created}</Link>}</li>
-      <li className={styles.packsActionBtn}>
-         {
-            isOwner
-               ? <>
-                  <ButtonDeletePack user_id={user_id || ''} id={packId} packName={name}/>
-                  <ButtonEditPack user_id={user_id || ''} id={packId} name={name}/>
-                  {cards ? <Link to={`/learn-cards/${name}/${cards}/${packId}`} className={styles.btn}>Learn</Link> : ''}
-               </>
-               : <>
-                  {cards ? <Link to={`/learn-cards/${name}/${cards}/${packId}`} className={styles.btn}>Learn</Link> : ''}
-               </>
-         }
-      </li>
-   </ul>
-))
+   }) => {
+
+   const linkCards = <Link className={styles.packsName} to={`/packs-list/${name}/${packId}/${user_id}`}>{name}</Link>
+
+   const profileLink = isOwner
+      ? <Link to={PATH.PROFILE} className={styles.packsCreated}>{created}</Link>
+      : <Link to={`/profile/${created}/${user_id}`} className={styles.packsCreated}>{created}</Link>
+
+   const actionButtons = isOwner
+      ? <>
+         <ButtonDeletePack user_id={user_id || ''} id={packId} packName={name}/>
+         <ButtonEditPack user_id={user_id || ''} id={packId} name={name}/>
+         {cards ?
+            <Link to={`/learn-cards/${name}/${cards}/${packId}`} className={styles.btn}>Learn</Link> : ''}
+      </>
+      : <>
+         {cards ?
+            <Link to={`/learn-cards/${name}/${cards}/${packId}`} className={styles.btn}>Learn</Link> : ''}
+      </>
+
+   return (
+      <ul style={{backgroundColor: bgColor}}>
+         <li>{linkCards}</li>
+         <li>{cards}</li>
+         <li>{update}</li>
+         <li>{profileLink}</li>
+         <li className={styles.packsActionBtn}>{actionButtons}</li>
+      </ul>
+   )
+})
 
 type PacksItemT = {
    user_id?: string

@@ -22,17 +22,13 @@ export const LearnCards = () => {
    const currentCardQ = useAppSelector<string | undefined>(state => state.cards.currentCard?.question)
    const currentCardA = useAppSelector<string | undefined>(state => state.cards.currentCard?.answer)
    const currentCardId = useAppSelector<string | undefined>(state => state.cards.currentCard?._id)
+   const currentCardAnswerImg = useAppSelector<string | undefined>(state => state.cards.currentCard?.answerImg)
+   const currentCardQuestionImg = useAppSelector<string | undefined>(state => state.cards.currentCard?.questionImg)
 
    const getCard = (cards: CardsT[]): CardsT => {
       let length = cards.reduce((acc, card) => acc + (6 - card.grade) ** 2, 0);
 
       const rand = Math.random() * length;
-
-      const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-            return {sum: newSum, id: newSum < rand ? i : acc.id}
-         }
-         , {sum: 0, id: -1});
 
       let id = 0
       let sum = 0
@@ -42,22 +38,22 @@ export const LearnCards = () => {
          id++
       }
 
-      return cards[id - 1];
+      return cards[id - 1]
    }
 
    const onRadioChange = (e: ChangeEvent<HTMLInputElement>) => setCurrentCardRating(Number(e.currentTarget.value))
-
    const onShowAnswerClick = () => setShowAnswer(true)
-
    const onCancelClick = () => navigate(PATH.PACKS_LIST)
-
-   const onNextCardClick = async () => {
-      await dispatch(changeCardRating({card_id: currentCardId, grade: currentCardRating as number}))
-
+   const switchToNextCard = () => {
       dispatch(setCurrentCard(getCard(cards)))
       setShowAnswer(false)
       setCurrentCardRating(null)
    }
+
+   const onNextCardClick = () => dispatch(changeCardRating({
+      card_id: currentCardId,
+      grade: currentCardRating as number
+   }, switchToNextCard))
 
 
    useEffect(() => {
@@ -81,6 +77,8 @@ export const LearnCards = () => {
                <div className={styles.question}>
                   <b>Question:</b>
                   <span>{currentCardQ}</span>
+                  <div className={styles.questionImg}>  {currentCardQuestionImg &&
+                  <img src={currentCardQuestionImg} alt="question image"/>} </div>
                </div>
 
                {showAnswer &&
@@ -88,6 +86,8 @@ export const LearnCards = () => {
                   <div className={styles.answer}>
                      <b>Answer:</b>
                      <span>{currentCardA}</span>
+                     <div className={styles.answerImg}>  {currentCardAnswerImg &&
+                     <img src={currentCardAnswerImg} alt="answer image"/>} </div>
                   </div>
 
                   <div className={styles.rate}>

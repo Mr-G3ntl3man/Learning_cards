@@ -10,42 +10,24 @@ import {PATH} from "../../router/Routes";
 import * as yup from "yup";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {fileSizeMb} from "../../../utils/returnFileSize";
 import {useDispatch} from "react-redux";
-import {feedbackHandler} from "../../../utils/feedbackHandler";
 import {changeProfile} from "../../../bll/auth-reducer";
 import {Spinner} from "../common/Spinner";
+import {setBase64Img} from "../../../utils/setBase64Img";
 
 export const EditProfile = () => {
+   const dispatch = useDispatch()
+
+   const inputRef = useRef<HTMLInputElement>(null)
+
    const loading = useAppSelector<boolean>(state => state.app.loading)
    const name = useAppSelector<string | undefined>(state => state.auth.userData?.name)
    const email = useAppSelector<string | undefined>(state => state.auth.userData?.email)
    const avatar = useAppSelector<string | undefined>(state => state.auth.userData?.avatar)
 
-   const [img, setImg] = useState<string | undefined>(avatar)
-   const [base64, setBase64] = useState<string | ArrayBuffer | null>(null)
+   const [base64, setBase64] = useState<string | ArrayBuffer | null>(avatar ? avatar : null)
 
-   const inputRef = useRef<HTMLInputElement>(null);
-
-   const dispatch = useDispatch()
-
-   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      const reader = new FileReader();
-
-      const file = e.target.files && e.target.files[0];
-
-      console.log(file?.type)
-      if (file) {
-         if (fileSizeMb(file.size) > 1.20) {
-            feedbackHandler(`Max photo size 1.20 MB, your photo ${fileSizeMb(file.size)} MB`, dispatch)
-            return
-         }
-
-         setImg(window.URL.createObjectURL(file))
-         reader.readAsDataURL(file)
-         reader.onloadend = () => setBase64(reader.result)
-      }
-   }
+   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setBase64Img(e, setBase64, dispatch)
 
    const schema = yup.object().shape({email: yup.string().email('Email should have correct format!')})
 
@@ -76,8 +58,8 @@ export const EditProfile = () => {
                          onChange={onChangeHandler}
                          accept=".jpg, .jpeg, .png"/>
 
-                  {img
-                     ? <img src={img} alt="avatar"/>
+                  {base64
+                     ? <img src={base64 as string} alt="avatar"/>
                      : <ReactSVG src={avatarDefault} alt="avatar"/>}
                </div>
 
