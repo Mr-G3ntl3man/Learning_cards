@@ -137,3 +137,15 @@
   opacity: 0.4 !important;
   pointer-events: none;
 }
+
+.questionImg, .answerImg {
+  margin: 20px 0;
+
+  display: flex;
+  justify-content: center;
+
+  img {
+    max-height: 150px;
+    object-fit: cover;
+  }
+}
