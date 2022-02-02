@@ -36,6 +36,15 @@ export const cardsReducer = (state: InitialStateT = initialState, action: CardsA
       case "cards/SET_CURRENT_PACK_INFO":
          return {...state, currentPack: {...action.payload}}
 
+      case "cards/SET_CURRENT_CARDS_RATING":
+         return {
+            ...state,
+            cards: state.cards.map(card => card._id === action.payload.card_id ? {
+               ...card,
+               grade: action.payload.grade
+            } : card)
+         }
+
       case "packs/SET_TOTAL_CARDS_COUNT":
          return {
             ...state,
@@ -72,6 +81,10 @@ export const setCurrentPackInfo = (currentPack: CurrentPackT) => ({
    type: 'cards/SET_CURRENT_PACK_INFO',
    payload: currentPack
 } as const)
+export const setCurrentCardRating = (grade: number, card_id: string) => ({
+   type: 'cards/SET_CURRENT_CARDS_RATING',
+   payload: {grade, card_id}
+} as const)
 
 
 export const fetchCardsForPacks = (cardsPack_id: string | undefined, pageCount?: number): ThunkActionT => async (dispatch, getState) => {
@@ -97,11 +110,15 @@ export const fetchCardsForPacks = (cardsPack_id: string | undefined, pageCount?:
    }
 }
 
-export const changeCardRating = (data: { grade: number, card_id: string | undefined }): ThunkActionT => async (dispatch) => {
+export const changeCardRating = (data: { grade: number, card_id: string | undefined }, switchToNextCard: () => void): ThunkActionT => async (dispatch) => {
    try {
       dispatch(setLoading(true))
 
       await cardsApi.changeCardRating(data)
+
+      dispatch(setCurrentCardRating(data.grade, data.card_id as string))
+
+      switchToNextCard()
 
       dispatch(setLoading(false))
 
@@ -111,7 +128,7 @@ export const changeCardRating = (data: { grade: number, card_id: string | undefi
    }
 }
 
-export const handlerCard = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string, cardsPack_id: string) => {
+export const handlerCard = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string, cardsPack_id: string, cleanModal?: () => void) => {
    try {
       dispatch(setLoading(true))
 
@@ -119,14 +136,16 @@ export const handlerCard = async (dispatch: Dispatch<RootActionT> | any, apiMeth
 
       dispatch(fetchCardsForPacks(cardsPack_id))
 
+      cleanModal && cleanModal()
+
       feedbackHandler(message, dispatch)
    } catch (e) {
       errorHandler(e, dispatch)
    }
 }
 
-export const addCardForPack = (data: RequestAddCardsT): ThunkActionT => (dispatch) => {
-   handlerCard(dispatch, () => cardsApi.addCard(data), `Card added!`, data.cardsPack_id as string)
+export const addCardForPack = (data: RequestAddCardsT, cleanModal: () => void): ThunkActionT => (dispatch) => {
+   handlerCard(dispatch, () => cardsApi.addCard(data), `Card added!`, data.cardsPack_id as string, cleanModal)
 }
 
 export const deleteCard = (cardsPack_id: string, id: string, question: string): ThunkActionT => (dispatch) => {
@@ -165,4 +184,5 @@ export type CardsActionsT =
    | ReturnType<typeof setCardQuestion>
    | ReturnType<typeof setCurrentCard>
    | ReturnType<typeof setCurrentPackInfo>
+   | ReturnType<typeof setCurrentCardRating>
 
