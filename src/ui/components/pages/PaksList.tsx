@@ -6,11 +6,12 @@ import {debounce} from "../../../utils/debounce";
 import {InputRange} from "../common/InputRange";
 import {TablePack} from "../common/TablePack";
 import {
-   setSelectedMinMaxRange,
+   setSelectedMinMaxRange, setSortPacks,
    setUserID,
 } from "../../../bll/packs-reducer";
 import 'rc-slider/assets/index.css';
 import styles from '../../styles/PacksList.module.scss'
+import {ListT, SortingSelect} from "../common/SortingSelect";
 
 export const PacksList = () => {
    const dispatch = useDispatch()
@@ -23,6 +24,7 @@ export const PacksList = () => {
 
    const onClickMyPacks = () => dispatch(setUserID(myId))
    const onClickAllPacks = () => dispatch(setUserID(''))
+   const onSortItemCLick = (sortingBy: string) => dispatch(setSortPacks(sortingBy))
    const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
 
    useEffect(() => {
@@ -31,22 +33,62 @@ export const PacksList = () => {
       }
    }, [])
 
+   const sortingOptions: ListT[] = [
+      {
+         item: 'Update ascending',
+         data_sort: '1updated'
+      },
+      {
+         item: 'Update descending',
+         data_sort: '0updated'
+      },
+      {
+         item: 'Name ascending',
+         data_sort: '1name'
+      },
+      {
+         item: 'Name descending',
+         data_sort: '0name'
+      },
+      {
+         item: 'Cards descending',
+         data_sort: '0cardsCount'
+      },
+      {
+         item: 'Cards descending',
+         data_sort: '1cardsCount'
+      },
+   ]
+
    return (
       <>
          {loading && <Spinner/>}
 
          <div className={loading ? `${styles.wrapper} ${styles.loading}` : styles.wrapper}>
             <div className={styles.leftColumn}>
-               <span>Show packs cards</span>
+               <div className={styles.showPackColumn}>
+                  <span>Show packs cards</span>
 
-               <div className={styles.btnWrap}>
-                  <button onClick={onClickMyPacks} className={user_id && styles.activeBtn}>My</button>
-                  <button onClick={onClickAllPacks} className={!user_id ? styles.activeBtn : undefined}>All</button>
+                  <div className={styles.btnWrap}>
+                     <button onClick={onClickMyPacks} className={user_id && styles.activeBtn}>My</button>
+                     <button onClick={onClickAllPacks} className={!user_id ? styles.activeBtn : undefined}>All</button>
+                  </div>
                </div>
 
-               <span>Number of cards</span>
+               <div className={styles.inputRangeColumn}>
+                  <span>Number of cards</span>
 
-               <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>
+                  <InputRange onChange={onChangeInputRange} max={maxRangeRes} min={minRangeRes}/>
+               </div>
+
+               <div className={styles.sortingColumn}>
+                  <span>Sort cards</span>
+                  <SortingSelect
+                     defaultValue={sortingOptions[0].item}
+                     list={sortingOptions}
+                     sortingBy={'packs'}
+                     onSortItemCLick={onSortItemCLick}/>
+               </div>
             </div>
 
             <div className={styles.rightColumn}>

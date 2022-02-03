@@ -1,0 +1,82 @@
+.sortingSelect {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  margin-left: 5px;
+  transition: transform 0.2s ease-in;
+
+  &.active {
+    transform: rotate(180deg);
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+  }
+}
+
+.selected {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: rgb(248, 247, 253);
+  border-radius: 8px;
+  padding: 10px;
+  justify-content: center;
+  width: 200px;
+
+  &.active {
+    border-radius: 8px 8px 0 0;
+  }
+}
+
+.sortList {
+  position: absolute;
+  top: 20px;
+  opacity: 0;
+  text-align: left;
+  background-color: rgb(248, 247, 253);
+  margin-top: 30px;
+  border-radius: 0 0 8px 8px;
+  transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+
+  &.active {
+    top: 10px;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .sortItem {
+    padding: 10px 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+    width: 200px;
+
+    &:last-child {
+      border-radius: 0 0 8px 8px;
+    }
+
+    &:hover {
+      background-color: #9A91C8;
+      color: white;
+    }
+
+    &.active {
+      background-color: #9A91C8;
+      color: white;
+    }
+  }
+}
+
+.selectedItem {
+  color: #2D2E46;
+  font-weight: 600;
+}

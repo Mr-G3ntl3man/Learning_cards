@@ -174,6 +174,10 @@
     color: #D7D8EF;
   }
 
+  @media (max-width: 1040px) {
+    margin: 5px;
+  }
+
 }
 
 .inputWrap {
@@ -202,12 +206,17 @@
   background: #D7D8EF;
   color: #21268F;
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
-  margin: 0 4px;
+  margin: 0 5px;
 
   &:hover {
     background: #21268F;
     color: #D7D8EF;
   }
+
+  @media (max-width: 1040px) {
+    margin: 5px;
+  }
+
 }
 
 .attachFile {

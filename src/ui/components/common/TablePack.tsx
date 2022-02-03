@@ -43,7 +43,7 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
    const onChangeInputSearch = debounce((value: string) => dispatch(setPacksName(value)))
    const onPageChange = useCallback((page: number) => dispatch(setPackPage(page)), [dispatch])
    const onSelectChange = useCallback((pageCount: number) => dispatch(setPackPageCount(pageCount)), [dispatch])
-   const onSortPackCLik = (e: MouseEvent<HTMLSpanElement>) => e.target instanceof HTMLSpanElement && dispatch(setSortPacks(e.target.dataset.sort as string))
+   const onSortPackCLick = (e: MouseEvent<HTMLSpanElement>) => e.target instanceof HTMLSpanElement && dispatch(setSortPacks(e.target.dataset.sort as string))
 
    useEffect(() => {
       if (!loading) dispatch(fetchPacks(id))
@@ -92,9 +92,9 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
                   Name <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
 
                   <div className={styles.sortList}>
-                           <span onClick={onSortPackCLik} data-sort={'0name'}
+                           <span onClick={onSortPackCLick} data-sort={'0name'}
                                  className={sortPacks === '0name' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In descending order</span>
-                     <span onClick={onSortPackCLik}
+                     <span onClick={onSortPackCLick}
                            data-sort={'1name'}
                            className={sortPacks === '1name' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In ascending order</span>
                   </div>
@@ -103,9 +103,9 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
                   Cards <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
 
                   <div className={styles.sortList}>
-                           <span onClick={onSortPackCLik} data-sort={'0cardsCount'}
+                           <span onClick={onSortPackCLick} data-sort={'0cardsCount'}
                                  className={sortPacks === '0cardsCount' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In descending order</span>
-                     <span onClick={onSortPackCLik}
+                     <span onClick={onSortPackCLick}
                            data-sort={'1cardsCount'}
                            className={sortPacks === '1cardsCount' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In ascending order</span>
                   </div>
@@ -114,9 +114,9 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
                   Last Updated <span className={styles.arrowSort}> <ReactSVG src={arrow}/></span>
 
                   <div className={styles.sortList}>
-                           <span onClick={onSortPackCLik} data-sort={'0updated'}
+                           <span onClick={onSortPackCLick} data-sort={'0updated'}
                                  className={sortPacks === '0updated' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In descending order</span>
-                     <span onClick={onSortPackCLik}
+                     <span onClick={onSortPackCLick}
                            data-sort={'1updated'}
                            className={sortPacks === '1updated' ? `${styles.sortItem} ${styles.active}` : styles.sortItem}>In ascending order</span>
                   </div>
