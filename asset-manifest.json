@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Friday/static/css/main.a857c3bc.css",
-    "main.js": "/Friday/static/js/main.7a57de36.js",
+    "main.css": "/Friday/static/css/main.df06749b.css",
+    "main.js": "/Friday/static/js/main.f71c9e16.js",
     "static/js/787.9d3483b3.chunk.js": "/Friday/static/js/787.9d3483b3.chunk.js",
     "static/media/email.svg": "/Friday/static/media/email.27258fd7ce44ba75a8d1db315438e603.svg",
     "static/media/learn.svg": "/Friday/static/media/learn.451189fee7f1758e17dd626ac4243e7f.svg",
@@ -15,12 +15,12 @@
     "static/media/sort.svg": "/Friday/static/media/sort.911416cf5dcff12840dc306ecd95d0f9.svg",
     "static/media/arrow.svg": "/Friday/static/media/arrow.7b290f5265d324703871.svg",
     "static/media/selectArrow.svg": "/Friday/static/media/selectArrow.e41c9a9aa1e34f38952deb6e0cde80a8.svg",
-    "main.a857c3bc.css.map": "/Friday/static/css/main.a857c3bc.css.map",
-    "main.7a57de36.js.map": "/Friday/static/js/main.7a57de36.js.map",
+    "main.df06749b.css.map": "/Friday/static/css/main.df06749b.css.map",
+    "main.f71c9e16.js.map": "/Friday/static/js/main.f71c9e16.js.map",
     "787.9d3483b3.chunk.js.map": "/Friday/static/js/787.9d3483b3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a857c3bc.css",
-    "static/js/main.7a57de36.js"
+    "static/css/main.df06749b.css",
+    "static/js/main.f71c9e16.js"
   ]
 }
