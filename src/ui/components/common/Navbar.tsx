@@ -8,8 +8,8 @@ import profile from '../../images/icons/profile.svg'
 import learn from '../../images/icons/learn.svg'
 import {useDispatch} from "react-redux";
 import {authStatuses, logOutUser} from '../../../bll/auth-reducer';
-import {Button} from "./Button";
 import {useAppSelector} from "../../../bll/store";
+import {MenuBurger} from "./MenuBurger";
 
 
 export const Navbar = () => {
@@ -29,23 +29,35 @@ export const Navbar = () => {
             <Link className={styles.logo} to={PATH.PROFILE}>It-incubator</Link>
 
             <ul className={styles.list}>
-               <li><NavLink className={activeLink} to={PATH.PACKS_LIST}>
-                  <ReactSVG src={packs}/>
-                  Packs list
-               </NavLink></li>
-               <li><NavLink className={activeLink} to={PATH.PROFILE}>
-                  <ReactSVG src={profile}/>
-                  Profile
-               </NavLink></li>
-               <li><NavLink className={activeLink} to={PATH.LEARN}>
-                  <ReactSVG src={learn}/>
-                  Learn
-               </NavLink></li>
+               <li>
+                  <NavLink className={activeLink} to={PATH.PACKS_LIST}>
+                     <ReactSVG src={packs}/>
+                     Packs list
+                  </NavLink>
+               </li>
+               <li>
+                  <NavLink className={activeLink} to={PATH.PROFILE}>
+                     <ReactSVG src={profile}/>
+                     Profile
+                  </NavLink>
+               </li>
+               <li>
+                  <NavLink className={activeLink} to={PATH.LEARN}>
+                     <ReactSVG src={learn}/>
+                     Learn
+                  </NavLink>
+               </li>
             </ul>
 
-            <button className={styles.logout} onClick={LogOut}>
-               Logout
-            </button>
+            <div className={styles.buttons}>
+               <MenuBurger/>
+
+               <button className={styles.logout} onClick={LogOut}>
+                  Logout
+               </button>
+            </div>
+
+
          </div>
       </nav>
    )
