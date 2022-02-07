@@ -123,6 +123,7 @@
   border-radius: 4px;
   font-size: 16px;
   transition: background 0.2s ease-in, color 0.2s ease-in;
+  
 
   &:hover {
     background: #21268F;
@@ -135,4 +136,9 @@
     margin-left: 0;
   }
 
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
 }

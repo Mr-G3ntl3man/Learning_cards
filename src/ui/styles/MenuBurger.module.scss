@@ -1,0 +1,115 @@
+.container {
+  position: relative;
+}
+
+.header__burger {
+  display: none;
+  position: relative;
+  width: 45px;
+  height: 45px;
+  background-color: #fff;
+  outline: none;
+  border-radius: 10px;
+  border: 2px solid #9A91C8;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  margin: 0 20px;
+
+
+  &:before, &:after {
+    position: absolute;
+    width: 15px;
+    left: 4px;
+    content: '';
+    height: 4px;
+    background-color: #1863ff;
+    border-radius: 4px;
+    transition: transform 0.4s ease, width 0.4s ease, left 0.4s ease;
+  }
+
+  &:before {
+    transform: translateY(-12px);
+  }
+
+  &:after {
+    transform: translateY(12px);
+  }
+
+  span {
+    position: absolute;
+    width: 35px;
+    height: 4px;
+    background-color: #1863ff;
+    border-radius: 4px;
+    transition: transform 0.4s ease;
+  }
+
+  &.open {
+    span {
+      transform: translateX(60px);
+    }
+
+    &:before {
+      transform: translateY(0) rotate(45deg);
+      width: 35px;
+      left: 2px;
+      transition-delay: 0.125s;
+    }
+
+    &:after {
+      transform: translateY(0) rotate(315deg);
+      width: 35px;
+      left: 2px;
+      transition-delay: 0.25s;
+    }
+  }
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
+}
+
+.list {
+  position: absolute;
+  background-color: #ECECF9;
+  border: 2px solid #21268F;
+  border-radius: 8px;
+  width: 0;
+  pointer-events: none;
+  right: 20px;
+  overflow: hidden;
+  padding: 5px 0;
+  transform: scale(0);
+  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+  &.open {
+    transform: scale(1);
+    width: 200px;
+    pointer-events: all;
+  }
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
+  padding: 10px;
+
+  transition: background 0.2s ease-in, color 0.2s ease-in;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+  &.activeLink {
+    background-color: #9A91C8;
+    color: #fff;
+  }
+}
