@@ -140,43 +140,82 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
                Cards per Page
             </div>
          </div>
-
       </>
    )
 }
 
 
-const PacksItem: React.FC<PacksItemT> = React.memo((
-   {
-      created, cards, update,
-      isOwner, name, bgColor, packId, user_id
-   }) => {
+const PacksItem: React.FC<PacksItemT> = React.memo((props) => {
+   const {isOwner, bgColor, created, packId, update, cards, name, user_id} = props
 
-   const linkCards = <Link className={styles.packsName} to={`/packs-list/${name}/${packId}/${user_id}`}>{name}</Link>
+   const linkCards = <Link
+      className={styles.packsName}
+      to={`/packs-list/${name}/${packId}/${user_id}`}>
+      {name}
+   </Link>
 
    const profileLink = isOwner
-      ? <Link to={PATH.PROFILE} className={styles.packsCreated}>{created}</Link>
-      : <Link to={`/profile/${created}/${user_id}`} className={styles.packsCreated}>{created}</Link>
+      ? <Link
+         to={PATH.PROFILE}
+         className={styles.packsCreated}>
+         {created}
+      </Link>
+      : <Link
+         to={`/profile/${created}/${user_id}`}
+         className={styles.packsCreated}>
+         {created}
+      </Link>
 
    const actionButtons = isOwner
-      ? <>
-         <ButtonDeletePack user_id={user_id || ''} id={packId} packName={name}/>
-         <ButtonEditPack user_id={user_id || ''} id={packId} name={name}/>
+      ? <div className={styles.packsActionBtn}>
+         <ButtonDeletePack
+            user_id={user_id || ''}
+            id={packId}
+            packName={name}/>
+         <ButtonEditPack
+            user_id={user_id || ''}
+            id={packId}
+            name={name}/>
          {cards ?
-            <Link to={`/learn-cards/${name}/${cards}/${packId}`} className={styles.btn}>Learn</Link> : ''}
-      </>
-      : <>
+            <Link
+               to={`/learn-cards/${name}/${cards}/${packId}`}
+               className={styles.btn}>
+               Learn
+            </Link>
+            : <span className={styles.noCard}>No cards</span>}
+      </div>
+      : <div className={styles.packsActionBtn}>
          {cards ?
-            <Link to={`/learn-cards/${name}/${cards}/${packId}`} className={styles.btn}>Learn</Link> : ''}
-      </>
+            <Link
+               to={`/learn-cards/${name}/${cards}/${packId}`}
+               className={styles.btn}>
+               Learn
+            </Link>
+            : <span className={styles.noCard}>No cards</span>}
+      </div>
 
    return (
       <ul style={{backgroundColor: bgColor}}>
-         <li>{linkCards}</li>
-         <li>{cards}</li>
-         <li>{update}</li>
-         <li>{profileLink}</li>
-         <li className={styles.packsActionBtn}>{actionButtons}</li>
+         <li>
+            <span className={styles.mobileVersionTitle}>Name:</span>
+            {linkCards}
+         </li>
+         <li>
+            <span className={styles.mobileVersionTitle}>Cards:</span>
+            {cards}
+         </li>
+         <li>
+            <span className={styles.mobileVersionTitle}>Last Updated:</span>
+            {update}
+         </li>
+         <li>
+            <span className={styles.mobileVersionTitle}>Created by:</span>
+            {profileLink}
+         </li>
+         <li>
+            <span className={styles.mobileVersionTitle}>Actions:</span>
+            {actionButtons}
+         </li>
       </ul>
    )
 })

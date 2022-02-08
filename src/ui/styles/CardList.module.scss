@@ -143,7 +143,7 @@
 .noCards {
   text-align: center;
   font-size: 20px;
-  margin: 20px 0;
+  padding: 20px 0;
 }
 
 .interaction {
@@ -155,5 +155,22 @@
   .inputSearch {
     flex: 0 0 75%;
     margin: 0 !important;
+  }
+}
+
+@media (max-width: 750px) {
+  .cardsHeader {
+    display: none;
+  }
+
+  .cardsItem {
+    ul {
+      flex-direction: column;
+
+      li {
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
   }
 }

@@ -80,11 +80,16 @@
   display: flex;
   align-items: center;
   margin-bottom: 25px;
+  justify-content: space-between;
+
+  button {
+    flex: 0 0 170px;
+  }
 }
 
 .inputSearch {
-  flex: 0 0 72%;
-  margin: 0 25px 0 0 !important;
+  flex: 0 0 70%;
+  margin: 0 !important;
 }
 
 .packsHeader {
@@ -127,10 +132,6 @@
 }
 
 .packsItem {
-  display: flex;
-
-  flex-direction: column;
-
   ul {
 
     display: flex;
@@ -139,10 +140,12 @@
     padding: 20px;
 
     li {
-      padding: 0 5px;
+      padding: 2px 5px;
       width: 20%;
       text-align: center;
-      word-wrap: break-word;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:nth-child(2) {
         width: 10%;
@@ -167,8 +170,8 @@
   .btn {
     display: inline-block;
     font-weight: 600;
-    font-size: 14px;
     height: 24px;
+    width: 55px;
     border-radius: 2px;
     outline: none;
     cursor: pointer;
@@ -176,8 +179,8 @@
     background: #D7D8EF;
     color: #21268F;
     padding: 0 7px;
-    width: 55px;
     transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+    font-size: 16px;
 
     &:hover {
       background: #21268F;
@@ -186,6 +189,10 @@
 
     @media (max-width: 1040px) {
       margin: 5px;
+    }
+
+    @media (max-width: 550px) {
+      width: 70px;
     }
 
   }
@@ -220,6 +227,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 680px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .selectedValue {
@@ -296,14 +308,18 @@
 
 .showCard {
   display: flex;
-  font-size: 16px;
+  font-size: 18px;
   color: #2D2E46;
+
+  @media (max-width: 680px) {
+    margin: 10px 0;
+  }
 }
 
 .noPacks {
   text-align: center;
   font-size: 20px;
-  margin: 20px 0;
+  padding: 20px 0;
 }
 
 .block {
@@ -313,22 +329,16 @@
 
 .packsName, .packsCreated {
   color: #000000;
-  position: relative;
+  transition: color 0.3s ease-out, background 0.3s ease-out;
+  background-color: rgba(200, 201, 236, 0.59);
+  border-radius: 2px;
+  padding: 2px 5px;
+  cursor: pointer;
 
-  &:before {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 2px;
-    bottom: -3px;
-    left: 0;
+  &:hover {
     background-color: #21268F;
-    transform: scale(0);
-    transition: transform 0.2s ease-in-out;
-  }
+    color: #fff;
 
-  &:hover:before {
-    transform: scale(1);
   }
 }
 
@@ -387,6 +397,20 @@
 
 .sortingColumn {
   display: none;
+}
+
+.noCard {
+  display: flex;
+  align-items: center;
+  color: #21268F;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  width: 55px;
+
+  @media (max-width: 1040px) {
+    margin: 5px;
+  }
 }
 
 @media (max-width: 1040px) {
@@ -461,7 +485,122 @@
     flex-wrap: wrap;
     justify-content: center;
 
-    .btn {
+  }
+}
+
+.mobileVersionTitle {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .leftColumn {
+    flex-direction: column;
+    align-items: center;
+
+    .showPackColumn {
+      width: 50%;
+    }
+
+    .inputRangeColumn {
+      width: 50%;
+      margin: 30px 0;
+    }
+
+    .sortingColumn {
+      width: 50%;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .mobileVersionTitle {
+    display: inline-block;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .packsHeader {
+    display: none;
+  }
+
+  .packsItem {
+    ul {
+      flex-direction: column;
+
+      li {
+        width: 100% !important;
+        text-align: center !important;
+        font-size: 18px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        word-break: break-all;
+      }
+    }
+  }
+
+  .inputSearch {
+    flex-basis: 60%;
+  }
+  .noCard {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 550px) {
+  .interaction {
+    display: block;
+
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  .mobileVersionTitle {
+    text-align: center;
+  }
+
+  .packsItem {
+    ul {
+      padding: 0;
+
+      li {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+
+  .leftColumn {
+    .showPackColumn {
+      width: 100%;
+    }
+
+    .inputRangeColumn {
+      width: 100%;
+    }
+
+    .sortingColumn {
+      width: 100%;
+    }
+  }
+
+  .rightColumn {
+    padding: 15px;
+  }
+
+  .pagination {
+    li {
+      margin: 0 3px;
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .pagination {
+    li {
+      margin: 0 1px;
     }
   }
 }

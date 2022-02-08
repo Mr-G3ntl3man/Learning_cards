@@ -54,7 +54,8 @@ export const SortingSelect: React.FC<SortingSelectT> = ({list, onSortItemCLick, 
 
    return (
       <div className={styles.sortingSelect}>
-         <div onClick={onSelectClick} className={collapsed ? styles.selected : `${styles.selected} ${styles.active}`}>
+         <div onClick={onSelectClick}
+              className={collapsed ? styles.selected : `${styles.selected} ${styles.active}`}>
             <div className={styles.selectedItem}>{selected}</div>
             <div className={collapsed ? styles.arrow : `${styles.arrow} ${styles.active}`}><ReactSVG
                src={arrow}/></div>

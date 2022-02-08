@@ -16,6 +16,7 @@
   overflow: hidden;
   height: 36px;
   opacity: 1;
+  white-space: nowrap;
 
   &:disabled {
     border: none;

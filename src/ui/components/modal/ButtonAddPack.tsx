@@ -41,7 +41,7 @@ export const ButtonAddPack: React.FC<{ user_id?: string }> = ({user_id}) => {
 
    return (
       <>
-         <Button width={'180px'} onClick={openModal}>
+         <Button onClick={openModal}>
             Add new pack
          </Button>
 

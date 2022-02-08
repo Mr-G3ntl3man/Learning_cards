@@ -57,6 +57,21 @@ export const CardsList = () => {
       if (!loading) dispatch(fetchCardsForPacks(cardsPack_id as string))
    }, [cardQuestion, maxPage, pageCount, page, userData])
 
+   const interactionPanel = myId === user_id
+      ? <>
+         <Input
+            className={styles.inputSearch}
+            onChange={onChangeInputSearch}
+            variant={'outlined'}
+            label={'Search...'}/>
+
+         <ButtonAddCard/>
+      </>
+      : <Input
+         onChange={onChangeInputSearch}
+         variant={'outlined'}
+         label={'Search...'}/>
+
    return (
       <>
          {loading && <Spinner/>}
@@ -68,21 +83,7 @@ export const CardsList = () => {
             </div>
 
             <div className={myId === user_id ? styles.interaction : ''}>
-               {myId === user_id
-                  ? <>
-                     <Input
-                        className={styles.inputSearch}
-                        onChange={onChangeInputSearch}
-                        variant={'outlined'}
-                        label={'Search...'}/>
-
-                     <ButtonAddCard/>
-                  </>
-                  : <Input
-                     onChange={onChangeInputSearch}
-                     variant={'outlined'}
-                     label={'Search...'}/>
-               }
+               {interactionPanel}
             </div>
 
             <div className={styles.column}>

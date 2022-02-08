@@ -8,7 +8,7 @@ import profile from "../../images/icons/profile.svg";
 import learn from "../../images/icons/learn.svg";
 
 export const MenuBurger = () => {
-   const [open, setOpen] = useState(true)
+   const [open, setOpen] = useState(false)
 
    const onClickHandler = () => setOpen(state => !state)
 

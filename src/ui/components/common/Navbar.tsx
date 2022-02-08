@@ -10,6 +10,8 @@ import {useDispatch} from "react-redux";
 import {authStatuses, logOutUser} from '../../../bll/auth-reducer';
 import {useAppSelector} from "../../../bll/store";
 import {MenuBurger} from "./MenuBurger";
+import logo from "../../images/logo.svg"
+import logout from "../../images/icons/logout.svg"
 
 
 export const Navbar = () => {
@@ -26,7 +28,9 @@ export const Navbar = () => {
    return (
       <nav className={styles.wrapper}>
          <div className={styles.container}>
-            <Link className={styles.logo} to={PATH.PROFILE}>It-incubator</Link>
+            <Link className={styles.logo} to={PATH.PROFILE}>
+               <ReactSVG src={logo}/>
+            </Link>
 
             <ul className={styles.list}>
                <li>
@@ -53,7 +57,7 @@ export const Navbar = () => {
                <MenuBurger/>
 
                <button className={styles.logout} onClick={LogOut}>
-                  Logout
+                  <ReactSVG src={logout}/>
                </button>
             </div>
 

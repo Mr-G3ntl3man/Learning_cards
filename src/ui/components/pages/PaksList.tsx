@@ -13,6 +13,33 @@ import 'rc-slider/assets/index.css';
 import styles from '../../styles/PacksList.module.scss'
 import {ListT, SortingSelect} from "../common/SortingSelect";
 
+const sortingOptions: ListT[] = [
+   {
+      item: 'Update ascending',
+      data_sort: '1updated'
+   },
+   {
+      item: 'Update descending',
+      data_sort: '0updated'
+   },
+   {
+      item: 'Name ascending',
+      data_sort: '1name'
+   },
+   {
+      item: 'Name descending',
+      data_sort: '0name'
+   },
+   {
+      item: 'Cards descending',
+      data_sort: '0cardsCount'
+   },
+   {
+      item: 'Cards descending',
+      data_sort: '1cardsCount'
+   },
+]
+
 export const PacksList = () => {
    const dispatch = useDispatch()
 
@@ -29,36 +56,9 @@ export const PacksList = () => {
 
    useEffect(() => {
       return () => {
-         dispatch(setSelectedMinMaxRange(0, 0))
+         // dispatch(setSelectedMinMaxRange(0, 0))
       }
    }, [])
-
-   const sortingOptions: ListT[] = [
-      {
-         item: 'Update ascending',
-         data_sort: '1updated'
-      },
-      {
-         item: 'Update descending',
-         data_sort: '0updated'
-      },
-      {
-         item: 'Name ascending',
-         data_sort: '1name'
-      },
-      {
-         item: 'Name descending',
-         data_sort: '0name'
-      },
-      {
-         item: 'Cards descending',
-         data_sort: '0cardsCount'
-      },
-      {
-         item: 'Cards descending',
-         data_sort: '1cardsCount'
-      },
-   ]
 
    return (
       <>

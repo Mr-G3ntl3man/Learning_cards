@@ -15,3 +15,9 @@
 .errorEmail {
 
 }
+
+@media (max-width: 550px) {
+  .container {
+    padding: 60px 15px 0 15px;
+  }
+}
