@@ -121,10 +121,20 @@ const Cards: React.FC<PacksItemT> = React.memo((
       isOwner, question, bgColor, _id,
    }) => (
    <ul style={{backgroundColor: bgColor}}>
-      <li>{question}</li>
-      <li>{answer}</li>
-      <li>{update}</li>
       <li>
+         <span className={styles.mobileVersionTitle}>Question:</span>
+         {question}
+      </li>
+      <li>
+         <span className={styles.mobileVersionTitle}>Answer:</span>
+         {answer}
+      </li>
+      <li>
+         <span className={styles.mobileVersionTitle}>Last Update:</span>
+         {update}
+      </li>
+      <li>
+         <span className={styles.mobileVersionTitle}>Grade:</span>
          <Rating
             readonly
             emptyColor={'#D7D8EF'}

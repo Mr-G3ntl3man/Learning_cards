@@ -52,17 +52,38 @@
     display: inline-block;
     margin-right: 5px;
   }
+
+  @media (max-width: 450px) {
+    padding: 20px;
+    span {
+      display: block;
+    }
+  }
 }
 
 .question {
   margin-bottom: 10px;
-
+  @media (max-width: 450px) {
+    text-align: center;
+    b {
+      display: block;
+    }
+  }
 
 }
 
 .answer {
   margin-bottom: 45px;
   text-align: justify;
+
+
+  @media (max-width: 450px) {
+    margin-bottom: 20px;
+    b {
+      display: block;
+      text-align: center;
+    }
+  }
 }
 
 .rate {
@@ -139,7 +160,7 @@
 }
 
 .questionImg, .answerImg {
-  margin: 20px 0;
+  margin: 10px 0;
 
   display: flex;
   justify-content: center;

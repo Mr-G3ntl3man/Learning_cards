@@ -29,6 +29,8 @@ export const EditProfile = () => {
 
    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setBase64Img(e, setBase64, dispatch)
 
+   const onAvatarClick = () => inputRef.current?.click()
+
    const schema = yup.object().shape({email: yup.string().email('Email should have correct format!')})
 
    const onSubmit: SubmitHandler<FormDataT> = (data) => {
@@ -52,7 +54,7 @@ export const EditProfile = () => {
             <div className={styles.editForm}>
                <span>Personal Information</span>
 
-               <div onClick={() => inputRef.current?.click()} className={styles.editAvatar}>
+               <div onClick={onAvatarClick} className={styles.editAvatar}>
                   <input type="file"
                          ref={inputRef}
                          onChange={onChangeHandler}

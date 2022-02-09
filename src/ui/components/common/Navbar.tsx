@@ -54,11 +54,12 @@ export const Navbar = () => {
             </ul>
 
             <div className={styles.buttons}>
-               <MenuBurger/>
 
                <button className={styles.logout} onClick={LogOut}>
                   <ReactSVG src={logout}/>
                </button>
+               
+               <MenuBurger/>
             </div>
 
 

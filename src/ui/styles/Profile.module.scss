@@ -84,11 +84,11 @@
   font-size: 18px;
   color: #2D2E46;
   opacity: 0.5;
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
 .editProfile {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   background-color: transparent;
   outline: none;
@@ -110,4 +110,45 @@
       color: white;
     }
   }
+}
+
+@media (max-width: 1040px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .leftColumn {
+    display: flex;
+    align-items: center;
+    border-radius: 8px 8px 0 0;
+
+    .profileDesc {
+      flex: 0 0 50%;
+      border-radius: 8px 0 0 0;
+    }
+
+    .inputRange {
+      flex: 0 0 50%;
+    }
+  }
+
+  .rightColumn {
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+@media (max-width: 550px) {
+  .leftColumn {
+    display: block;
+
+    .profileDesc {
+      flex: 0 0 50%;
+      border-radius: 8px 8px 0 0;
+    }
+  }
+
+  .rightColumn {
+    padding: 15px;
+  }
+
 }

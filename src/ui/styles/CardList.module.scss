@@ -158,6 +158,10 @@
   }
 }
 
+.mobileVersionTitle {
+  display: none;
+}
+
 @media (max-width: 750px) {
   .cardsHeader {
     display: none;
@@ -168,9 +172,43 @@
       flex-direction: column;
 
       li {
+        display: flex;
+        justify-content: space-between;
         width: 100%;
         margin: 10px 0;
+        font-size: 18px;
+        text-align: justify !important;
       }
     }
+  }
+
+  .mobileVersionTitle {
+    display: inline-block;
+    font-weight: 500;
+    padding-right: 50px;
+  }
+}
+
+@media (max-width: 650px) {
+  .cardFooter {
+    flex-direction: column;
+  }
+}
+
+
+@media (max-width: 550px) {
+  .cardsItem {
+    ul {
+      li {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+  .mobileVersionTitle {
+    padding-right: 0;
+  }
+  .wrapper {
+    padding: 15px;
   }
 }

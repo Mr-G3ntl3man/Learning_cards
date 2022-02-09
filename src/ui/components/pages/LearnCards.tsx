@@ -72,7 +72,7 @@ export const LearnCards = () => {
 
          <div className={loading ? `${styles.wrapper} ${styles.loading}` : styles.wrapper}>
             <div className={styles.learnCardContent}>
-               <span className={styles.title}>Learn "{packName}"</span>
+               <span className={styles.title}><span>Learn</span> "{packName}"</span>
 
                <div className={styles.question}>
                   <b>Question:</b>

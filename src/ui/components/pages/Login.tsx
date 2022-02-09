@@ -11,6 +11,8 @@ import {useAppSelector} from "../../../bll/store";
 import {authStatuses, firstFetchMe, loginUserData} from "../../../bll/auth-reducer";
 import {useDispatch} from "react-redux";
 import {Spinner} from "../common/Spinner";
+import {ReactSVG} from "react-svg";
+import logo from "../../images/logo.svg";
 
 type FormDataT = {
    email: string
@@ -51,7 +53,7 @@ export const Login = () => {
    return (
       <>
          <div className={loading ? `${styles.content} ${styles.loading}` : styles.content}>
-            <h1>It-incubator</h1>
+            <h1><ReactSVG src={logo}/></h1>
 
             <span>Sign In</span>
 
