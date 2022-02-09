@@ -1,6 +1,6 @@
-# Question cards
+# Learning_cards
 
-[https://mr-g3ntl3man.github.io/Friday](https://mr-g3ntl3man.github.io/Friday)
+[https://mr-g3ntl3man.github.io/Learning_cards](https://mr-g3ntl3man.github.io/Learning_cards)
 
 ## Stack
 
