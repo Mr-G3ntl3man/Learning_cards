@@ -144,7 +144,6 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
    )
 }
 
-
 const PacksItem: React.FC<PacksItemT> = React.memo((props) => {
    const {isOwner, bgColor, created, packId, update, cards, name, user_id} = props
 

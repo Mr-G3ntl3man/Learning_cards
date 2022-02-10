@@ -25,7 +25,7 @@ export const ButtonEditPack: React.FC<{ id: string, name: string, user_id?: stri
          .required('Pack name is a required field!'),
    })
 
-   const {register, reset, handleSubmit, formState: {errors}} = useForm<FormDataT>({
+   const {register, handleSubmit, formState: {errors}} = useForm<FormDataT>({
       mode: "onChange",
       resolver: yupResolver(schema),
       defaultValues: {
@@ -33,11 +33,7 @@ export const ButtonEditPack: React.FC<{ id: string, name: string, user_id?: stri
       }
    })
 
-   const onSubmit: SubmitHandler<FormDataT> = (data) => {
-      dispatch(editPack(id, data.name, user_id))
-      reset()
-      closeModal()
-   }
+   const onSubmit: SubmitHandler<FormDataT> = (data) => dispatch(editPack(id, data.name, user_id, closeModal))
 
    return (
       <>

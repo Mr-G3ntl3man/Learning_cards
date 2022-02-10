@@ -11,6 +11,7 @@ import * as yup from "yup";
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {PATH} from "../../router/Routes";
+import logo from "../../images/logo.svg";
 
 export const ForgotPass = () => {
    const [successfulSending, setSuccessfulSending] = useState<boolean>(false)
@@ -34,25 +35,25 @@ export const ForgotPass = () => {
       }
    })
 
-   const onSubmit: SubmitHandler<FormDataT> = async (data) => {
-      dispatch(forgotPassSendInst(data.email))
+   const sentMess = (email: string) => {
       setSuccessfulSending(true)
-      setEmail(data.email)
+      setEmail(email)
    }
 
+   const onSubmit: SubmitHandler<FormDataT> = async (data) => dispatch(forgotPassSendInst(data.email, sentMess))
 
    return (
       <div className={styles.contentForgot}>
          {successfulSending
             ? <div className={styles.email}>
-               <h2>It-incubator</h2>
+               <h1><ReactSVG src={logo}/></h1>
                <ReactSVG src={emailSvg}/>
                <span>Check Email</span>
                <div className={styles.sent}>We’ve sent an Email with instructions to {email}</div>
             </div>
             : <div className={styles.formWrap}>
                <form onSubmit={handleSubmit(onSubmit)}>
-                  <h2>It-incubator</h2>
+                  <h1><ReactSVG src={logo}/></h1>
                   <span className={styles.forgot}>Forgot your password?</span>
 
                   <div className={styles.inputWrap}>

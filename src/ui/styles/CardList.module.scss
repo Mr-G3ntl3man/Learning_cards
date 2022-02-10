@@ -153,8 +153,34 @@
   margin: 15px 0 25px 0;
 
   .inputSearch {
-    flex: 0 0 75%;
+    flex: 0 0 70%;
     margin: 0 !important;
+  }
+
+  button {
+    flex: 0 0 25%;
+  }
+
+  @media (max-width: 750px) {
+    .inputSearch {
+      flex: 0 0 65%;
+    }
+
+    button {
+      flex: 0 0 30%;
+    }
+  }
+
+  @media (max-width: 550px) {
+    display: block;
+
+    .inputSearch {
+      width: 100%;
+    }
+
+    button {
+      margin-top: 20px;
+    }
   }
 }
 

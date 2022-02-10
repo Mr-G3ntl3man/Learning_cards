@@ -5,22 +5,25 @@ import styles from "../../styles/Modal.module.scss";
 import close from "../../images/icons/x.svg";
 import {ReactSVG} from "react-svg";
 import {useDispatch} from "react-redux";
-import { deleteCard } from '../../../bll/cards-reducer';
+import {deleteCard} from '../../../bll/cards-reducer';
 
+type ButtonDeleteCardT = {
+   cardsPack_id: string
+   id: string
+   question: string
+}
 
+export const ButtonDeleteCard: React.FC<ButtonDeleteCardT> = (props) => {
+   const {id, question, cardsPack_id} = props
 
-export const ButtonDeleteCard: React.FC<{ cardsPack_id:string,id: string, question: string}> = ({cardsPack_id,id,question}) => {
+   const dispatch = useDispatch()
+
    const [open, setOpen] = useState<boolean>(false)
 
    const openModal = () => setOpen(true)
    const closeModal = () => setOpen(false)
 
-   const dispatch = useDispatch()
-
-   const onDeleteCardClick = () => {
-      dispatch(deleteCard(cardsPack_id,id,question))
-      closeModal()
-   }
+   const onDeleteCardClick = () => dispatch(deleteCard(cardsPack_id, id, question, closeModal))
 
    return (
       <>
@@ -33,7 +36,6 @@ export const ButtonDeleteCard: React.FC<{ cardsPack_id:string,id: string, questi
 
                   <span onClick={closeModal} className={styles.close}><ReactSVG src={close}/></span>
                </div>
-
 
                <p className={styles.deleteDesc}>
                   Do you really want to remove <span>Card Name - {question}</span>?

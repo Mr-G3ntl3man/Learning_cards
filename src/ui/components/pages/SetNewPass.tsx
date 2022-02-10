@@ -10,6 +10,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {authStatuses, setNewPassword} from "../../../bll/auth-reducer";
 import {useAppSelector} from "../../../bll/store";
 import {PATH} from "../../router/Routes";
+import {ReactSVG} from "react-svg";
+import logo from "../../images/logo.svg";
 
 export const SetNewPass = () => {
    const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)
@@ -38,7 +40,7 @@ export const SetNewPass = () => {
 
    return (
       <form onSubmit={handleSubmit(onSubmit)} className={styles.contentNewPass}>
-         <h2>It-incubator</h2>
+         <h1><ReactSVG src={logo}/></h1>
          <span> Create new password</span>
 
          <div className={styles.inputWrap}>

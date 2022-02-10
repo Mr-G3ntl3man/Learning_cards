@@ -66,7 +66,7 @@ export const ButtonAddCard = () => {
 
    return (
       <>
-         <Button width={'180px'} onClick={openModal}>
+         <Button onClick={openModal}>
             Add new card
          </Button>
 
@@ -93,8 +93,10 @@ export const ButtonAddCard = () => {
                      <ReactSVG src={plus}/> Attach file
                   </div>
 
-                  <div className={styles.questionImg}> {questionImg &&
-                  <img src={questionImg as string} alt="answerImg"/>}</div>
+                  {questionImg &&
+                  <div className={styles.questionImg}>
+                     <img src={questionImg as string} alt="answerImg"/>
+                  </div>}
                </div>
 
                <div className={styles.inputWrap}>
@@ -112,11 +114,13 @@ export const ButtonAddCard = () => {
                      <ReactSVG src={plus}/> Attach file
                   </div>
 
-                  <div className={styles.answerImg}> {answerImg &&
-                  <img src={answerImg as string} alt="answerImg"/>}</div>
+                  {answerImg &&
+                  <div className={styles.answerImg}>
+                     <img src={answerImg as string} alt="answerImg"/>
+                  </div>}
                </div>
 
-               <div style={{marginTop: '80px'}} className={styles.addCardBtn}>
+               <div className={styles.addCardBtn}>
                   <Button onClick={closeModal}>Cancel</Button>
                   <Button type={'submit'} onClick={openModal}>Save</Button>
                </div>

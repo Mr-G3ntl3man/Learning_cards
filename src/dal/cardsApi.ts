@@ -19,18 +19,8 @@ export const cardsApi = {
    deleteCard(_id: string) {
       return instance.delete(`/cards/card?id=${_id}`)
    },
-   editCard(updateCardData: updateCardDataT) {
-      return instance.put('cards/card', {
-         card:
-            {
-               /* _id: updateCardData.id,
-                question: updateCardData.question,
-                answer: updateCardData.answer,*/
-               _id: updateCardData.id,
-               question: "Hello",
-               answer: "^^",
-            }
-      })
+   editCard(data: updateCardDataT) {
+      return instance.put('cards/card', {card: data})
    },
    changeCardRating(data: { grade: number | undefined, card_id: string | undefined }) {
       return instance.put('cards/grade', data)
@@ -99,8 +89,10 @@ export type RequestAddCardsT = {
 }
 
 export type updateCardDataT = {
-   id: string,
+   _id: string,
    question: string,
-   answer: string
+   answer: string,
+   answerImg?: string | ArrayBuffer | null | undefined
+   questionImg?: string | ArrayBuffer | null | undefined
 }
 

@@ -55,7 +55,6 @@ export const LearnCards = () => {
       grade: currentCardRating as number
    }, switchToNextCard))
 
-
    useEffect(() => {
       !loading && dispatch(fetchCardsForPacks(cardsPack_id, Number(cardsCount)))
 

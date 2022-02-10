@@ -79,7 +79,7 @@
   border-radius: 8px;
   width: 0;
   pointer-events: none;
-  right: 20px;
+  right: 0;
   overflow: hidden;
   padding: 5px 0;
   transform: scale(0);
@@ -87,7 +87,7 @@
 
   &.open {
     transform: scale(1);
-    width: 200px;
+    width: 300px;
     pointer-events: all;
   }
 }
@@ -95,7 +95,7 @@
 .link {
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 20px;
   color: #000;
   font-weight: 500;
   padding: 10px;

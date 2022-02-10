@@ -17,10 +17,8 @@ export const ButtonDeletePack: React.FC<{ id: string, packName: string, user_id?
 
    const dispatch = useDispatch()
 
-   const onDeletePackClick = () => {
-      dispatch(deletePack(id, packName, user_id))
-      closeModal()
-   }
+   const onDeletePackClick = () => dispatch(deletePack(id, packName, user_id, closeModal))
+
 
    return (
       <>

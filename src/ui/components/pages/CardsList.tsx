@@ -147,7 +147,7 @@ const Cards: React.FC<PacksItemT> = React.memo((
          isOwner &&
          <li className={styles.cardsActionBtn}>
             <ButtonDeleteCard cardsPack_id={cardsPack_id} id={_id} question={question}/>
-            <ButtonEditCard cardsPack_id={cardsPack_id} id={_id} question={question} answer={answer}/>
+            <ButtonEditCard cardsPack_id={cardsPack_id} _id={_id} question={question} answer={answer}/>
          </li>
       }
    </ul>

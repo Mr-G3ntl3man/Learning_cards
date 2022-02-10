@@ -15,7 +15,10 @@ export const ButtonAddPack: React.FC<{ user_id?: string }> = ({user_id}) => {
    const [open, setOpen] = useState<boolean>(false)
 
    const openModal = () => setOpen(true)
-   const closeModal = () => setOpen(false)
+   const closeModal = () => {
+      reset()
+      setOpen(false)
+   }
 
    const dispatch = useDispatch()
 
@@ -33,11 +36,7 @@ export const ButtonAddPack: React.FC<{ user_id?: string }> = ({user_id}) => {
       }
    })
 
-   const onSubmit: SubmitHandler<FormDataT> = (data) => {
-      dispatch(addPack(data.name, user_id))
-      reset()
-      closeModal()
-   }
+   const onSubmit: SubmitHandler<FormDataT> = (data) => dispatch(addPack(data.name, user_id, closeModal))
 
    return (
       <>

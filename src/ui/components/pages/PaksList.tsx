@@ -56,7 +56,7 @@ export const PacksList = () => {
 
    useEffect(() => {
       return () => {
-         // dispatch(setSelectedMinMaxRange(0, 0))
+         dispatch(setSelectedMinMaxRange(0, 0))
       }
    }, [])
 

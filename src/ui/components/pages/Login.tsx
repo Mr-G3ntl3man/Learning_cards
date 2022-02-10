@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from '../../styles/Form.module.scss'
 import {Button} from "../common/Button";
 import {Input} from "../common/Input";
@@ -8,7 +8,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAppSelector} from "../../../bll/store";
-import {authStatuses, firstFetchMe, loginUserData} from "../../../bll/auth-reducer";
+import {authStatuses, loginUserData} from "../../../bll/auth-reducer";
 import {useDispatch} from "react-redux";
 import {Spinner} from "../common/Spinner";
 import {ReactSVG} from "react-svg";
@@ -37,7 +37,7 @@ export const Login = () => {
    })
 
    const {register, handleSubmit, formState: {errors}} = useForm<FormDataT>({
-      mode: "onChange",
+      mode: "onBlur",
       resolver: yupResolver(schema),
       defaultValues: {
          email: '',
@@ -62,7 +62,7 @@ export const Login = () => {
 
                <div className={styles.inputGroup}>
 
-                  <div className={styles.inputWrap}>
+                  <div style={{paddingBottom: '10px'}} className={styles.inputWrap}>
                      {!!errors.email && <div className={styles.errorMes}>{errors.email.message}</div>}
                      <Input
                         type={'text'}
