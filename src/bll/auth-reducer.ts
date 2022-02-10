@@ -1,6 +1,6 @@
 import {ThunkActionT} from "./store";
 import {authApi, ChangeProfileT, LoginDataT, ResponseUserDataT} from "../dal/authApi";
-import {setFeedback, setLoading} from "./app-reducer";
+import {setLoading} from "./app-reducer";
 import {errorHandler} from "../utils/errorHandler";
 import {feedbackHandler} from "../utils/feedbackHandler";
 
@@ -100,12 +100,13 @@ export const logOutUser = (): ThunkActionT => async (dispatch) => {
    }
 }
 
-export const forgotPassSendInst = (email: string): ThunkActionT => async (dispatch) => {
+export const forgotPassSendInst = (email: string, sendMess: (email: string) => void): ThunkActionT => async (dispatch) => {
    try {
       const res = await authApi.forgotPassword(email)
 
-      dispatch(setFeedback(res.data.info, true))
-      setTimeout(() => dispatch(setFeedback(res.data.info, false)), 2000)
+      sendMess(email)
+
+      feedbackHandler(res.data.info, dispatch)
    } catch (e) {
       errorHandler(e, dispatch)
    }

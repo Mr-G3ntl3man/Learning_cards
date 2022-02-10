@@ -148,12 +148,12 @@ export const addCardForPack = (data: RequestAddCardsT, cleanModal: () => void): 
    handlerCard(dispatch, () => cardsApi.addCard(data), `Card added!`, data.cardsPack_id as string, cleanModal)
 }
 
-export const deleteCard = (cardsPack_id: string, id: string, question: string): ThunkActionT => (dispatch) => {
-   handlerCard(dispatch, () => cardsApi.deleteCard(id), `Card '${question}' delete!`, cardsPack_id)
+export const deleteCard = (cardsPack_id: string, id: string, question: string, cleanModal: () => void): ThunkActionT => (dispatch) => {
+   handlerCard(dispatch, () => cardsApi.deleteCard(id), `Card '${question}' delete!`, cardsPack_id, cleanModal)
 }
 
-export const editCard = (cardsPack_id: string, updateCardData: updateCardDataT): ThunkActionT => (dispatch) => {
-   handlerCard(dispatch, () => cardsApi.editCard(updateCardData), `Card question changed to!`, cardsPack_id)
+export const editCard = (cardsPack_id: string, updateCardData: updateCardDataT, cleanModal: () => void): ThunkActionT => (dispatch) => {
+   handlerCard(dispatch, () => cardsApi.editCard(updateCardData), `Card question changed to!`, cardsPack_id, cleanModal)
 }
 
 

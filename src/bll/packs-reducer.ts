@@ -99,13 +99,15 @@ export const fetchPacks = (user_id?: string): ThunkActionT => async (dispatch, g
    }
 }
 
-export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string, user_id?: string) => {
+export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMethod: () => Promise<any>, message: string, user_id?: string, cleanModal?: () => void) => {
    try {
       dispatch(setLoading(true))
 
       await apiMethod()
 
-      dispatch(fetchPacks(user_id !== undefined ? user_id : ''))
+      cleanModal && cleanModal()
+
+      dispatch(fetchPacks())
 
       feedbackHandler(message, dispatch)
    } catch (e) {
@@ -113,16 +115,16 @@ export const handlerPack = async (dispatch: Dispatch<RootActionT> | any, apiMeth
    }
 }
 
-export const deletePack = (id: string, packName: string, user_id?: string): ThunkActionT => (dispatch) => {
-   handlerPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`, user_id)
+export const deletePack = (id: string, packName: string, user_id?: string, cleanModal?: () => void): ThunkActionT => (dispatch) => {
+   handlerPack(dispatch, () => packApi.deletePack(id), `Pack '${packName}' delete!`, user_id, cleanModal)
 }
 
-export const addPack = (name: string, user_id?: string): ThunkActionT => (dispatch) => {
-   handlerPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`, user_id)
+export const addPack = (name: string, user_id?: string, cleanModal?: () => void): ThunkActionT => (dispatch) => {
+   handlerPack(dispatch, () => packApi.addPack({name}), `Pack '${name}' added!`, user_id, cleanModal)
 }
 
-export const editPack = (id: string, name: string, user_id?: string): ThunkActionT => (dispatch) => {
-   handlerPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`, user_id)
+export const editPack = (id: string, name: string, user_id?: string, cleanModal?: () => void): ThunkActionT => (dispatch) => {
+   handlerPack(dispatch, () => packApi.editPack(id, name), `Pack name changed to '${name}'!`, user_id, cleanModal)
 }
 
 

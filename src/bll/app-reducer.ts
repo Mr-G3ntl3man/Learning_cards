@@ -1,4 +1,5 @@
 const initialState: InitialStateT = {
+   theme: 'dark',
    loading: false,
    error: false,
    showTooltip: false,
@@ -16,18 +17,19 @@ export const appReducer = (state: InitialStateT = initialState, action: AppActio
    }
 }
 
-export type InitialStateT = {
-   loading: boolean
-   error: boolean
-   showTooltip: boolean
-   feedbackMessage: string
-}
-
 export const setLoading = (loading: boolean) => ({type: 'app/SET_LOADING', payload: {loading}} as const)
 export const setFeedback = (feedbackMessage: string, showTooltip: boolean, error: boolean = false) => ({
    type: 'app/SET_FEEDBACK',
    payload: {feedbackMessage, showTooltip, error}
 } as const)
+
+export type InitialStateT = {
+   theme: 'light' | 'dark'
+   loading: boolean
+   error: boolean
+   showTooltip: boolean
+   feedbackMessage: string
+}
 
 
 export type AppActionsT = ReturnType<typeof setLoading>
