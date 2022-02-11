@@ -5,17 +5,17 @@
 .header__burger {
   display: none;
   position: relative;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   background-color: transparent;
   outline: none;
-  border-radius: 8px;
-  border: 2px solid #5E17EB;
+  border-radius: 5px;
+  border: 2px solid #21268F;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   overflow: hidden;
-  margin-left: 20px;
+  margin-left: 15px;
 
   &:before, &:after {
     position: absolute;
@@ -23,7 +23,7 @@
     left: 4px;
     content: '';
     height: 4px;
-    background-color: #5E17EB;
+    background-color: #21268F;
     border-radius: 4px;
     transition: transform 0.4s ease, width 0.4s ease, left 0.4s ease;
   }
@@ -38,9 +38,9 @@
 
   span {
     position: absolute;
-    width: 35px;
+    width: 30px;
     height: 4px;
-    background-color: #5E17EB;
+    background-color: #21268F;
     border-radius: 4px;
     transition: transform 0.4s ease;
   }
@@ -53,14 +53,14 @@
     &:before {
       transform: translateY(0) rotate(45deg);
       width: 35px;
-      left: 2px;
+      left: 0;
       transition-delay: 0.125s;
     }
 
     &:after {
       transform: translateY(0) rotate(315deg);
       width: 35px;
-      left: 2px;
+      left: 0;
       transition-delay: 0.25s;
     }
   }
@@ -74,7 +74,7 @@
 
 .list {
   position: absolute;
-  background-color: #ECECF9;
+  background-color: rgb(200, 201, 236);
   border: 2px solid #21268F;
   border-radius: 8px;
   width: 0;

@@ -10,6 +10,7 @@ export const appReducer = (state: InitialStateT = initialState, action: AppActio
    switch (action.type) {
       case "app/SET_LOADING":
       case "app/SET_FEEDBACK":
+      case "app/SET_THEME":
          return {...state, ...action.payload}
 
       default:
@@ -18,19 +19,22 @@ export const appReducer = (state: InitialStateT = initialState, action: AppActio
 }
 
 export const setLoading = (loading: boolean) => ({type: 'app/SET_LOADING', payload: {loading}} as const)
+export const setTheme = (theme: ThemeT) => ({type: 'app/SET_THEME', payload: {theme}} as const)
 export const setFeedback = (feedbackMessage: string, showTooltip: boolean, error: boolean = false) => ({
    type: 'app/SET_FEEDBACK',
    payload: {feedbackMessage, showTooltip, error}
 } as const)
 
 export type InitialStateT = {
-   theme: 'light' | 'dark'
+   theme: ThemeT
    loading: boolean
    error: boolean
    showTooltip: boolean
    feedbackMessage: string
 }
 
+export type ThemeT = 'light' | 'dark'
 
 export type AppActionsT = ReturnType<typeof setLoading>
    | ReturnType<typeof setFeedback>
+   | ReturnType<typeof setTheme>

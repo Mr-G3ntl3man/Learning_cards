@@ -12,6 +12,7 @@ import {useAppSelector} from "../../../bll/store";
 import {MenuBurger} from "./MenuBurger";
 import logo from "../../images/logo.svg"
 import logout from "../../images/icons/logout.svg"
+import {ThemeButton} from "./ThemeButton";
 
 
 export const Navbar = () => {
@@ -55,10 +56,13 @@ export const Navbar = () => {
 
             <div className={styles.buttons}>
 
+
+               <ThemeButton/>
+
                <button className={styles.logout} onClick={LogOut}>
                   <ReactSVG src={logout}/>
                </button>
-               
+
                <MenuBurger/>
             </div>
 

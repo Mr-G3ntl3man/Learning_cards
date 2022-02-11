@@ -1,7 +1,7 @@
 .wrapper {
   position: fixed;
   width: 100vw;
-  background: rgba(235, 224, 233, 0.5);
+  background: rgba(116, 118, 232, 0.2);
   z-index: 10;
   backdrop-filter: blur(10px);
   height: 60px;
@@ -86,6 +86,7 @@
 
 .link {
   display: flex;
+  font-size: 18px;
   align-items: center;
   justify-content: center;
   line-height: 16px;
@@ -118,7 +119,7 @@
 }
 
 .activeLink {
-  background: #DCCCDB;
+  background: #c8c9ec;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   opacity: 1;
   border-bottom: 3px solid #21268F;
@@ -127,11 +128,11 @@
 .logout {
   cursor: pointer;
   display: inline-block;
-  height: 45px;
-  width: 45px;
-  border: 2px solid #5E17EB;
+  height: 40px;
+  width: 40px;
+  border: 2px solid #21268F;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 16px;
   transition: background 0.2s ease-in, color 0.2s ease-in;
   padding: 4px;
@@ -140,16 +141,16 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    fill: #5E17EB;
+    fill: #21268F;
     transition: fill 0.2s ease-in;
   }
 
   &:hover {
-    background: #5E17EB;
+    background: #21268F;
     color: #DCCCDB;
 
     svg {
-      fill: white;
+      fill: rgb(200, 201, 236);
     }
   }
 }

@@ -1,0 +1,71 @@
+.themeButton {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+
+  button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    border: none;
+    //background-color: none;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+    }
+  }
+
+  .darkBtn {
+    background-color: #805ad5;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: background 0.2s ease-in, transform 0.2s ease-in, opacity 0.2s ease-in;
+    pointer-events: none;
+
+    &:hover {
+      background-color: #6736cc;
+    }
+
+    svg {
+      fill: rgb(200, 201, 236);
+    }
+
+    &.active {
+      pointer-events: all;
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .lightBtn {
+    background-color: #FBD38D;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: background 0.2s ease-in, transform 0.2s ease-in, opacity 0.2s ease-in;
+    pointer-events: none;
+
+    &:hover {
+      background-color: #ffc55e;
+    }
+
+    svg {
+      fill: rgb(32, 32, 35);
+    }
+
+    &.active {
+      pointer-events: all;
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+}
