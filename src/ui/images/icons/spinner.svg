@@ -1,74 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
-     preserveAspectRatio="xMidYMid">
-    <g transform="translate(50 50)">
-        <g transform="scale(1 -1)">
-            <g transform="translate(-50 -50)">
-                <g>
-                    <animateTransform attributeName="transform" type="rotate" values="-2 50 50;359 50 50"
-                                      keyTimes="0;1" dur="1s" repeatCount="indefinite" calcMode="spline"
-                                      keySplines="0.5 0 0.5 1"></animateTransform>
-                    <circle cx="50" cy="50" r="39.891" stroke="#ffffff" stroke-width="14.4" fill="none"
-                            stroke-dasharray="0 300">
-                        <animate attributeName="stroke-dasharray" values="10 300;60.15421082128821 300;4 300"
-                                 keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" calcMode="linear"
-                                 keySplines="0 1 1 0;0 1 1 0"></animate>
-                    </circle>
-                    <circle cx="50" cy="50" r="39.891" stroke="#ffffff" stroke-width="7.2" fill="none"
-                            stroke-dasharray="0 300">
-                        <animate attributeName="stroke-dasharray" values="10 300;60.15421082128821 300;4 300"
-                                 keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" calcMode="linear"
-                                 keySplines="0 1 1 0;0 1 1 0"></animate>
-                    </circle>
-                    <circle cx="50" cy="50" r="32.771" stroke="#0a0a0a" stroke-width="1" fill="none"
-                            stroke-dasharray="0 300">
-                        <animate attributeName="stroke-dasharray" values="10 300;49.41750376837973 300;4 300"
-                                 keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" calcMode="linear"
-                                 keySplines="0 1 1 0;0 1 1 0"></animate>
-                    </circle>
-                    <circle cx="50" cy="50" r="47.171" stroke="#0a0a0a" stroke-width="1" fill="none"
-                            stroke-dasharray="0 300">
-                        <animate attributeName="stroke-dasharray" values="10 300;72.03697087422624 300;4 300"
-                                 keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" calcMode="linear"
-                                 keySplines="0 1 1 0;0 1 1 0"></animate>
-                    </circle>
-                </g>
-            </g>
-        </g>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+    <defs>
+        <mask id="ldio-38pu03ithlm-mask">
+            <rect x="5%" y="5%" width="90%" height="90%" fill="#fff"></rect>
+            <text dy="0.01em" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-weight="900"
+                  font-size="18" font-family="arial">Loading
+            </text>
+        </mask>
+    </defs>
     <g>
-        <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" keyTimes="0;1"
-                          dur="1s" repeatCount="indefinite" calcMode="spline"
-                          keySplines="0.5 0 0.5 1"></animateTransform>
-        <path fill="#ffffff" stroke="#0a0a0a"
-              d="M82.8,50c0,0.9,0.7,2.6,1.8,3.7c0.3,0.3,0.8,0.6,1,1c0.2,0.5,0.2,1-0.1,1.5c-0.3,0.5-0.8,0.9-1.1,1.3 c-0.5,0.5-0.8,1.1-0.9,1.7c-0.2,0.6-0.2,1.2,0.2,1.8c0.6,1,2,1.7,2,2.8c-0.1,0.9-1,1.5-1.4,2.2c-0.3,0.6-0.4,1.2-0.2,1.9 c0.2,0.7,0.5,1.3,1,1.8c1,1,2.4,1.4,3.9,1.5c-1.1-1-1.2-2.7-0.5-4c0.7-1.2,2.2-1.9,2.5-3.3c0.2-1.2-0.4-2.5,0.1-3.6 c0.7-1.5,3.3-1.3,4.1-2.9c0.3-0.9,0-1.9,0.3-2.8c0.2-0.7,0.6-1.1,1-1.5c0.4-0.4,0.8-0.9,0.9-1.6c0.1-0.5,0.1-0.9,0.1-1.6"></path>
-
-    </g>
-    <g>
-        <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" keyTimes="0;1"
-                          dur="1s" repeatCount="indefinite" calcMode="spline" keySplines="0.5 0 0.5 1"
-                          begin="-0.1s"></animateTransform>
-        <path fill="#ffffff" stroke="#0a0a0a"
-              d="M82.8,50c-0.1-3.1-0.4-6.2-1.3-9.2c-0.1-0.4-0.2-0.8-0.2-1.2c-0.1-0.4-0.1-0.8,0-1.2c0.1-0.8,0.3-1.6,0.7-2.4 c0.8-1.5,2-3,3.8-3.9l0,0c1.8-0.9,3.8-1,5.6-0.2c0.9,0.4,1.7,1,2.4,1.8c0.3,0.4,0.7,0.8,1,1.3c0.2,0.5,0.4,1,0.6,1.6 c1.4,4.3,1.9,8.8,1.9,13.3"></path>
-        <path fill="#f9ae5c"
-              d="M93.6,35.5c0.1,0.4-0.3,0.8-1,1c-0.6,0.2-1.2,0.1-1.3-0.3c-0.1-0.3,0.3-0.8,0.9-1S93.5,35.1,93.6,35.5z"></path>
-        <path fill="#f9ae5c"
-              d="M82.3,39.3c0.1,0.3,0.6,0.3,1.3,0.1c0.6-0.2,1.1-0.6,1-0.9c-0.1-0.3-0.7-0.3-1.3-0.1 C82.6,38.6,82.2,39,82.3,39.3z"></path>
-        <path fill="#0a0a0a"
-              d="M88.9,37.5c0.1,0.3-0.2,0.7-0.7,0.8c-0.5,0.1-0.9,0-1-0.3c-0.1-0.3,0.2-0.7,0.7-0.8C88.4,37,88.9,37.2,88.9,37.5z"></path>
-        <path fill="none" stroke="#0a0a0a"
-              d="M86.2,39.6c0.2,0.6,0.8,0.9,1.4,0.7c0.6-0.2,0.9-0.9,0.6-2.1c0.3,1.2,1,1.7,1.6,1.5c0.6-0.2,1-0.8,0.8-1.4"></path>
-        <path fill="#ffffff" stroke="#0a0a0a"
-              d="M82.5,45.9c0,0.5,0.1,0.9,0.5,1.3c0.4,0.4,1,0.6,1.6,0.3c0.3-0.1,0.5-0.3,0.7-0.4c0.5-0.2,1.2,0.1,1.5,0.6 c0.3,0.5,0.3,1,0.3,1.6c0.6-0.6,1-1.4,1.3-2.2c0.2-0.7,0.4-1.5,0.2-2.2c-0.2-0.7-0.8-1.3-1.5-1.5c-0.9-0.2-1.8,0.2-2.5,0.7"></path>
-        <path fill="#ffffff" stroke="#0a0a0a"
-              d="M96.8,44.1c0.1,0.7,0.1,1.4-0.2,2c-0.3,0.6-0.9,1-1.5,0.7c-0.3-0.1-0.5-0.4-0.8-0.4c-0.6-0.2-1.2,0.3-1.4,0.9 c-0.2,0.6-0.1,1.2-0.1,1.9c-0.6-0.7-1.2-1.5-1.6-2.3c-0.4-0.7-0.6-1.5-0.6-2.2c0-0.8,0.3-1.6,0.9-2c0.7-0.5,1.7-0.5,2.6-0.1"></path>
-        <path fill="#28292f"
-              d="M85.3,37.2c0.1,0.3,1.2,0.2,2.5-0.3c1.3-0.4,2.2-1.1,2.1-1.4c-0.1-0.3-1.2-0.2-2.5,0.3 C86.1,36.3,85.2,36.9,85.3,37.2z"></path>
-        <path fill="#0a0a0a"
-              d="M91.5,35c0.3,0.7,0,1.4-0.7,1.6c-0.6,0.2-1.3-0.1-1.6-0.8c-0.2-0.6,0.1-1.3,0.7-1.6C90.6,33.9,91.3,34.3,91.5,35z"></path>
-        <path fill="#0a0a0a"
-              d="M85.9,37c0.2,0.6-0.1,1.2-0.7,1.4c-0.6,0.2-1.3-0.1-1.5-0.6c-0.2-0.5,0.1-1.2,0.7-1.4C85,36.2,85.7,36.4,85.9,37z"></path>
-        <path fill="none" stroke="#0a0a0a"
-              d="M89.7,29c0.4,0.7-1.4,2.2-3.8,3.4c-2.5,1.2-4.7,1.7-4.9,1.2c-0.3-0.5,1.4-2,3.8-3.4S89.4,28.4,89.7,29z"></path>
-
+        <path mask="url(#ldio-38pu03ithlm-mask)" fill="none" stroke-width="4"
+              d="M2.7 10.8c5.2-3 6.3-5.7 11.5-8.6c-5.7 4-6.8 10.8-10.5 16.7c6.3-6 12.9-12.1 20.3-16.7 c-6.5 5.2-9.7 12.1-15 18.5c7.3-4.8 13.1-12.3 20.4-17.2c-11.2 7.6-18.9 18.2-27.1 29C13.4 21.2 23.8 11.4 37.1 2.7 C24.1 12.3 12.2 26.9 2 39.5c14.1-11 29-25.8 43.2-36.8c-13.8 11.7-30.1 30.8-42.5 44C17.2 36.6 38.5 13.9 51.5 2 C37.1 15.4 17.7 39.1 3.3 52.5C21 38.1 40.3 18.3 58 4C39.3 20.9 21.3 40.3 2.7 57.2C24.9 40 45.7 20.1 67.9 2.9 C44.8 22.7 21.8 41.9 2.7 65.7C24.7 44.6 49.3 23.2 73.6 4.6C55.8 19.8 38.4 41.9 20.7 57.1c-5 4.3-15.4 12.6-17.6 18.8 C25.6 55.6 57.6 22.6 81.2 3.5C54.8 25.7 26.4 59 3.1 84.3c28-24.7 54.5-59.6 85.2-80.8C59.8 26.4 26.3 64 3.1 92.4 C29.4 69.5 67.6 26.8 93.9 4C65.5 31.7 28.5 75.4 2.3 105.2C33.8 72 66.9 30.4 104.9 4.9c-31.3 29.8-66 68-95 100.6 C42 76.3 70.8 43 105.4 16.8c-29.8 25.7-63.3 59.3-87.9 90c25.8-22 59-56.5 84.9-78.5c-25 21.4-56 53.8-77.7 78.5 c25-20.7 53.8-49.4 78.8-70.1c-25.2 21.6-49.3 47.4-71.7 72c24.7-19.4 46.9-44.2 71.7-63.5C81.4 63.1 61.6 86.6 44 108.8 c20-15.2 38.4-36.5 58.4-51.7c-14.6 11.1-34.8 37-47.2 50.6c13.6-9.1 34.1-30.2 46.9-40.4C90 75.8 74.8 95.7 65.4 107.1 c12.8-7.4 27.7-23.9 38.9-33.4c-12 9.3-20.8 21.8-31.6 32.6c11-6.6 21.6-15.8 30.9-24.6c-8 6.3-16.2 16.6-21.8 25.2 c8.8-5.6 17.8-10.3 21.4-15.9c-1.3 4.1-4.8 9.2-10.1 15.2c3.1-0.4 7.7-0.6 10.8-1">
+            <animate attributeName="stroke-dasharray" repeatCount="indefinite" dur="1.2048192771084336s"
+                     calcMode="spline" values="0 0 0 3390;0 0 3390 0;0 3390 3390 0" keyTimes="0;0.5;1"
+                     keySplines="0.7 0 0.3 1;0.7 0 0.3 1"></animate>
+        </path>
     </g>
 </svg>
