@@ -12,11 +12,14 @@ import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {PATH} from "../../router/Routes";
 import logo from "../../images/logo-light.svg";
+import {useAppSelector} from "../../../bll/store";
+import {Spinner} from "../common/Spinner";
 
 export const ForgotPass = () => {
    const [successfulSending, setSuccessfulSending] = useState<boolean>(false)
    const [email, setEmail] = useState<string>('')
 
+   const loading = useAppSelector<boolean>(state => state.app.loading)
 
    const dispatch = useDispatch()
 
@@ -43,7 +46,9 @@ export const ForgotPass = () => {
    const onSubmit: SubmitHandler<FormDataT> = async (data) => dispatch(forgotPassSendInst(data.email, sentMess))
 
    return (
-      <div className={styles.contentForgot}>
+      <div className={loading ? `${styles.contentForgot} ${styles.loading}` : styles.contentForgot}>
+         {loading && <Spinner/>}
+
          {successfulSending
             ? <div className={styles.email}>
                <h1><ReactSVG src={logo}/></h1>

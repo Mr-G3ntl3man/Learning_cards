@@ -1,18 +1,18 @@
 import React from "react";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {Link} from "react-router-dom";
-
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {PATH} from '../../router/Routes';
 import styles from '../../styles/Form.module.scss'
-
 import {Input} from "../common/Input";
 import {Button} from "../common/Button";
 import {registrationNewUser} from '../../../bll/auth-reducer';
 import {useDispatch} from "react-redux";
 import {ReactSVG} from "react-svg";
 import logo from "../../images/logo-light.svg";
+import {Spinner} from "../common/Spinner";
+import {useAppSelector} from "../../../bll/store";
 
 
 type FormValues = {
@@ -24,6 +24,7 @@ type FormValues = {
 
 export const Registration = () => {
    const dispatch = useDispatch()
+   const loading = useAppSelector<boolean>(state => state.app.loading)
 
    const schema = yup.object().shape({
       email: yup
@@ -38,8 +39,9 @@ export const Registration = () => {
          .required('Password is a required field!')
          .oneOf([yup.ref("password"), null], 'Passwords must match')
    })
+
    const {register, handleSubmit, formState: {errors, isValid}} = useForm<FormValues>({
-         mode: "onBlur",
+         mode: "onChange",
          resolver: yupResolver(schema),
          defaultValues: {
             email: '',
@@ -50,9 +52,10 @@ export const Registration = () => {
 
    const onSubmit: SubmitHandler<FormValues> = async (data) => dispatch(registrationNewUser(data))
 
-
    return (
-      <div className={styles.content}>
+      <div className={loading ? `${styles.content} ${styles.loading}` : styles.content}>
+         {loading && <Spinner/>}
+
          <h1><ReactSVG src={logo}/></h1>
 
          <span>Sign Up</span>
@@ -89,7 +92,6 @@ export const Registration = () => {
                      Cancel
                   </Button>
                </Link>
-
 
                <Button disabled={!isValid} type={'submit'}>
                   Register

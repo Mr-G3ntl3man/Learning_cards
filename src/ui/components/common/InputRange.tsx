@@ -16,7 +16,7 @@ export const InputRange: React.FC<InputRangeT> = React.memo(({min, max, onChange
    }
 
    const theme = useAppSelector<ThemeT>(state => state.app.theme)
-   const trackStyle = theme === 'light' ? '#9A91C8' : '#FBD38D'
+   const trackStyle = theme === 'light' ? '#21268f' : '#FBD38D'
 
    return (
       <div className={styles.wrap}>
