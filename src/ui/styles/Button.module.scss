@@ -9,9 +9,7 @@
   letter-spacing: 1px;
   width: 100%;
   min-width: 50px;
-  background: #c8c9ec;
   border-radius: 30px;
-  color: #2D2E46;
   font-weight: 500;
   overflow: hidden;
   height: 36px;
@@ -28,8 +26,33 @@
     }
   }
 
-  &:hover {
-    color: white;
+
+  &.dark_theme {
+
+    background: #FBD38D;
+    color: #000;
+
+    &:hover {
+      color: white;
+    }
+
+    &:before {
+      background-color: #757687;
+    }
+  }
+
+  &.light_theme {
+
+    background: #c8c9ec;
+    color: #2D2E46;
+
+    &:hover {
+      color: white;
+    }
+
+    &:before {
+      background-color: #21268F;
+    }
   }
 }
 
@@ -41,7 +64,6 @@
   right: 50%;
   bottom: -1px;
   opacity: 0;
-  background-color: #21268F;
   transition: left 0.3s ease-in-out, right 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 

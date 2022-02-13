@@ -21,6 +21,7 @@ import {Select} from "./Select";
 import {Input} from "./Input";
 import {ButtonAddPack} from "../modal/ButtonAddPack";
 import {PATH} from "../../router/Routes";
+import {ThemeT} from "../../../bll/app-reducer";
 
 export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner, id}) => {
    const dispatch = useDispatch()
@@ -35,6 +36,7 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
       user_id
    } = useAppSelector<RequestGetPacksT>(state => state.packs.requestPacks)
 
+   const theme = useAppSelector<ThemeT>(state => state.app.theme)
    const loading = useAppSelector<boolean>(state => state.app.loading)
    const packs = useAppSelector<CardPacksT[]>(state => state.packs.packs)
    const maxPage = useAppSelector<number>(state => state.packs.uiOptions.maxPage)
@@ -131,7 +133,7 @@ export const TablePack: React.FC<{ isOwner?: boolean, id?: string }> = ({isOwner
             </div>
          </div>
 
-         <div className={styles.packsFooter}>
+         <div className={`${styles.packsFooter} ${styles[theme + '_theme']}`}>
             <Pagination initialPage={page} onPageChange={onPageChange} pageCount={maxPage}/>
 
             <div className={styles.showCard}>

@@ -6,12 +6,15 @@ import {ReactSVG} from "react-svg";
 import packs from "../../images/icons/packs.svg";
 import profile from "../../images/icons/profile.svg";
 import learn from "../../images/icons/learn.svg";
+import {useAppSelector} from "../../../bll/store";
+import {ThemeT} from "../../../bll/app-reducer";
 
 export const MenuBurger = () => {
    const [open, setOpen] = useState(false)
 
-   const onClickHandler = () => setOpen(state => !state)
+   const theme = useAppSelector<ThemeT>(state => state.app.theme)
 
+   const onClickHandler = () => setOpen(state => !state)
    const listActiveClassName = open ? `${styles.list} ${styles.open}` : styles.list
    const btnActiveClassName = open ? `${styles.header__burger} ${styles.open}` : styles.header__burger
    const activeLink = ({isActive}: { isActive: boolean }) => (isActive ? `${styles.activeLink} ${styles.link}` : styles.link)
@@ -34,7 +37,7 @@ export const MenuBurger = () => {
    }, [])
 
    return (
-      <div className={styles.container}>
+      <div className={`${styles.container} ${styles[theme + '_theme']}`}>
          <button onClick={onClickHandler} className={btnActiveClassName}>
             <span className={styles.header__line}> </span>
          </button>

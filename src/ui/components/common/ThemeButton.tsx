@@ -11,15 +11,15 @@ import {setTheme, ThemeT} from "../../../bll/app-reducer";
 export const ThemeButton = () => {
    const dispatch = useDispatch()
 
-   const setDarkTheme = () => dispatch(setTheme("dark"))
-   const setLightTheme = () => dispatch(setTheme("light"))
+   const setDarkTheme = () => dispatch(setTheme("light"))
+   const setLightTheme = () => dispatch(setTheme("dark"))
 
    const theme = useAppSelector<ThemeT>(state => state.app.theme)
 
-   theme === 'dark' ? document.body.className = 'light_theme' : document.body.className = 'dark_theme'
+   theme === 'dark' ? document.body.className = 'dark_theme' : document.body.className = 'light_theme'
 
-   const darkBtnClassName = theme === 'dark' ? `${styles.darkBtn} ${styles.active}` : styles.darkBtn
-   const lightBtnClassName = theme === 'light' ? `${styles.lightBtn} ${styles.active}` : styles.lightBtn
+   const darkBtnClassName = theme === 'light' ? `${styles.darkBtn} ${styles.active}` : styles.darkBtn
+   const lightBtnClassName = theme === 'dark' ? `${styles.lightBtn} ${styles.active}` : styles.lightBtn
 
    return (
       <div className={styles.themeButton}>

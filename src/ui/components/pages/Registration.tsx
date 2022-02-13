@@ -12,7 +12,7 @@ import {Button} from "../common/Button";
 import {registrationNewUser} from '../../../bll/auth-reducer';
 import {useDispatch} from "react-redux";
 import {ReactSVG} from "react-svg";
-import logo from "../../images/logo.svg";
+import logo from "../../images/logo-light.svg";
 
 
 type FormValues = {

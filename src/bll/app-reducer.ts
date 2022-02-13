@@ -1,5 +1,5 @@
 const initialState: InitialStateT = {
-   theme: 'dark',
+   theme: 'light',
    loading: false,
    error: false,
    showTooltip: false,

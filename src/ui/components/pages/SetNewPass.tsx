@@ -11,7 +11,7 @@ import {authStatuses, setNewPassword} from "../../../bll/auth-reducer";
 import {useAppSelector} from "../../../bll/store";
 import {PATH} from "../../router/Routes";
 import {ReactSVG} from "react-svg";
-import logo from "../../images/logo.svg";
+import logo from "../../images/logo-light.svg";
 
 export const SetNewPass = () => {
    const authStatus = useAppSelector<authStatuses>(state => state.auth.authStatus)

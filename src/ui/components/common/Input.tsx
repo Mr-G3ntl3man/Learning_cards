@@ -8,7 +8,6 @@ import React, {
 } from 'react'
 import s from '../../styles/Input.module.scss'
 
-
 // тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
@@ -41,7 +40,6 @@ export const Input = forwardRef<HTMLInputElement, SuperInputTextPropsType>(
          value,
          ...restProps
       } = props
-
 
       const labelTextDefault = label ? label : 'Enter text'
       const finalInputClassName = variant === undefined ? s.standard :

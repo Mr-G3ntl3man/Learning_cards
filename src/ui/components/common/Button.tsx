@@ -1,5 +1,7 @@
 import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react'
 import s from '../../styles/Button.module.scss'
+import {useAppSelector} from "../../../bll/store";
+import {ThemeT} from "../../../bll/app-reducer";
 
 // тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
 type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
@@ -19,7 +21,10 @@ export const Button: React.FC<SuperButtonPropsType> = (
       ...restProps// все остальные пропсы попадут в объект restProps, там же будет children
    }
 ) => {
-   const finalClassName = `${red ? s.red : s.defaultBtn} ${className}`
+
+   const theme = useAppSelector<ThemeT>(state => state.app.theme)
+
+   const finalClassName = `${red ? s.red : s.defaultBtn} ${s[theme + '_theme']} ${className}`
    const onClickHandler = () => {
       if (onClick) onClick()
    }

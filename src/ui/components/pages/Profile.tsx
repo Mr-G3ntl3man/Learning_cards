@@ -12,10 +12,12 @@ import avatarDefault from '../../images/avatarDef.svg'
 import {ReactSVG} from "react-svg";
 import {Link} from "react-router-dom";
 import {PATH} from "../../router/Routes";
+import {ThemeT} from "../../../bll/app-reducer";
 
 export const Profile = () => {
    const dispatch = useDispatch()
 
+   const theme = useAppSelector<ThemeT>(state => state.app.theme)
    const loading = useAppSelector<boolean>(state => state.app.loading)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
    const myName = useAppSelector<string | undefined>(state => state.auth.userData?.name)
@@ -24,11 +26,13 @@ export const Profile = () => {
    const avatar = useAppSelector<string | undefined>(state => state.auth.userData?.avatar)
    const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
 
+   const className = loading ? `${styles.wrapper} ${styles[theme + '_theme']} ${styles.loading}` : ` ${styles.wrapper} ${styles[theme + '_theme']}`
+
    return (
       <>
          {loading && <Spinner/>}
 
-         <div className={loading ? `${styles.wrapper} ${styles.loading}` : styles.wrapper}>
+         <div className={className}>
             <div className={styles.leftColumn}>
                <div className={styles.profileDesc}>
                   <div className={styles.profileImage}>

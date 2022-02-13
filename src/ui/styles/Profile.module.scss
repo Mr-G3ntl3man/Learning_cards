@@ -13,19 +13,22 @@
 }
 
 .leftColumn {
-  background: #ECECF9;
   border-radius: 8px 0 0 8px;
-  //padding: 40px 20px;
   flex: 0 0 25%;
+  transition: background 0.2s ease-in-out;
 }
 
 
 .rightColumn {
   padding: 30px;
-  background-color: white;
   border-radius: 0 8px 8px 0;
   flex: 1 1 80%;
+  transition: background 0.2s ease-in-out;
 
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+  }
 }
 
 .interaction {
@@ -42,11 +45,11 @@
 
 .profileDesc {
   padding: 30px;
-  background: #D9D9F1;
   border-radius: 8px 0 8px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: background 0.2s ease-in-out;
 }
 
 .inputRange {
@@ -54,10 +57,10 @@
 
   span {
     font-weight: 600;
-    font-size: 16px;
-    color: #2D2E46;
+    font-size: 18px;
     display: inline-block;
     margin-bottom: 30px;
+    transition: color 0.2s ease-in-out;
   }
 }
 
@@ -83,25 +86,22 @@
 
 .profileSpeciality {
   font-size: 18px;
-  color: #2D2E46;
-  opacity: 0.5;
   margin: 10px 0;
+  transition: color 0.2s ease-out;
 }
 
 .editProfile {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 19px;
+  font-weight: 500;
   background-color: transparent;
   outline: none;
-  border: 1px solid #635D80;
   border-radius: 2px;
   padding: 3px 6px;
   cursor: pointer;
-  transition: background 0.3s ease-out;
+  transition: background 0.3s ease-out, border 0.3s ease-out;
 
   a {
     transition: color 0.3s ease-out;
-    color: #21268F;
   }
 
   &:hover {
@@ -150,6 +150,87 @@
 
   .rightColumn {
     padding: 15px;
+  }
+
+}
+
+.light_theme {
+  .leftColumn {
+    background: #ECECF9;
+  }
+
+  .rightColumn {
+    background-color: white;
+  }
+
+  .profileDesc {
+    background: #D9D9F1;
+  }
+
+  .profileSpeciality {
+    color: #2D2E46;
+  }
+
+  .editProfile {
+    border: 1px solid #635D80;
+
+    a {
+      color: #21268F;
+    }
+
+    &:hover {
+      background-color: #21268F;
+
+      a {
+        color: white;
+      }
+    }
+  }
+
+  .inputRange {
+    span {
+      color: #2D2E46;
+    }
+  }
+}
+
+.dark_theme {
+  .leftColumn {
+    background: #AAAABC;
+  }
+
+  .rightColumn {
+    background-color: #fff;
+  }
+
+  .profileDesc {
+    background: #757687;
+  }
+
+  .profileSpeciality {
+    color: #fff;
+  }
+
+  .editProfile {
+    border: 1px solid #FBD38D;
+
+    a {
+      color: #FBD38D;
+    }
+
+    &:hover {
+      background-color: #FBD38D;
+
+      a {
+        color: #000;
+      }
+    }
+  }
+
+  .inputRange {
+    span {
+      color: #000;
+    }
   }
 
 }

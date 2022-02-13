@@ -5,6 +5,26 @@
   position: relative;
   min-height: 100%;
   z-index: 100;
+
+  &.light_theme {
+    .spinner {
+      svg {
+        path {
+          stroke: #007acc;
+        }
+      }
+    }
+  }
+
+  &.dark_theme {
+    .spinner {
+      svg {
+        path {
+          stroke: #FBD38D;
+        }
+      }
+    }
+  }
 }
 
 

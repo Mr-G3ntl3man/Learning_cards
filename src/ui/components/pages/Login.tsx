@@ -12,7 +12,7 @@ import {authStatuses, loginUserData} from "../../../bll/auth-reducer";
 import {useDispatch} from "react-redux";
 import {Spinner} from "../common/Spinner";
 import {ReactSVG} from "react-svg";
-import logo from "../../images/logo.svg";
+import logo from "../../images/logo-light.svg";
 
 type FormDataT = {
    email: string

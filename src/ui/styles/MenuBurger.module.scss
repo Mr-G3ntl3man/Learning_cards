@@ -10,12 +10,13 @@
   background-color: transparent;
   outline: none;
   border-radius: 5px;
-  border: 2px solid #21268F;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   overflow: hidden;
   margin-left: 15px;
+  transition: border 0.4s ease;
+
 
   &:before, &:after {
     position: absolute;
@@ -23,9 +24,8 @@
     left: 4px;
     content: '';
     height: 4px;
-    background-color: #21268F;
     border-radius: 4px;
-    transition: transform 0.4s ease, width 0.4s ease, left 0.4s ease;
+    transition: transform 0.4s ease, width 0.4s ease, left 0.4s ease, background 0.4s ease;
   }
 
   &:before {
@@ -40,9 +40,8 @@
     position: absolute;
     width: 30px;
     height: 4px;
-    background-color: #21268F;
     border-radius: 4px;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, background 0.4s ease;
   }
 
   &.open {
@@ -74,8 +73,6 @@
 
 .list {
   position: absolute;
-  background-color: rgb(200, 201, 236);
-  border: 2px solid #21268F;
   border-radius: 8px;
   width: 0;
   pointer-events: none;
@@ -83,7 +80,8 @@
   overflow: hidden;
   padding: 5px 0;
   transform: scale(0);
-  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out,
+  border 0.3s ease-in-out, background 0.3s ease-in-out;
 
   &.open {
     transform: scale(1);
@@ -97,7 +95,6 @@
   align-items: center;
   font-size: 20px;
   color: #000;
-  font-weight: 500;
   padding: 10px;
 
   transition: background 0.2s ease-in, color 0.2s ease-in;
@@ -110,7 +107,70 @@
   }
 
   &.activeLink {
-    background-color: #9A91C8;
     color: #fff;
+  }
+}
+
+.light_theme {
+  .header__burger {
+    border: 2px solid #21268F;
+
+    &:before, &:after {
+      background-color: #21268F;
+    }
+
+    span {
+      background-color: #21268F;
+    }
+
+  }
+
+  .list {
+    background-color: rgb(200, 201, 236);
+    border: 2px solid #21268F;
+  }
+
+  .link {
+    &.activeLink {
+      background-color: #9A91C8;
+    }
+  }
+}
+
+.dark_theme {
+  .header__burger {
+    border: 2px solid #FBD38D;
+
+    &:before, &:after {
+      background-color: #FBD38D;
+    }
+
+    span {
+      background-color: #FBD38D;
+    }
+
+  }
+
+  .list {
+    background-color: rgb(32, 32, 35);
+    border: 2px solid #FBD38D;
+  }
+
+  .link {
+    color: #fff;
+
+    svg {
+      fill: #fff;
+    }
+
+    &.activeLink {
+      background: #FBD38D;
+      color: #000;
+
+      svg {
+        fill: #000;
+      }
+    }
+
   }
 }

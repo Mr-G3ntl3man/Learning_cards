@@ -11,7 +11,7 @@ import * as yup from "yup";
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {PATH} from "../../router/Routes";
-import logo from "../../images/logo.svg";
+import logo from "../../images/logo-light.svg";
 
 export const ForgotPass = () => {
    const [successfulSending, setSuccessfulSending] = useState<boolean>(false)

@@ -8,14 +8,26 @@
   padding: 0 10px;
   line-height: 24px;
   color: #fff;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.minRange {
-
-}
 
 .wrapValue {
   margin-top: 7px;
   display: flex;
   justify-content: space-between;
+
+  &.light_theme {
+    .minRange, .maxRange {
+      background: #21268F;
+      color: #fff;
+    }
+  }
+
+  &.dark_theme {
+    .minRange, .maxRange {
+      background: #FBD38D;
+      color: #000;
+    }
+  }
 }

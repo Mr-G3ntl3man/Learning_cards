@@ -12,6 +12,7 @@ import {
 import 'rc-slider/assets/index.css';
 import styles from '../../styles/PacksList.module.scss'
 import {ListT, SortingSelect} from "../common/SortingSelect";
+import {ThemeT} from "../../../bll/app-reducer";
 
 const sortingOptions: ListT[] = [
    {
@@ -43,16 +44,19 @@ const sortingOptions: ListT[] = [
 export const PacksList = () => {
    const dispatch = useDispatch()
 
-   const user_id = useAppSelector<string | undefined>(state => state.packs.requestPacks.user_id)
+   const theme = useAppSelector<ThemeT>(state => state.app.theme)
    const loading = useAppSelector<boolean>(state => state.app.loading)
    const myId = useAppSelector<string | undefined>(state => state.auth.userData?._id)
    const minRangeRes = useAppSelector<number>(state => state.packs.uiOptions.minRangeRes)
    const maxRangeRes = useAppSelector<number>(state => state.packs.uiOptions.maxRangeRes)
+   const user_id = useAppSelector<string | undefined>(state => state.packs.requestPacks.user_id)
 
    const onClickMyPacks = () => dispatch(setUserID(myId))
    const onClickAllPacks = () => dispatch(setUserID(''))
    const onSortItemCLick = (sortingBy: string) => dispatch(setSortPacks(sortingBy))
    const onChangeInputRange = useCallback(debounce((value: number[]) => dispatch(setSelectedMinMaxRange(value[0], value[1]))), [dispatch])
+
+   const className = loading ? `${styles.wrapper} ${styles[theme + '_theme']} ${styles.loading}` : `${styles.wrapper} ${styles[theme + '_theme']}`
 
    useEffect(() => {
       return () => {
@@ -64,7 +68,7 @@ export const PacksList = () => {
       <>
          {loading && <Spinner/>}
 
-         <div className={loading ? `${styles.wrapper} ${styles.loading}` : styles.wrapper}>
+         <div className={className}>
             <div className={styles.leftColumn}>
                <div className={styles.showPackColumn}>
                   <span>Show packs cards</span>
