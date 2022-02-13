@@ -1,6 +1,6 @@
 import React from "react";
 import {useForm, SubmitHandler} from "react-hook-form";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import * as yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {PATH} from '../../router/Routes';
@@ -14,17 +14,12 @@ import logo from "../../images/logo-light.svg";
 import {Spinner} from "../common/Spinner";
 import {useAppSelector} from "../../../bll/store";
 
-
-type FormValues = {
-   email: string;
-   password: string;
-   repeatPassword: string;
-
-};
-
 export const Registration = () => {
+   const navigate = useNavigate()
    const dispatch = useDispatch()
    const loading = useAppSelector<boolean>(state => state.app.loading)
+
+   const redirect = () => navigate(PATH.LOGIN)
 
    const schema = yup.object().shape({
       email: yup
@@ -50,7 +45,7 @@ export const Registration = () => {
       }
    );
 
-   const onSubmit: SubmitHandler<FormValues> = async (data) => dispatch(registrationNewUser(data))
+   const onSubmit: SubmitHandler<FormValues> = async (data) => dispatch(registrationNewUser(data, redirect))
 
    return (
       <div className={loading ? `${styles.content} ${styles.loading}` : styles.content}>
@@ -74,6 +69,7 @@ export const Registration = () => {
                <Input
                   type={"password"}
                   label={"Password"}
+                  autoComplete={'on'}
                   {...register("password", {required: true})}/>
             </div>
 
@@ -82,11 +78,11 @@ export const Registration = () => {
                <Input
                   type="password"
                   label={"Confirm password"}
+                  autoComplete={'on'}
                   {...register("repeatPassword", {required: true})}/>
             </div>
 
             <div className={styles.btnWrap}>
-
                <Link to={PATH.LOGIN}>
                   <Button>
                      Cancel
@@ -100,4 +96,11 @@ export const Registration = () => {
          </form>
       </div>
    );
+}
+
+type FormValues = {
+   email: string;
+   password: string;
+   repeatPassword: string;
+
 }

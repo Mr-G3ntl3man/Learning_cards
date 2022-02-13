@@ -102,10 +102,12 @@ export const logOutUser = (): ThunkActionT => async (dispatch) => {
 
 export const forgotPassSendInst = (email: string, sendMess: (email: string) => void): ThunkActionT => async (dispatch) => {
    try {
+      dispatch(setLoading(true))
+
       const res = await authApi.forgotPassword(email)
 
+      dispatch(setLoading(false))
       sendMess(email)
-
       feedbackHandler(res.data.info, dispatch)
    } catch (e) {
       errorHandler(e, dispatch)
@@ -117,17 +119,22 @@ export const setNewPassword = (password: string, resetPasswordToken: string): Th
       const res = await authApi.setNewPassword({password, resetPasswordToken})
 
       dispatch(setAuthStatus(authStatuses.PASS_CHANGED))
-
       feedbackHandler(res.data.info, dispatch)
    } catch (e) {
       errorHandler(e, dispatch)
    }
 }
 
-export const registrationNewUser = (data: { email: string, password: string }): ThunkActionT => async (dispatch) => {
+export const registrationNewUser = (data: { email: string, password: string }, redirect: () => void): ThunkActionT => async (dispatch) => {
    try {
+      dispatch(setLoading(true))
+
       await authApi.signUp(data)
+
+      dispatch(setLoading(false))
       dispatch(setAuthStatus(authStatuses.LOGIN))
+      feedbackHandler('Successful registration!', dispatch)
+      redirect()
    } catch (e: any) {
       errorHandler(e, dispatch)
    }

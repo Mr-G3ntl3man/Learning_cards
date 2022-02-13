@@ -6,6 +6,30 @@ const instance = axios.create({
    withCredentials: true
 })
 
+
+const emailMassage = `
+         <div style='
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            max-width: 500px; 
+            background-color: #ececf9;
+            '>
+               <h1 style='color: #000' >Password recovery!</h1>
+               <p style='color: #000'>To reset your password, click on the button and you will be redirected to the password reset form.</p>
+               <a style='
+                    padding: 5px 10px;
+                    background-color: #21268f;
+                    color: #fff;  ' 
+                   href='https://mr-g3ntl3man.github.io/Learning_cards/#/set-new-password/$token$'
+                   > Reset password</a>
+                   <p>Message from: <a style="color: #fff;text-align: left " href="https://mr-g3ntl3man.github.io/Learning_cards">mr-g3ntl3man.github.io/Learning_cards</a></p>
+         </div>
+`
+
+
 export const authApi = {
    me() {
       return instance.post('auth/me')
@@ -26,14 +50,7 @@ export const authApi = {
       return instance.post('auth/set-new-password', data)
    },
    forgotPassword(email: string) {
-      return instance.post('auth/forgot', {
-         email,
-         message: `
-         <div style="background-color: lime; padding: 15px">
-            Password recovery link:
-             <a href='https://mr-g3ntl3man.github.io/Friday/#/set-new-password/$token$'>Link</a>
-         </div> `
-      })
+      return instance.post('auth/forgot', {email, message: emailMassage})
    },
 }
 
