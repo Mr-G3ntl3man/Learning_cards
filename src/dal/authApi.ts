@@ -9,25 +9,31 @@ const instance = axios.create({
 
 const emailMassage = `
          <div style='
-            display: flex;
-            justify-content: center;
-            align-items: center;
             text-align: center;
             padding: 30px;
             max-width: 500px; 
             background-color: #ececf9;
+            margin: 0 auto;
             '>
                <h1 style='color: #000' >Password recovery!</h1>
-               <p style='color: #000'>To reset your password, click on the button and you will be redirected to the password reset form.</p>
-               <a style='
+               <p style='color: #000; font-size: 18px' >To reset your password, click on the button and you will be redirected to the password reset form.</p>
+               
+               <a target='_blank' style='
                     padding: 5px 10px;
                     background-color: #21268f;
-                    color: #fff;  ' 
+                    color: #fff; 
+                    margin: 0 auto;
+                    text-decoration: none; ' 
                    href='https://mr-g3ntl3man.github.io/Learning_cards/#/set-new-password/$token$'
                    > Reset password</a>
-                   <p>Message from: <a style="color: #fff;text-align: left " href="https://mr-g3ntl3man.github.io/Learning_cards">mr-g3ntl3man.github.io/Learning_cards</a></p>
-         </div>
-`
+                   
+                   <p>Message from: 
+                   <a target='_blank' 
+                   style="color: #000;
+                   text-align: left "
+                    href="https://mr-g3ntl3man.github.io/Learning_cards"
+                    >mr-g3ntl3man.github.io/Learning_cards</a></p>
+         </div>`
 
 
 export const authApi = {
