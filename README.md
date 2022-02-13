@@ -1,8 +1,6 @@
-# Learning cards
+# Learning cards [Website](https://mr-g3ntl3man.github.io/Learning_cards)
 
 [![LearningCards banner](src/ui/images/LearningCards/L_C-Login.png)](https://mr-g3ntl3man.github.io/Learning_cards)
-
-# [Website](https://mr-g3ntl3man.github.io/Learning_cards)
 
 <p align="center"> 
     A card learning app where you can create your own decks and cards to study and review material and learn from other
