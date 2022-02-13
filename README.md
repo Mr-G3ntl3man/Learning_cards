@@ -2,18 +2,20 @@
 
 [![LearningCards banner](src/ui/images/LearningCards/L_C-Login.png)](https://mr-g3ntl3man.github.io/Learning_cards)
 
-### [Website](https://mr-g3ntl3man.github.io/Learning_cards)
+# [Website](https://mr-g3ntl3man.github.io/Learning_cards)
 
-A card learning app where you can create your own decks and cards to study and review material and learn from other
-people's cards. There is also a profile where you can change your information. There is a login, registration and
-password recovery.
+<p align="center"> 
+    A card learning app where you can create your own decks and cards to study and review material and learn from other
+    people's cards. There is also a profile where you can change your information. There is a login, registration and
+    password recovery.
+</p>
 
 <h2 align="center">
-To use, register or use a test account:
-<br/>
- Email: pahoxi1674@alfaceti.com
-<br/>
-Password: test_test
+    To use, register or use a test account:
+    <br/>
+     Email: pahoxi1674@alfaceti.com
+    <br/>
+    Password: test_test
 </h2>
 
 ## UI Screenshots
